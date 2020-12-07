@@ -1,0 +1,30 @@
+span.fancytree-node.custom1 > span.fancytree-title {
+	color: maroon;
+	  /*font-family: "Audiowide"; */
+}
+span.fancytree-node.custom1 > span.fancytree-icon {
+	background-position: 0 0;
+	background-image: url("page_white_star.png");
+}
+span.fancytree-node.custom2 > span.fancytree-icon {
+	background-position: 0 0;
+	background-image: url("customDoc2.gif");
+}
+
+span.fancytree-node.custom3 > span.fancytree-icon {
+	background-position: 0 0;
+	background-image: url("home.png");
+}
+
+span.fancytree-node.custom3 > span.fancytree-title {
+	color: maroon;
+	  /*font-family: "Audiowide"; */
+}
+.fancytree-has-children.fancytree-ico-cf span.fancytree-icon:hover {
+    background-position: 0 0;
+}
+
+span.fancytree-node.custom4 > span.fancytree-icon {
+	background-position: 0 0;
+	background-image: url("folder-classic-blue-icon.png");
+}

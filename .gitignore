@@ -1,0 +1,30 @@
+# Opencart ignore list
+.htaccess
+/config.php
+admin/config.php
+
+!index.html
+# 1.5.x - 2.1.x 
+download/
+image/data/
+image/cache/
+system/cache/
+system/logs/
+# 2.3.x 
+system/storage/download/
+system/storage/logs/
+system/storage/cache/
+system/storage/upload/
+# vQmod log files
+vqmod/logs/*
+# vQmod cache files
+vqmod/vqcache/*
+vqmod/checked.cache
+vqmod/mods.cache
+
+# myProjects settings
+*.code-workspace
+*.iep
+wtools-win32-ia32/
+nbproject/
+.vscode/

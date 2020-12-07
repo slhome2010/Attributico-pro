@@ -1,0 +1,947 @@
+{{header}}{{column_left}}
+<div id="content">
+    <div class="page-header">
+        <div class="container-fluid">
+            <div class="pull-right">
+                <a onclick="checkForUpdates(); $('#infoModal').modal('show');" class="btn btn-warning" data-toggle="tooltip" title="{{button_check_for_updates}}" data-placement="top"><i class="fa fa-cloud-download"></i></a>
+                <a onclick="apply()" class="btn btn-success" data-toggle="tooltip" title="{{button_apply}}" data-placement="top"><i class="fa fa-check"></i></a>
+                <button type="button" form="form-attributico" onclick="$('#form-attributico').submit();" data-toggle="tooltip" data-placement="top" title="{{button_save}}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+                <a href="{{cancel}}" data-toggle="tooltip" data-placement="top" title="{{button_cancel}}" class="btn btn-default"><i class="fa fa-reply"></i></a>
+            </div>
+            <h1>{{heading_title}}</h1>
+            <ul class="breadcrumb">
+                {% for breadcrumb in breadcrumbs %}
+                <li><a href="{{breadcrumb['href']}}">{{breadcrumb['text']}}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="container-fluid">
+        {% if error_warning %}
+        <div id="error_warning" class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{error_warning}}
+            <button type="button" class="close" data-dismiss="alert">{{ '&times;' | escape }}</button>
+        </div>
+        {% endif %}
+        <div id="reload" class="alert alert-danger alert-dismissible" role="alert" style="display: none"><i class="fa fa-exclamation-triangle"></i> {{alert_reload}}</div>
+        <div class="panel panel-default alert-before">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-pencil"></i> {{text_edit}}</h3>
+            </div>
+            <div class="panel-body">
+                <div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button class="close" data-dismiss="modal">×</button>
+                                <h4 class="modal-title" id="infoModalLabel">{{entry_info_title}}</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p id="modal-content"></p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">{{button_close}}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <form action="{{action}}" method="post" enctype="multipart/form-data" id="form-attributico" class="form-horizontal">
+                    <div id="tabs">
+                        <ul class="nav nav-tabs">
+                            <li><a href="#tab-general" data-toggle="tab"><i class="fa fa-cog"></i> {{tab_general}} </a></li>
+                            <li class="active"><a href="#tab-attribute" data-toggle="tab"><i class="fa fa-tree"></i> {{tab_attribute}} </a></li>
+                            <li><a href="#tab-duty" data-toggle="tab"><i class="fa fa-database"></i> {{tab_duty}} </a></li>
+                            <li><a href="#tab-category" data-toggle="tab"><i class="fa fa-list"></i> {{tab_category}}</a> </li>
+                            <li><a href="#tab-products" data-toggle="tab"><i class="fa fa-th"></i> {{tab_products}}</a> </li>
+                            <li><a href="#tab-tools" data-toggle="tab"><i class="fa fa-wrench"></i> {{tab_tools}}</a> </li>
+                            <li><a href="#tab-support" data-toggle="tab"><i class="fa fa-life-ring"></i> {{tab_support}}</a> </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane" id="tab-general">
+                                <div class="col-sm-3">
+                                    <ul class="nav nav-tabs tabs-left" id="verticalTab">
+                                        <li><a href="#tab-common" data-toggle="tab">{{legend_general}}</a></li>
+                                        <li><a href="#tab-children" data-toggle="tab">{{legend_children}}</a></li>
+                                        <li><a href="#tab-ct" data-toggle="tab">{{legend_category}}</a></li>
+                                        <li><a href="#tab-inherit" data-toggle="tab">{{legend_inherit}}</a></li>
+                                        <li><a href="#tab-algorithm" data-toggle="tab">{{legend_algorithm}}</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-sm-9">
+                                    <div class="tab-content">
+                                        <div class="tab-pane" id="tab-common">
+                                            <legend>{{legend_general}}</legend>
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <label class="col-sm-4 control-label" for="input-attributico_splitter">{{entry_splitter}}</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" name="attributico_splitter" value="{{attributico_splitter}}" class="form-control" id="input-attributico_splitter" />
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <label class="col-sm-4 control-label" for="input-attributico_sortorder"><span data-toggle="tooltip" title="{{help_sortorder}}">{{entry_sortorder}}</span></label>
+                                                    <div class="col-sm-8">
+                                                        <div class="checkbox">
+                                                            <label>
+                                                                {% if attributico_sortorder %}
+                                                                <input type="checkbox" name="attributico_sortorder" value="1" checked="checked" id="input-attributico_sortorder" />
+                                                                {% else %}
+                                                                <input type="checkbox" name="attributico_sortorder" value="1" id="input-attributico_sortorder" />
+                                                                {% endif %}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <label class="col-sm-4 control-label" for="input-attributico_smart_scroll"><span data-toggle="tooltip" title="{{help_smart_scroll}}">{{entry_smart_scroll}}</span></label>
+                                                    <div class="col-sm-8">
+                                                        <div class="checkbox">
+                                                            <label>
+                                                                {% if attributico_smart_scroll %}
+                                                                <input type="checkbox" name="attributico_smart_scroll" value="1" checked="checked" id="input-attributico_smart_scroll" />
+                                                                {% else %}
+                                                                <input type="checkbox" name="attributico_smart_scroll" value="1" id="input-attributico_smart_scroll" />
+                                                                {% endif %}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <label class="col-sm-4 control-label" for="input-attributico_empty"><span data-toggle="tooltip" title="{{help_empty}}">{{entry_empty}}</span></label>
+                                                    <div class="col-sm-8">
+                                                        <div class="checkbox">
+                                                            <label>
+                                                                {% if attributico_empty %}
+                                                                <input type="checkbox" name="attributico_empty" value="1" checked="checked" id="input-attributico_empty" />
+                                                                {% else %}
+                                                                <input type="checkbox" name="attributico_empty" value="1" id="input-attributico_empty" />
+                                                                {% endif %}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <label class="col-sm-4 control-label" for="input-attributico_about_blank"><span data-toggle="tooltip" title="{{help_about_blank}}">{{entry_about_blank}}</span></label>
+                                                    <div class="col-sm-8">
+                                                        <div class="checkbox">
+                                                            <label>
+                                                                {% if attributico_about_blank %}
+                                                                <input type="checkbox" name="attributico_about_blank" value="1" checked="checked" id="input-attributico_about_blank" />
+                                                                {% else %}
+                                                                <input type="checkbox" name="attributico_about_blank" value="1" id="input-attributico_about_blank" />
+                                                                {% endif %}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <label class="col-md-4 col-sm-6 control-label" for="input-attributico_lazyload"><span data-toggle="tooltip" title="{{help_lazyload}}">{{entry_lazyload}}</span></label>
+                                                    <div class="col-md-8 col-sm-6">
+                                                        <div class="checkbox">
+                                                            <label>
+                                                                {% if attributico_lazyload %}
+                                                                <input type="checkbox" name="attributico_lazyload" value="1" checked="checked" id="input-attributico_lazyload" />
+                                                                {% else %}
+                                                                <input type="checkbox" name="attributico_lazyload" value="1" id="input-attributico_lazyload" />
+                                                                {% endif %}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <label class="col-md-4 col-sm-6 control-label" for="input-attributico_cache"><span data-toggle="tooltip" title="{{help_cache}}">{{entry_cache}}</span></label>
+                                                    <div class="col-md-8 col-sm-6">
+                                                        <div class="checkbox">
+                                                            <label>
+                                                                {% if attributico_cache %}
+                                                                <input type="checkbox" name="attributico_cache" value="1" checked="checked" id="input-attributico_cache" />
+                                                                {% else %}
+                                                                <input type="checkbox" name="attributico_cache" value="1" id="input-attributico_cache" />
+                                                                {% endif %}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <label class="col-md-4 col-sm-6 control-label" for="input-attributico_multistore"><span data-toggle="tooltip" title="{{help_multistore}}">{{entry_multistore}}</span></label>
+                                                    <div class="col-md-8 col-sm-6">
+                                                        <div class="checkbox">
+                                                            <label>
+                                                                {% if attributico_multistore %}
+                                                                <input type="checkbox" name="attributico_multistore" value="1" checked="checked" id="input-attributico_multistore" />
+                                                                {% else %}
+                                                                <input type="checkbox" name="attributico_multistore" value="1" id="input-attributico_multistore" />
+                                                                {% endif %}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane" id="tab-children">
+                                            <legend>{{legend_children}}</legend>
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <label class="control-label"><span data-toggle="tooltip" title="{{help_children}}">{{entry_attribute_groups}}</span></label>
+                                                        <div id="tree1" class="settings"></div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label class="control-label"><span data-toggle="tooltip" title="{{help_children}}">{{tab_duty}}</span></label>
+                                                        <div id="tree2" class="settings"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                                <div class="clearfix"></div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <label class="control-label"><span data-toggle="tooltip" title="{{help_children}}">{{entry_attributes}}</span></label>
+                                                        <div id="tree3" class="settings"></div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label class="control-label"><span data-toggle="tooltip" title="{{help_children}}">{{entry_attribute_category}}</span></label>
+                                                        <div id="tree4" class="settings"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                                <div class="clearfix"></div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <label class="control-label"><span data-toggle="tooltip" title="{{help_children}}">{{entry_products}}</span></label>
+                                                        <div id="tree5" class="settings"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane" id="tab-ct">
+                                            <legend>{{legend_category}}</legend>
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <label class="col-sm-8 control-label" for="input-attributico_autoadd"><span data-toggle="tooltip" title="{{help_autoattribute}}">{{entry_autoattribute}}</span></label>
+                                                        <div class="col-sm-4">
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    {% if attributico_autoadd %}
+                                                                    <input type="checkbox" name="attributico_autoadd" value="1" checked="checked" id="input-attributico_autoadd" />
+                                                                    {% else %}
+                                                                    <input type="checkbox" name="attributico_autoadd" value="1" id="input-attributico_autoadd" />
+                                                                    {% endif %}
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label class="col-sm-8 control-label" for="input-attributico_autodel"><span data-toggle="tooltip" title="{{help_autodel}}">{{entry_autodel}}</span></label>
+                                                        <div class="col-sm-4">
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    {% if attributico_autodel %}
+                                                                    <input type="checkbox" name="attributico_autodel" value="1" checked="checked" id="input-attributico_autodel" />
+                                                                    {% else %}
+                                                                    <input type="checkbox" name="attributico_autodel" value="1" id="input-attributico_autodel" />
+                                                                    {% endif %}
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane" id="tab-inherit">
+                                            <legend>{{legend_inherit}}</legend>
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <label class="col-sm-8 control-label" for="input-attributico_autoadd_subcategory"><span data-toggle="tooltip" title="{{help_autoadd_inherit}}">{{entry_autoadd_inherit}}</span></label>
+                                                        <div class="col-sm-4">
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    {% if attributico_autoadd_subcategory %}
+                                                                    <input type="checkbox" name="attributico_autoadd_subcategory" value="1" checked="checked" id="input-attributico_autoadd_subcategory" />
+                                                                    {% else %}
+                                                                    <input type="checkbox" name="attributico_autoadd_subcategory" value="1" id="input-attributico_autoadd_subcategory" />
+                                                                    {% endif %}
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label class="col-sm-8 control-label" for="input-attributico_autodel_subcategory"><span data-toggle="tooltip" title="{{help_autodel_inherit}}">{{entry_autodel_inherit}}</span></label>
+                                                        <div class="col-sm-4">
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    {% if attributico_autodel_subcategory %}
+                                                                    <input type="checkbox" name="attributico_autodel_subcategory" value="1" checked="checked" id="input-attributico_autodel_subcategory" />
+                                                                    {% else %}
+                                                                    <input type="checkbox" name="attributico_autodel_subcategory" value="1" id="input-attributico_autodel_subcategory" />
+                                                                    {% endif %}
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label" for="input-attributico_multiselect"><span data-toggle="tooltip" title="{{help_multiselect}}">{{entry_multiselect}}</span></label>
+                                                <div class="col-sm-8">
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            {% if attributico_multiselect %}
+                                                            <input type="checkbox" name="attributico_multiselect" value="1" checked="checked" id="input-attributico_multiselect" />
+                                                            {% else %}
+                                                            <input type="checkbox" name="attributico_multiselect" value="1" id="input-attributico_multiselect" />
+                                                            {% endif %}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane" id="tab-algorithm">
+                                            <legend>{{legend_algorithm}}</legend>
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label"><span data-toggle="tooltip" title="{{help_product_text}}">{{entry_attribute_values}}</span></label>
+                                                <div class="col-sm-9">
+                                                    <div class="radio">
+                                                        <label>
+                                                            {% if attributico_product_text == '1' %}
+                                                            <input type="radio" name="attributico_product_text" value="1" checked="checked" />
+                                                            {{text_clear}}
+                                                            {% else %}
+                                                            <input type="radio" name="attributico_product_text" value="1" />
+                                                            {{text_clear}}
+                                                            {% endif %}
+                                                        </label>
+                                                    </div>
+                                                    <div class="radio">
+                                                        <label>
+                                                            {% if attributico_product_text == '2' %}
+                                                            <input type="radio" name="attributico_product_text" value="2" checked="checked" />
+                                                            {{text_keep}}
+                                                            {% else %}
+                                                            <input type="radio" name="attributico_product_text" value="2" />
+                                                            {{text_keep}}
+                                                            {% endif %}
+                                                        </label>
+                                                    </div>
+                                                    <div class="radio">
+                                                        <label>
+                                                            {% if attributico_product_text == '3' %}
+                                                            <input type="radio" name="attributico_product_text" value="3" checked="checked" />
+                                                            {{text_duty}}
+                                                            {% else %}
+                                                            <input type="radio" name="attributico_product_text" value="3" />
+                                                            {{text_duty}}
+                                                            {% endif %}
+                                                        </label>
+                                                    </div>
+                                                    <div class="radio">
+                                                        <label>
+                                                            {% if attributico_product_text == '4' %}
+                                                            <input type="radio" name="attributico_product_text" value="4" checked="checked" />
+                                                            {{text_duty_only}}
+                                                            {% else %}
+                                                            <input type="radio" name="attributico_product_text" value="4" />
+                                                            {{text_duty_only}}
+                                                            {% endif %}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane active" id="tab-attribute">
+                                {% if duty_check %}
+                                <ul class="nav nav-tabs" id="tab-attribute_language">
+                                    {% for language in languages %}
+                                    <li><a href="#tab-attribute_language{{language.language_id}}" data-toggle="tab"><img src="{{language.src}}" title="{{language.name}}" /> {{language.name}}</a></li>
+                                    {% endfor %}
+                                </ul>
+                                <div class="tab-content">
+                                    {% for language in languages %}
+                                    <div class="tab-pane" id="tab-attribute_language{{language.language_id}}">
+                                        <div class="fancyfilter" id="tab-attribute_filter{{language.language_id}}"></div>
+                                        <div class="form-group">
+                                            <ul id="attribute_group_tree{{language.language_id}}" name="attribute_group_tree{{language.language_id}}" class="filetree"></ul>
+                                        </div>
+                                        <div class="dialog-options" id="options_attribute_group_tree{{language.language_id}}" title="{{text_Options[ language.language_id]}}"></div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                {% else %}
+                                <div class="jumbotron">
+                                    <h1>{{text_attention}}</h1>
+                                    <p>{{help_upgrade}}</p>
+                                    <p><a class="btn btn-primary btn-lg" role="button" OnClick="dutyUpgrade();">{{entry_upgrade}}</a></p>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="tab-pane" id="tab-duty">
+                                {% if duty_check %}
+                                <ul class="nav nav-tabs" id="tab-duty_language">
+                                    {% for language in languages %}
+                                    <li><a href="#tab-duty_language{{language.language_id}}" data-toggle="tab"><img src="{{language.src}}" title="{{language.name}}" /> {{language.name}}</a></li>
+                                    {% endfor %}
+                                </ul>
+                                <div class="tab-content">
+                                    {% for language in languages %}
+                                    <div class="tab-pane" id="tab-duty_language{{language.language_id}}">
+                                        <div class="fancyfilter" id="tab-duty_filter{{language.language_id}}"></div>
+                                        <div class="form-group">
+                                            <ul id="duty_attribute_tree{{language.language_id}}" name="duty_attribute_tree{{language.language_id}}" class="filetree"></ul>
+                                        </div>
+                                        <div class="dialog-options" id="options_duty_attribute_tree{{language.language_id}}" title="{{text_Options[ language.language_id]}}"></div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                {% else %}
+                                <div class="jumbotron">
+                                    <h1>{{text_attention}}</h1>
+                                    <p>{{help_upgrade}}</p>
+                                    <p><a class="btn btn-primary btn-lg" role="button" OnClick="dutyUpgrade();">{{entry_upgrade}}</a></p>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="tab-pane" id="tab-category">
+                                <ul class="nav nav-tabs" id="tab-category_language">
+                                    {% for language in languages %}
+                                    <li><a href="#tab-category_language{{language.language_id}}" data-toggle="tab"><img src="{{language.src}}" title="{{language.name}}" /> {{language.name}}</a></li>
+                                    {% endfor %}
+                                </ul>
+                                <div class="tab-content">
+                                    {% for language in languages %}
+                                    <div class="tab-pane" id="tab-category_language{{language.language_id}}">
+                                        <div class="fancyfilter" id="tab-category_filter{{language.language_id}}"></div>
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-bordered">
+                                                <thead>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="left" style="width: 50%;">
+                                                            <div id="category_tree{{language.language_id}}" name="category_tree{{language.language_id}}" class="filetree"></div>
+                                                            <div class="dialog-options" id="options_category_tree{{language.language_id}}" title="{{text_Options[ language.language_id]}}"></div>
+                                                        </td>
+                                                        <td class="left">
+                                                            <div id="category_attribute_tree{{language.language_id}}" name="category_attribute_tree{{language.language_id}}" class="filetree"></div>
+                                                            <div class="dialog-options" id="options_category_attribute_tree{{language.language_id}}" title="{{text_Options[ language.language_id]}}"></div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-bordered">
+                                                <thead>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="left" style="width: 50%;">
+                                                            <div id="attribute_tree{{language.language_id}}" name="attribute_tree{{language.language_id}}" class="filetree"></div>
+                                                            <div class="dialog-options" id="options_attribute_tree{{language.language_id}}" title="{{text_Options[ language.language_id]}}"></div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tab-products">
+                                <ul class="nav nav-tabs" id="tab-products_language">
+                                    {% for language in languages %}
+                                    <li><a href="#tab-products_language{{language.language_id}}" data-toggle="tab"><img src="{{language.src}}" title="{{language.name}}" /> {{language.name}}</a></li>
+                                    {% endfor %}
+                                </ul>
+                                <div class="tab-content">
+                                    {% for language in languages %}
+                                    <div class="tab-pane" id="tab-products_language{{language.language_id}}">
+                                        <div class="fancyfilter" id="tab-products_filter{{language.language_id}}"></div>
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-bordered">
+                                                <thead>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="left" style="width: 50%;">
+                                                            <div id="attribute_product_tree{{language.language_id}}" name="attribute_product_tree{{language.language_id}}" class="filetree"></div>
+                                                            <div class="dialog-options" id="options_attribute_product_tree{{language.language_id}}" title="{{text_Options[ language.language_id]}}"></div>
+                                                        </td>
+                                                        <td class="left">
+                                                            <div id="product_tree{{language.language_id}}" name="product_tree{{language.language_id}}" class="filetree"></div>
+                                                            <div class="dialog-options" id="options_product_tree{{language.language_id}}" title="{{text_Options[ language.language_id]}}"></div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tab-tools">
+                                <div class="row">
+                                    <div class="col-lg-2 col-md-3" id="column-1">
+                                        <ul class="nav nav-pills nav-stacked">
+                                            <li class="active"><a href="#tab-empty" data-toggle="pill"> {{tab_empty}} </a></li>
+                                            <li><a href="#tab-scavengery" data-toggle="pill"> {{tab_scavengery}} </a></li>
+                                            <li><a href="#tab-defrag" data-toggle="pill"> {{tab_defrag}} </a></li>
+                                            <li><a href="#tab-detached" data-toggle="pill"> {{tab_detached}} </a></li>
+                                            <li><a href="#tab-deduplicate" data-toggle="pill"> {{tab_deduplicate}} </a></li>
+                                            <li><a href="#tab-category-attributes" data-toggle="pill"> {{tab_category_attributes}} </a></li>
+                                            <li><a href="#tab-cache" data-toggle="pill"> {{tab_cache}} </a></li>
+                                            <li><a href="#tab-standart" data-toggle="pill"> {{tab_standart}} </a></li>
+                                        </ul>
+                                    </div>
+                                    <hr class="hidden-lg hidden-md">
+                                    <div class="col-lg-10 col-md-9" style="border-left: 1px solid #eee;" id="column-2">
+                                        <div class="alert alert-danger" role="alert"> {{alert_backup}} </div>
+                                        <div class="tab-content">
+                                            <div class="tab-pane active" id="tab-empty">
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered">
+                                                        <colgroup>
+                                                            <col class="col-xs-12 col-md-10">
+                                                            <col class="col-xs-4 col-md-1">
+                                                            <col class="col-xs-4 col-md-1">
+                                                        </colgroup>
+                                                        <thead>
+                                                            <tr>
+                                                                <th>{{head_settings}}</th>
+                                                                <th>{{head_command}}</th>
+                                                                <th>{{head_status}}</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <th style="text-align: center;"> {{help_nosettings}} </th>
+                                                                <td><button type="button" onclick=" return tools('empty')" data-toggle="tooltip" title="{{button_play}}" class="btn btn-warning"><i class="fa fa-play"></i></button></td>
+                                                                <td>
+                                                                    <div class="ajax-loader"><img class="loader-img" src="view/javascript/fancytree/skin-win7/loading.gif" style="display:none;" /></div>
+                                                                    <div class="task-complete"><img class="complete-img" src="view/javascript/fancytree/skin-custom/accept.png" style="display:none;" /></div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane" id="tab-scavengery">
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered">
+                                                        <colgroup>
+                                                            <col class="col-xs-12 col-md-10">
+                                                            <col class="col-xs-4 col-md-1">
+                                                            <col class="col-xs-4 col-md-1">
+                                                        </colgroup>
+                                                        <thead>
+                                                            <tr>
+                                                                <th>{{head_settings}}</th>
+                                                                <th>{{head_command}}</th>
+                                                                <th>{{head_status}}</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <th style="text-align: center;"> {{help_nosettings}} </th>
+                                                                <td><button type="button" onclick=" return tools('scavengery')" data-toggle="tooltip" title="{{button_play}}" class="btn btn-warning"><i class="fa fa-play"></i></button></td>
+                                                                <td>
+                                                                    <div class="ajax-loader"><img class="loader-img" src="view/javascript/fancytree/skin-win7/loading.gif" style="display:none;" /></div>
+                                                                    <div class="task-complete"><img class="complete-img" src="view/javascript/fancytree/skin-custom/accept.png" style="display:none;" /></div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane" id="tab-defrag">
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered">
+                                                        <colgroup>
+                                                            <col class="col-xs-12 col-md-10">
+                                                            <col class="col-xs-4 col-md-1">
+                                                            <col class="col-xs-4 col-md-1">
+                                                        </colgroup>
+                                                        <thead>
+                                                            <tr>
+                                                                <th><label class="control-label"><span data-toggle="tooltip" title="{{help_defrag_options}}">{{head_settings}}</span></label></th>
+                                                                <th>{{head_command}}</th>
+                                                                <th>{{head_status}}</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="options">
+                                                                        <label class="checkbox-inline" for="tab-defrag-group">
+                                                                            <input type="checkbox" name="tab-defrag-group" id="tab-defrag-group" checked="checked"> {{entry_attribute_groups}}
+                                                                        </label>
+                                                                        <label class="checkbox-inline" for="tab-defrag-attribute">
+                                                                            <input type="checkbox" name="tab-defrag-attribute" id="tab-defrag-attribute" checked="checked"> {{entry_attributes}}
+                                                                        </label>
+                                                                    </div>
+                                                                </td>
+                                                                <td><button type="button" onclick=" return tools('defrag')" data-toggle="tooltip" title="{{button_play}}" class="btn btn-warning"><i class="fa fa-play"></i></button></td>
+                                                                <td>
+                                                                    <div class="ajax-loader"><img class="loader-img" src="view/javascript/fancytree/skin-win7/loading.gif" style="display:none;" /></div>
+                                                                    <div class="task-complete"><img class="complete-img" src="view/javascript/fancytree/skin-custom/accept.png" style="display:none;" /></div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane" id="tab-detached">
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered">
+                                                        <colgroup>
+                                                            <col class="col-xs-12 col-md-10">
+                                                            <col class="col-xs-4 col-md-1">
+                                                            <col class="col-xs-4 col-md-1">
+                                                        </colgroup>
+                                                        <thead>
+                                                            <tr>
+                                                                <th><label class="control-label"><span data-toggle="tooltip" title="{{help_group_options}}">{{head_settings}}</span></label></th>
+                                                                <th>{{head_command}}</th>
+                                                                <th>{{head_status}}</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    <div id="detach_tree{{config_language}}" name="detach_tree{{config_language}}" class="options"></div>
+                                                                    <div class="dialog-options" id="options_detach_tree{{config_language}}" title="{{text_Options[language['language_id']]}}"></div>
+                                                                </td>
+                                                                <td><button type="button" onclick=" return tools('detached')" data-toggle="tooltip" title="{{button_play}}" class="btn btn-warning"><i class="fa fa-play"></i></button></td>
+                                                                <td>
+                                                                    <div class="ajax-loader"><img class="loader-img" src="view/javascript/fancytree/skin-win7/loading.gif" style="display:none;" /></div>
+                                                                    <div class="task-complete"><img class="complete-img" src="view/javascript/fancytree/skin-custom/accept.png" style="display:none;" /></div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane" id="tab-deduplicate">
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered">
+                                                        <colgroup>
+                                                            <col class="col-xs-12 col-md-10">
+                                                            <col class="col-xs-4 col-md-1">
+                                                            <col class="col-xs-4 col-md-1">
+                                                        </colgroup>
+                                                        <thead>
+                                                            <tr>
+                                                                <th><label class="control-label"><span data-toggle="tooltip" title="{{help_group_options}}">{{head_settings}}</span></label></th>
+                                                                <th>{{head_command}}</th>
+                                                                <th>{{head_status}}</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    <div id="deduplicate_tree{{config_language}}" name="deduplicate_tree{{config_language}}" class="options"></div>
+                                                                    <div class="dialog-options" id="options_deduplicate_tree{{config_language}}" title="{{text_Options[language['language_id']]}}"></div>
+                                                                </td>
+                                                                <td><button type="button" onclick=" return tools('deduplicate')" data-toggle="tooltip" title="{{button_play}}" class="btn btn-warning"><i class="fa fa-play"></i></button></td>
+                                                                <td>
+                                                                    <div class="ajax-loader"><img class="loader-img" src="view/javascript/fancytree/skin-win7/loading.gif" style="display:none;" /></div>
+                                                                    <div class="task-complete"><img class="task-complete-img" src="view/javascript/fancytree/skin-custom/accept.png" style="display:none;" /> </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane" id="tab-category-attributes">
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered">
+                                                        <colgroup>
+                                                            <col class="col-xs-12 col-md-10">
+                                                            <col class="col-xs-4 col-md-1">
+                                                            <col class="col-xs-4 col-md-1">
+                                                        </colgroup>
+                                                        <thead>
+                                                            <tr>
+                                                                <th><label class="control-label"><span data-toggle="tooltip" title="{{help_categories_options}}">{{head_settings}}</span></label></th>
+                                                                <th>{{head_command}}</th>
+                                                                <th>{{head_status}}</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="options">
+                                                                        <label class="checkbox-inline" for="tab-create-categories">
+                                                                            <input type="checkbox" name="tab-create-categories" id="tab-create-categories" checked="checked"> {{entry_create_categories}}
+                                                                        </label>
+                                                                        <label class="checkbox-inline" for="tab-inject-to-products">
+                                                                            <input type="checkbox" name="tab-inject-to-products" id="tab-inject-to-products" checked="checked"> {{entry_inject_to_products}}
+                                                                        </label>
+                                                                    </div>
+                                                                </td>
+                                                            <tr>
+                                                                <td>
+                                                                    <div id="category_check_tree{{config_language}}" name="category_check_tree{{config_language}}" class="options"></div>
+                                                                    <div class="dialog-options" id="options_category_check_tree{{config_language}}" title="{{text_Options[language['language_id']]}}"></div>
+                                                                </td>
+                                                                <td><button type="button" onclick=" return tools('createcategory')" data-toggle="tooltip" title="{{button_play}}" class="btn btn-warning"><i class="fa fa-play"></i></button>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="ajax-loader"><img class="loader-img" src="view/javascript/fancytree/skin-win7/loading.gif" style="display:none;" /></div>
+                                                                    <div class="task-complete"><img class="task-complete-img" src="view/javascript/fancytree/skin-custom/accept.png" style="display:none;" /> </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane" id="tab-cache">
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered">
+                                                        <colgroup>
+                                                            <col class="col-xs-12 col-md-10">
+                                                            <col class="col-xs-4 col-md-1">
+                                                            <col class="col-xs-4 col-md-1">
+                                                        </colgroup>
+                                                        <thead>
+                                                            <tr>
+                                                                <th>{{head_settings}}</th>
+                                                                <th>{{head_command}}</th>
+                                                                <th>{{head_status}}</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <th style="text-align: center;"> {{help_nosettings}} </th>
+                                                                <td><button type="button" onclick=" return tools('cache')" data-toggle="tooltip" title="{{button_play}}" class="btn btn-warning"><i class="fa fa-play"></i></button></td>
+                                                                <td>
+                                                                    <div class="ajax-loader"><img class="loader-img" src="view/javascript/fancytree/skin-win7/loading.gif" style="display:none;" /></div>
+                                                                    <div class="task-complete"><img class="complete-img" src="view/javascript/fancytree/skin-custom/accept.png" style="display:none;" /></div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane" id="tab-standart">
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered">
+                                                        <colgroup>
+                                                            <col class="col-xs-12 col-md-10">
+                                                            <col class="col-xs-4 col-md-1">
+                                                            <col class="col-xs-4 col-md-1">
+                                                        </colgroup>
+                                                        <thead>
+                                                            <tr>
+                                                                <th>{{head_settings}}</th>
+                                                                <th>{{head_command}}</th>
+                                                                <th>{{head_status}}</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="options">
+                                                                        <div>
+                                                                            <label class="control-label"><span data-toggle="tooltip" title="{{help_clone_options}}">{{head_clone}}</span></label>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <div class="col-sm-6">
+                                                                                <label class="checkbox-inline" for="clone-language-group">
+                                                                                    <input type="checkbox" name="clone-language-group" id="clone-language-group" value="group" checked="checked">
+                                                                                    {{entry_groups}}
+                                                                                </label>
+                                                                                <label class="checkbox-inline" for="clone-language-attribute">
+                                                                                    <input type="checkbox" name="clone-language-attribute" id="clone-language-attribute" value="attribute" checked="checked">
+                                                                                    {{entry_attributes}}
+                                                                                </label>
+                                                                                <label class="checkbox-inline" for="clone-language-value">
+                                                                                    <input type="checkbox" name="clone-language-value" id="clone-language-value" value="value" checked="checked">
+                                                                                    {{entry_values}}
+                                                                                </label>
+                                                                                <label class="checkbox-inline" for="clone-language-duty">
+                                                                                    <input type="checkbox" name="clone-language-duty" id="clone-language-duty" value="duty" checked="checked">
+                                                                                    {{entry_duties}}
+                                                                                </label>
+                                                                            </div>
+                                                                            <div class="col-sm-6">
+                                                                                <label class="radio-inline">
+                                                                                    <input type="radio" name="clone-language-method" value="insert" checked="checked" />
+                                                                                    {{text_insert}}
+                                                                                </label>
+                                                                                <label class="radio-inline">
+                                                                                    <input type="radio" name="clone-language-method" value="overwrite" />
+                                                                                    {{text_overwrite}}
+                                                                                </label>
+                                                                                <label class="radio-inline">
+                                                                                    <input type="radio" name="clone-language-method" value="overifempty" />
+                                                                                    {{text_overwrite_if_empty}}
+                                                                                </label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <div class="col-sm-6">
+                                                                                <label class="control-label" for="clone-language-source">{{entry_from}}</label>
+                                                                                <select name="clone-language-source" id="clone-language-source" class="form-control">
+                                                                                    {% for language in languages %}
+                                                                                    {% if language['language_id'] == config_language %}
+                                                                                    <option value="{{language['language_id']}}" selected="selected">{{language['name']}}</option>
+                                                                                    {% else %}
+                                                                                    <option value="{{language['language_id']}}">{{language['name']}}</option>
+                                                                                    {% endif %}
+                                                                                    {% endfor %}
+                                                                                </select>
+                                                                            </div>
+                                                                            <div class="col-sm-6">
+                                                                                <label class="control-label" for="clone-language-target">{{entry_to}}</label>
+                                                                                <select name="clone-language-target" id="clone-language-target" class="form-control">
+                                                                                    {% for language in languages %}
+                                                                                    {% if language['language_id'] == config_language %}
+                                                                                    <option value="{{language['language_id']}}" selected="selected">{{language['name']}}</option>
+                                                                                    {% else %}
+                                                                                    <option value="{{language['language_id']}}">{{language['name']}}</option>
+                                                                                    {% endif %}
+                                                                                    {% endfor %}
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                                <td><button type="button" onclick=" return tools('clone')" data-toggle="tooltip" title="{{button_play}}" class="btn btn-warning"><i class="fa fa-play"></i></button></td>
+                                                                <td>
+                                                                    <div class="ajax-loader"><img class="loader-img" src="view/javascript/fancytree/skin-win7/loading.gif" style="display:none;" /></div>
+                                                                    <div class="task-complete"><img class="complete-img" src="view/javascript/fancytree/skin-custom/accept.png" style="display:none;" /></div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="alert alert-info" role="alert"> {{alert_info}} </div>
+                                            </div>
+                                        </div>
+                                        <div class="alert alert-warning" role="alert" style="display: none"> {{alert_warning}} </div>
+                                        <div class="alert alert-success alert-dismissible" role="alert" style="display: none">
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">{{ '&times;' | escape }}</span></button>
+                                            {{alert_success}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tab-support">
+                                <div class="table-responsive">
+                                    {{text_help1}}
+                                </div>
+                                <div class="table-responsive">
+                                    {{text_help2}}
+                                </div>
+                                <div class="form-group">
+                                    {{text_support}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    const ATTRIBUTE_GROUP_TREE = $('[name ^= "attribute_group_tree"]');
+    const config_language = '{{config_language}}';
+    const token = '{{token}}';
+    const user_token = '{{user_token}}';
+    const extension = '{{extension}}'; // для v2.3 другая структура каталогов
+    const edit = '{{edit}}'; // для v1.5 другая функция входа в товар    
+    const textConfirm = {{text_confirm | json_encode()}};
+    const FILTERSETTINGS = {{filter_settings | json_encode()}};
+
+    let filterLabels = [];
+    let contextmenuConfig = [];
+    let dialogItems = [];
+
+    ATTRIBUTE_GROUP_TREE.each(function (indx, element) {
+        let lng_id = parseInt(element.id.replace(/\D+/ig, ''));
+        contextmenuConfig[lng_id] = [
+            {title: {{text_Edit | json_encode()}} [lng_id] + "<kbd>[Shift+Click]</kbd>",cmd: "rename",uiIcon: "ui-icon-pencil"},
+            {title: {{text_Delete | json_encode()}} [lng_id] + "<kbd>[Del]</kbd>",cmd: "remove",uiIcon: "ui-icon-trash"},
+            {title: {{text_Cut | json_encode()}} [lng_id] + "<kbd>[Ctrl+C]</kbd>",cmd: "cut",uiIcon: "ui-icon-scissors",disabled: true},
+            {title: {{text_Copy | json_encode()}} [lng_id] + "<kbd>[Ctrl+C]</kbd>",cmd: "copy",uiIcon: "ui-icon-copy",disabled: true},
+            {title: {{text_Paste | json_encode()}} [lng_id] + "<kbd>[Ctrl+V]</kbd>",cmd: "paste",uiIcon: "ui-icon-clipboard",disabled: true},
+            {title: {{text_Merge | json_encode()}} [lng_id] + "<kbd>[Alt+V]</kbd>",cmd: "merge",uiIcon: "ui-icon-link",disabled: true},
+            {title: {{entry_clone | json_encode()}} [lng_id] + "<kbd>[Alt+C]</kbd>",cmd: "clone",uiIcon: "ui-icon-seek-next",disabled: true},
+            {title: "----"},
+            {title: {{text_Expande | json_encode()}} [lng_id] + "<kbd>[Ctrl+B]</kbd>",cmd: "expande",uiIcon: "ui-icon-folder-open"},
+            {title: {{text_Refresh | json_encode()}} [lng_id] + "<kbd>[Shift+R]</kbd>",cmd: "refresh",uiIcon: "ui-icon-refresh"},
+            {title: "----"},
+            {title: {{text_Options | json_encode()}} [lng_id],cmd: "options",uiIcon: "ui-icon-gear"},
+            {title: "----"},
+            { title: {{ text_New_group| json_encode()}}[lng_id] + "<kbd>[Ctrl+M]</kbd>", cmd: "addSibling", uiIcon: "ui-icon-plusthick"},
+            { title: {{ text_New_attribute| json_encode()}}[lng_id] + "<kbd>[Ctrl+Q]</kbd>", cmd: "addChild", uiIcon: "ui-icon-plus"}
+        ];
+
+        filterLabels[lng_id] = {
+            title: {{ text_filter | json_encode() }}[lng_id],
+            button: {{ button_filter_action | json_encode() }} [lng_id],
+            checkbox: {
+                autoComplete: {{ text_autoComplete | json_encode() }} [lng_id],
+                attributesOnly: {{ text_Attributes_only | json_encode() }} [lng_id],
+                leavesOnly: {{ text_Leaves_only | json_encode() }} [lng_id],
+            },
+            spancheckbox: {
+                hideMode: {{ text_Hide_unmatched_nodes | json_encode() }} [lng_id],
+                autoExpand: {{ text_Auto_expand | json_encode() }} [lng_id],
+                counter: {{ text_Counter_badges | json_encode() }} [lng_id],
+                hideExpandedCounter: {{ text_hideExpandedCounter | json_encode() }} [lng_id],
+                highlight: {{ text_Highlight | json_encode() }} [lng_id],
+                fuzzy: {{ text_Fuzzy | json_encode() }} [lng_id],
+                regex: {{ text_Regular_expression | json_encode() }} [lng_id],
+            },
+            dropdown: {
+                empty: {{ f_empty | json_encode() }} [lng_id],
+                digital: {{ f_digital | json_encode() }} [lng_id],
+                html: {{ f_html | json_encode() }} [lng_id],
+                default: {{ f_default | json_encode() }} [lng_id],
+            }
+        };
+
+        dialogItems[lng_id] = {
+            sortorder: {
+                label: {{ text_sortOrder | json_encode() }}[lng_id],
+                selector: 'sortOrder',
+                state: {{ attributico_sortorder }}
+            },
+            lazyload: {
+                label: {{ text_lazyLoad | json_encode() }} [lng_id],
+                selector: 'lazyLoad',
+                state: {{ attributico_lazyload }}
+            },
+            autocollapse: {
+                label: {{ text_autoCollapse | json_encode() }} [lng_id],
+                selector: 'autoCollapse',
+                state: '1'
+            },
+            hierarchy: {
+                label: {{ text_multiSelect | json_encode() }} [lng_id],
+                selector: 'multiSelect',
+                state: {{ attributico_multiselect }}
+            },
+            divergency: {
+                label: {{ text_Diver | json_encode() }} [lng_id],
+                selector: 'diver',
+                state: '0'
+            }
+        };
+    });
+
+    $("[data-toggle='tooltip']").tooltip();
+</script>
+<script type="text/javascript">
+    $('#tab-attribute_language a:first').tab('show');
+    $('#tab-category_language a:first').tab('show');
+    $('#tab-duty_language a:first').tab('show');
+    $('#tab-products_language a:first').tab('show');
+    $('#verticalTab a:first').tab('show');
+</script>
+{{footer}}

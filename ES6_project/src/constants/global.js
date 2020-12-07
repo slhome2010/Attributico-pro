@@ -1,0 +1,16 @@
+export const ATTRIBUTE_GROUP_TREE = '[name ^= "attribute_group_tree"]';
+export const DUTY_ATTRIBUTE_TREE = '[name ^= "duty_attribute_tree"]';
+export const CATEGORY_TREE = '[name ^= "category_tree"]';
+export const CATEGORY_ATTRIBUTE_TREE = '[name ^= "category_attribute_tree"]';
+export const ATTRIBUTE_TREE = '[name ^= "attribute_tree"]';
+export const ATTRIBUTE_PRODUCT_TREE = '[name ^= "attribute_product_tree"]';
+export const PRODUCT_TREE = '[name ^= "product_tree"]';
+export const DEDUPLICATE_TREE = '[name ^= "deduplicate_tree"]';
+export const DETACH_TREE = '[name ^= "detach_tree"]';
+export const GROUP_SYNCRO_TREES = ATTRIBUTE_GROUP_TREE + ',' + DUTY_ATTRIBUTE_TREE + ',' + ATTRIBUTE_TREE + ',' + ATTRIBUTE_PRODUCT_TREE + ',' + DEDUPLICATE_TREE + ',' + DETACH_TREE;
+export const ATTRIBUTE_SYNCRO_TREES = ATTRIBUTE_GROUP_TREE + ',' + DUTY_ATTRIBUTE_TREE + ',' + ATTRIBUTE_TREE + ',' + ATTRIBUTE_PRODUCT_TREE;
+export const VALUE_SYNCRO_TREES = ATTRIBUTE_GROUP_TREE + ',' + DUTY_ATTRIBUTE_TREE + ',' + ATTRIBUTE_TREE + ',' + ATTRIBUTE_PRODUCT_TREE;
+export const GROUP_CHECK_TREE = DEDUPLICATE_TREE + ',' + DETACH_TREE;
+export const CATEGORY_CHECK_TREE = '[name ^= "category_check_tree"]';
+export const CATEGORY_SYNCRO_TREES = CATEGORY_TREE + ',' + CATEGORY_CHECK_TREE;
+export const smartScroll = 'input[name = "attributico_smart_scroll"]:checkbox';

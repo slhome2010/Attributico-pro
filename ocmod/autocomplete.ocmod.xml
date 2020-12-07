@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+    <name>Autocomplete</name>
+    <code>autocomplete_unlimited</code>
+    <version>2.1(oc v2.x)</version>
+    <author>comtronics@mail.ru</author>
+    <link>http://www.servenus.com</link>
+	
+	<file path="admin/view/template/common/header.tpl">
+        <operation error="skip">
+            <search><![CDATA[<link type="text/css" href="view/stylesheet/stylesheet.css" rel="stylesheet" media="screen" />]]></search>
+            <add position="after" ><![CDATA[<link type="text/css" href="view/stylesheet/autocomplete.css" rel="stylesheet" media="screen" />]]></add>
+        </operation>        
+    </file>	
+	
+	<file path="admin/controller/catalog/product.php">
+        <operation error="skip">
+            <search><![CDATA[$limit = 5;]]></search>
+			<add position="replace"><![CDATA[$limit = 10000;]]></add>
+        </operation>        
+    </file>
+	
+	<file path="admin/controller/catalog/option.php">
+        <operation error="skip">
+            <search><![CDATA['limit'       => 5]]></search>
+			<add position="replace"><![CDATA['limit'       => 10000]]></add>
+        </operation>        
+    </file>
+	
+	<file path="admin/controller/catalog/attribute.php">
+        <operation error="skip">
+            <search><![CDATA['limit'       => 5]]></search>
+			<add position="replace"><![CDATA['limit'       => 10000]]></add>
+        </operation>        
+    </file>
+	
+	<file path="admin/controller/catalog/category.php">
+        <operation error="skip">
+            <search><![CDATA['limit'       => 5]]></search>
+			<add position="replace"><![CDATA['limit'       => 10000]]></add>
+        </operation>        
+    </file>
+
+</modification>

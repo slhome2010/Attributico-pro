@@ -1,0 +1,175 @@
+.ui-menu {
+    width: 250px;
+    /* font-size: 63%; */
+    z-index: 3; /* over ext-wide titles */
+}
+.ui-menu kbd { /* Keyboard shortcuts for ui-contextmenu titles */
+    float: right;
+    font-size: 65%;
+    /* background-color: white; */
+}
+mark {
+    background: #ff0;
+    color: #000; }
+
+span.pending span.fancytree-title {
+    font-style: italic;
+}
+span.pending span.fancytree-title:after {
+    content: "\2026"; /* ellipsis */
+}
+span.fancytree-title:empty {
+    /* background: red; */
+    /* border-color: #719acb;*/
+    width: 70px;
+    display: inline-block;
+}
+span.fancytree-title:empty:hover {
+    /* background: red; */
+    border-color: #d8f0fa;
+    background: linear-gradient(to bottom, #f8fcfe 0%, #eff9fe 100%);
+    background-image: linear-gradient(rgb(248, 252, 254) 0%, rgb(239, 249, 254) 100%);
+    background-position-x: initial;
+    background-position-y: initial;
+    background-size: initial;
+    /*background-repeat-x: initial;
+    background-repeat-y: initial;*/
+    background-attachment: initial;
+    background-origin: initial;
+    background-clip: initial;
+    background-color: initial;
+    width: 70px;
+    display: inline-block;
+}
+
+.drop-menu  {
+    max-height: 250px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 20px;
+    font-size: 12px;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    list-style: none;
+    font-size: 12px;
+    text-align: left;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, .15);
+    border-radius: 3px;
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+    background-clip: padding-box;
+    z-index: 1000;
+    display: none;
+}
+
+.drop-menu > li > a {
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: normal;
+    line-height: 1.42857;
+    color: #333;
+    white-space: nowrap; }
+
+.drop-menu > li > a:hover, .drop-menu > li > a:focus {
+    text-decoration: none;
+    color: #262626;
+    background-color: #f5f5f5; }
+
+
+.drop-header {
+    display: block;
+    padding: 3px 20px;
+    font-size: 11px;
+    line-height: 1.42857;
+    color: #777;
+    cursor: not-allowed;
+    white-space: nowrap; }
+
+.ui-button.hawt-button {
+    color: hotpink;
+    width: 2.2em;
+    height: 2.2em;
+    display: inline-block; }
+
+legend {
+    margin-top: 15px;
+}
+/*  vertical tabs  */
+.tabs-left, .tabs-right {
+    border-bottom: none;
+    padding-top: 2px;
+}
+.tabs-left {
+    border-right: 1px solid #ddd;
+}
+.tabs-right {
+    border-left: 1px solid #ddd;
+}
+.tabs-left>li, .tabs-right>li {
+    float: none;
+    margin-bottom: 2px;
+}
+.tabs-left>li {
+    margin-right: -1px;
+}
+.tabs-right>li {
+    margin-left: -1px;
+}
+.tabs-left>li.active>a,
+.tabs-left>li.active>a:hover,
+.tabs-left>li.active>a:focus {
+    border-bottom-color: #ddd;
+    border-right-color: transparent;
+}
+
+.tabs-right>li.active>a,
+.tabs-right>li.active>a:hover,
+.tabs-right>li.active>a:focus {
+    border-bottom: 1px solid #ddd;
+    border-left-color: transparent;
+}
+.tabs-left>li>a {
+    border-radius: 4px 0 0 4px;
+    margin-right: 0;
+    display:block;
+}
+.tabs-right>li>a {
+    border-radius: 0 4px 4px 0;
+    margin-right: 0;
+}
+
+.control-label.required:before {
+    content: '* ';
+    color: #F00;
+    font-weight: bold;
+}
+
+table.form > tbody > tr > td {	/* for 1.5.x */
+    width: 200px;
+}
+.smart-scroll {
+  height: 250px;
+  overflow: auto;
+  position: relative;
+}
+.form-inline {
+    margin-left: 0px !important;
+}
+.bottom-alert {
+    float: right;
+    width: 80%;
+    margin-bottom: 10px;
+}
+.nav-tabs {
+    margin-bottom: 10px;
+}
+.fa-angle-double-down {
+   color: #1e91cf;
+}
+
+/* .table tbody > tr > td {
+    vertical-align: baseline;
+} */
