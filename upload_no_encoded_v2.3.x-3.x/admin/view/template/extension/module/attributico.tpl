@@ -46,6 +46,7 @@
                         </div>
                     </div>
                 </div>
+                <div id="attribute-form"></div>
                 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form-attributico" class="form-horizontal">
                     <div id="tabs">
                         <ul class="nav nav-tabs">

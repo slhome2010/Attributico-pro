@@ -10,6 +10,9 @@ import { deSelectNodes } from '../functions/Select';
 import CollapseExpande from './Events/CollapseExpande';
 //import { isCategory } from '../functions/Plugin/NodeMethod';
 import RefreshTree from './Events/RefreshTree';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import {AttributeForm} from './AttributeForm';
 
 export class ContextmenuCommand {
     constructor(ui, store) {
@@ -31,7 +34,8 @@ export class ContextmenuCommand {
                 RefreshTree(this.tree);
                 break;
             case "options":
-                $("#options_" + this.selector).dialog("open");
+                //$("#options_" + this.selector).dialog("open");
+                ReactDOM.render( <AttributeForm modal={true}/>, document.querySelector( '#attribute-form' ) );
                 break;
             case "rename":
                 this.node.editStart();
