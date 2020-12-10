@@ -10,10 +10,9 @@ import { deSelectNodes } from '../functions/Select';
 import CollapseExpande from './Events/CollapseExpande';
 //import { isCategory } from '../functions/Plugin/NodeMethod';
 import RefreshTree from './Events/RefreshTree';
-import React from 'react';
-import ReactDOM from 'react-dom';
-import {AttributeForm} from './AttributeForm';
-
+import React, {useState} from 'react';
+import ReactDOM from "react-dom";
+import AttributeForm from './AttributeForm';
 export class ContextmenuCommand {
     constructor(ui, store) {
         this.ui = ui;
@@ -21,7 +20,7 @@ export class ContextmenuCommand {
         this.tree = $.ui.fancytree.getTree(ui.target);
         this.selector = this.tree?.$div[0].id;
         this.lng_id = parseInt(this.selector.replace(/\D+/ig, ''));
-        this.store = store;
+        this.store = store;        
     }
 
     execute() {
@@ -34,8 +33,8 @@ export class ContextmenuCommand {
                 RefreshTree(this.tree);
                 break;
             case "options":
-                //$("#options_" + this.selector).dialog("open");
-                ReactDOM.render( <AttributeForm modal={true}/>, document.querySelector( '#attribute-form' ) );
+                //$("#options_" + this.selector).dialog("open");                
+                ReactDOM.render( <AttributeForm modalIsOpen={true} />, document.querySelector( '#attribute-form' ) );              
                 break;
             case "rename":
                 this.node.editStart();
@@ -91,6 +90,20 @@ export class ContextmenuCommand {
 
     addSibling() {
         addNewAttribute(this.node, 'group', this.lng_id);
+    }
+
+    editAttributeForm() {
+        const [modalIsOpen,setIsOpen] = useState(false);
+        function openModal() {
+            setIsOpen(true);
+          } 
+        
+          function closeModal(){
+            setIsOpen(false);
+          }
+          return (            
+            <AttributeForm modalIsOpen={openModal} closeModal={closeModal}/>            
+          );
     }
 }
 
