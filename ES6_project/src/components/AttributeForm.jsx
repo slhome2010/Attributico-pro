@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useLayoutEffect } from 'react';
 import Modal from 'react-modal';
 
 const customStyles = {
@@ -12,14 +12,16 @@ const customStyles = {
   }
 };
 
+Modal.setAppElement(document.querySelector( '#root' ))
+
 function AttributeForm(props) {
   var subtitle;
-  const [modalIsOpen, setIsOpen] = useState(props.modalIsOpen);
+  const [modalIsOpen, setIsOpen] = useState(false); // TODO false
   // const { modalIsOpen, closeModal } = props;
   function openModal() {
     setIsOpen(true);
   }
-  console.log(modalIsOpen)
+  console.log('modalIsOpen',modalIsOpen)
 
   function afterOpenModal() {
     // references are now sync'd and can be accessed.
@@ -34,9 +36,10 @@ function AttributeForm(props) {
     setIsOpen(!modalIsOpen);
   }
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     window.modalAttached = true;
     window.toggleModal = toggle;
+    console.log('useEffect');
   });
   
 
@@ -48,11 +51,12 @@ function AttributeForm(props) {
         onAfterOpen={afterOpenModal}
         onRequestClose={toggle}
         style={customStyles}
-        contentLabel="Example Modal"
+        contentLabel="Example Modal" 
+        shouldCloseOnOverlayClick={false}
       >
 
         <h2 ref={_subtitle => (subtitle = _subtitle)}>Hello</h2>
-        <button onClick={closeModal}>close</button>
+        <button onClick={toggle}>close</button>
         <div>I am a modal</div>
         <form>
           <input />
