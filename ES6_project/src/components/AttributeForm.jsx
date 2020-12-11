@@ -12,17 +12,17 @@ const customStyles = {
   }
 };
 
+Modal.setAppElement(document.querySelector( '#root' ))
 class AttributeForm extends React.Component {
 
   // Lifecycle methods
-
   constructor() {
     super();
     this.state = {
       modalIsOpen: false
     }
-
     this.toggle = this.toggle.bind(this);
+    this.subtitle;
   }
 
   componentDidMount() {
@@ -36,8 +36,6 @@ class AttributeForm extends React.Component {
     // связанных с этим компонентом, если их много, или вы собираетесь постоянно
     // создавать и удалять элемент
   }
-
-
   // Utility methods
 
   toggle() {
@@ -46,20 +44,29 @@ class AttributeForm extends React.Component {
     });
   }
 
+  afterOpenModal() {
+    // references are now sync'd and can be accessed.
+    console.log(this.subtitle);
+   // this.subtitle.style.color = '#f00';
+  }
+
   render() {
-    //var modalSate = this.state.modalIsOpen ? 'fade-in' : 'fade-out';
-    var subtitle;
+    //var modalSate = this.state.modalIsOpen ? 'fade-in' : 'fade-out';    
     return (
       <Modal
         isOpen={this.state.modalIsOpen}
-        //onAfterOpen={afterOpenModal}
+        onAfterOpen={this.afterOpenModal}
         onRequestClose={this.toggle}
         style={customStyles}
-        contentLabel="Example Modal"
+        contentLabel="Example Modal" 
+        shouldCloseOnOverlayClick={false}
       >
 
-        <h2>Hello</h2>
-        <button onClick={this.toggle}>close</button>
+        <div className="modal-header">
+          <button type="button" className="close" onClick={this.toggle}><span aria-hidden="true">&times;</span></button>
+          <h4 className="modal-title">Modal title</h4>
+        </div>
+        <button type="button"  className="btn btn-primary" onClick={this.toggle}>close</button>
         <div>I am a modal</div>
         <form>
           <input />
@@ -74,14 +81,17 @@ class AttributeForm extends React.Component {
 }
 
 
-/* function AttributeForm(props) {
+/* Modal.setAppElement(document.querySelector( '#root' ))
+
+function AttributeForm(props) {
   var subtitle;
-  const [modalIsOpen, setIsOpen] = useState(props.modalIsOpen);
+  const [modalIsOpen, setIsOpen] = useState(false); // TODO false
   // const { modalIsOpen, closeModal } = props;
   function openModal() {
     setIsOpen(true);
   }
-  console.log(modalIsOpen)
+  console.log('modalIsOpen',modalIsOpen)
+
   function afterOpenModal() {
     // references are now sync'd and can be accessed.
     subtitle.style.color = '#f00';
@@ -89,23 +99,33 @@ class AttributeForm extends React.Component {
 
   function closeModal() {
     setIsOpen(false);
-  } */
-  /* if (props.modalIsOpen) {
-    openModal()
-  } */
- /*  return (
+  }
+
+  function toggle() {
+    setIsOpen(!modalIsOpen);
+  }
+
+  useLayoutEffect(() => {
+    window.modalAttached = true;
+    window.toggleModal = toggle;
+    console.log('useEffect');
+  });
+  
+
+  return (
     <div>
 
       <Modal
         isOpen={modalIsOpen}
         onAfterOpen={afterOpenModal}
-        onRequestClose={closeModal}
+        onRequestClose={toggle}
         style={customStyles}
-        contentLabel="Example Modal"
+        contentLabel="Example Modal" 
+        shouldCloseOnOverlayClick={false}
       >
 
         <h2 ref={_subtitle => (subtitle = _subtitle)}>Hello</h2>
-        <button onClick={closeModal}>close</button>
+        <button onClick={toggle}>close</button>
         <div>I am a modal</div>
         <form>
           <input />
@@ -117,8 +137,7 @@ class AttributeForm extends React.Component {
       </Modal>
     </div>
   );
-}
- */
+} */
 export default AttributeForm;
 //const domContainer = document.querySelector('#like_button_container');
 //ReactDOM.render(e(LikeButton), domContainer);
