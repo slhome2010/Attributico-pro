@@ -35,7 +35,7 @@ export class ContextmenuCommand {
             case "options":
                 //$("#options_" + this.selector).dialog("open"); 
                 if (!window.modalAttached) {
-                    ReactDOM.render( <AttributeForm modalIsOpen={true} />, document.querySelector( '#attribute-form' ) );
+                    ReactDOM.render( <AttributeForm modalIsOpen={true} />, document.querySelector( '#root' ) );
                   }      
                   window.toggleModal();               
                 //ReactDOM.render( <AttributeForm modalIsOpen={true} />, document.querySelector( '#attribute-form' ) );              

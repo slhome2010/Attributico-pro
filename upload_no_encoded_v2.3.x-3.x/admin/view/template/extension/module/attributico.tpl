@@ -17,6 +17,8 @@
         </div>
     </div>
     <div class="container-fluid">
+        <div id="root"></div>
+        <div id="portal"></div>
         <?php if ($error_warning) { ?>
             <div id="error_warning" class="alert alert-danger"><i class="fa fa-exclamation-circle"></i>
                 <?php echo $error_warning; ?>
@@ -45,8 +47,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div id="attribute-form"></div>
+                </div>                
                 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form-attributico" class="form-horizontal">
                     <div id="tabs">
                         <ul class="nav nav-tabs">
