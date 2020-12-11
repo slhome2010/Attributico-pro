@@ -33,8 +33,12 @@ export class ContextmenuCommand {
                 RefreshTree(this.tree);
                 break;
             case "options":
-                //$("#options_" + this.selector).dialog("open");                
-                ReactDOM.render( <AttributeForm modalIsOpen={true} />, document.querySelector( '#attribute-form' ) );              
+                //$("#options_" + this.selector).dialog("open");  
+                if (!window.modalAttached) {
+                    ReactDOM.render( <AttributeForm modalIsOpen={true} />, document.querySelector( '#attribute-form' ) );
+                  }      
+                  window.toggleModal();              
+                //ReactDOM.render( <AttributeForm modalIsOpen={true} />, document.querySelector( '#attribute-form' ) );              
                 break;
             case "rename":
                 this.node.editStart();
