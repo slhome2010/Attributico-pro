@@ -371,58 +371,42 @@
                                 </div>
                             </div>
                             <div class="tab-pane active" id="tab-attribute">
-                                <?php if ($duty_check) { ?>
-                                    <ul class="nav nav-tabs" id="tab-attribute_language">
-                                        <?php foreach ($languages as $language) { ?>
-                                            <li><a href="#tab-attribute_language<?php echo $language['language_id']; ?>" data-toggle="tab"><img src="<?php echo $language['src']; ?>" title="<?php echo $language['name']; ?>" />
-                                                    <?php echo $language['name']; ?></a></li>
-                                        <?php } ?>
-                                    </ul>
-                                    <div class="tab-content">
-                                        <?php foreach ($languages as $language) { ?>
-                                            <div class="tab-pane" id="tab-attribute_language<?php echo $language['language_id']; ?>">
-                                                <div class="fancyfilter" id="tab-attribute_filter<?php echo $language['language_id']; ?>"></div>
-                                                <div class="form-group">
-                                                    <ul id="attribute_group_tree<?php echo $language['language_id']; ?>" name="attribute_group_tree<?php echo $language['language_id']; ?>" class="filetree"></ul>
-                                                </div>
-                                                <div class="dialog-options" id="options_attribute_group_tree<?php echo $language['language_id']; ?>" title="<?php echo $text_Options[$language['language_id']]; ?>"></div>
+                                <ul class="nav nav-tabs" id="tab-attribute_language">
+                                    <?php foreach ($languages as $language) { ?>
+                                        <li><a href="#tab-attribute_language<?php echo $language['language_id']; ?>" data-toggle="tab"><img src="<?php echo $language['src']; ?>" title="<?php echo $language['name']; ?>" />
+                                                <?php echo $language['name']; ?></a></li>
+                                    <?php } ?>
+                                </ul>
+                                <div class="tab-content">
+                                    <?php foreach ($languages as $language) { ?>
+                                        <div class="tab-pane" id="tab-attribute_language<?php echo $language['language_id']; ?>">
+                                            <div class="fancyfilter" id="tab-attribute_filter<?php echo $language['language_id']; ?>"></div>
+                                            <div class="form-group">
+                                                <ul id="attribute_group_tree<?php echo $language['language_id']; ?>" name="attribute_group_tree<?php echo $language['language_id']; ?>" class="filetree"></ul>
                                             </div>
-                                        <?php } ?>
-                                    </div>
-                                <?php } else { ?>
-                                    <div class="jumbotron">
-                                        <h1><?php echo $text_attention; ?></h1>
-                                        <p><?php echo $help_upgrade; ?></p>
-                                        <p><a class="btn btn-primary btn-lg" role="button" OnClick="dutyUpgrade();"><?php echo $entry_upgrade; ?></a></p>
-                                    </div>
-                                <?php } ?>
+                                            <div class="dialog-options" id="options_attribute_group_tree<?php echo $language['language_id']; ?>" title="<?php echo $text_Options[$language['language_id']]; ?>"></div>
+                                        </div>
+                                    <?php } ?>
+                                </div>
                             </div>
                             <div class="tab-pane" id="tab-duty">
-                                <?php if ($duty_check) { ?>
-                                    <ul class="nav nav-tabs" id="tab-duty_language">
-                                        <?php foreach ($languages as $language) { ?>
-                                            <li><a href="#tab-duty_language<?php echo $language['language_id']; ?>" data-toggle="tab"><img src="<?php echo $language['src']; ?>" title="<?php echo $language['name']; ?>" />
-                                                    <?php echo $language['name']; ?></a></li>
-                                        <?php } ?>
-                                    </ul>
-                                    <div class="tab-content">
-                                        <?php foreach ($languages as $language) { ?>
-                                            <div class="tab-pane" id="tab-duty_language<?php echo $language['language_id']; ?>">
-                                                <div class="fancyfilter" id="tab-duty_filter<?php echo $language['language_id']; ?>"></div>
-                                                <div class="form-group">
-                                                    <ul id="duty_attribute_tree<?php echo $language['language_id']; ?>" name="duty_attribute_tree<?php echo $language['language_id']; ?>" class="filetree"></ul>
-                                                </div>
-                                                <div class="dialog-options" id="options_duty_attribute_tree<?php echo $language['language_id']; ?>" title="<?php echo $text_Options[$language['language_id']]; ?>"></div>
+                                <ul class="nav nav-tabs" id="tab-duty_language">
+                                    <?php foreach ($languages as $language) { ?>
+                                        <li><a href="#tab-duty_language<?php echo $language['language_id']; ?>" data-toggle="tab"><img src="<?php echo $language['src']; ?>" title="<?php echo $language['name']; ?>" />
+                                                <?php echo $language['name']; ?></a></li>
+                                    <?php } ?>
+                                </ul>
+                                <div class="tab-content">
+                                    <?php foreach ($languages as $language) { ?>
+                                        <div class="tab-pane" id="tab-duty_language<?php echo $language['language_id']; ?>">
+                                            <div class="fancyfilter" id="tab-duty_filter<?php echo $language['language_id']; ?>"></div>
+                                            <div class="form-group">
+                                                <ul id="duty_attribute_tree<?php echo $language['language_id']; ?>" name="duty_attribute_tree<?php echo $language['language_id']; ?>" class="filetree"></ul>
                                             </div>
-                                        <?php } ?>
-                                    </div>
-                                <?php } else { ?>
-                                    <div class="jumbotron">
-                                        <h1><?php echo $text_attention; ?></h1>
-                                        <p><?php echo $help_upgrade; ?></p>
-                                        <p><a class="btn btn-primary btn-lg" role="button" OnClick="dutyUpgrade();"><?php echo $entry_upgrade; ?></a></p>
-                                    </div>
-                                <?php } ?>
+                                            <div class="dialog-options" id="options_duty_attribute_tree<?php echo $language['language_id']; ?>" title="<?php echo $text_Options[$language['language_id']]; ?>"></div>
+                                        </div>
+                                    <?php } ?>
+                                </div>
                             </div>
                             <div class="tab-pane" id="tab-category">
                                 <ul class="nav nav-tabs" id="tab-category_language">
@@ -508,22 +492,15 @@
                                 <div class="row">
                                     <div class="col-lg-2 col-md-3" id="column-1">
                                         <ul class="nav nav-pills nav-stacked">
-                                            <li class="active"><a href="#tab-empty" data-toggle="pill">
-                                                    <?php echo $tab_empty; ?> </a></li>
-                                            <li><a href="#tab-scavengery" data-toggle="pill">
-                                                    <?php echo $tab_scavengery; ?> </a></li>
-                                            <li><a href="#tab-defrag" data-toggle="pill"> <?php echo $tab_defrag; ?>
-                                                </a></li>
-                                            <li><a href="#tab-detached" data-toggle="pill"> <?php echo $tab_detached; ?>
-                                                </a></li>
-                                            <li><a href="#tab-deduplicate" data-toggle="pill">
-                                                    <?php echo $tab_deduplicate; ?> </a></li>
-                                            <li><a href="#tab-category-attributes" data-toggle="pill">
-                                                    <?php echo $tab_category_attributes; ?> </a></li>
-                                            <li><a href="#tab-cache" data-toggle="pill"> <?php echo $tab_cache; ?> </a>
-                                            </li>
-                                            <li><a href="#tab-standart" data-toggle="pill"> <?php echo $tab_standart; ?>
-                                                </a></li>
+                                            <li class="active"><a href="#tab-empty" data-toggle="pill"> <?php echo $tab_empty; ?> </a></li>
+                                            <li><a href="#tab-scavengery" data-toggle="pill"> <?php echo $tab_scavengery; ?> </a></li>
+                                            <li><a href="#tab-defrag" data-toggle="pill"> <?php echo $tab_defrag; ?></a></li>
+                                            <li><a href="#tab-sorting" data-toggle="pill"><?php echo $tab_sorting; ?> </a></li>
+                                            <li><a href="#tab-detached" data-toggle="pill"> <?php echo $tab_detached; ?></a></li>
+                                            <li><a href="#tab-deduplicate" data-toggle="pill"><?php echo $tab_deduplicate; ?> </a></li>
+                                            <li><a href="#tab-category-attributes" data-toggle="pill"><?php echo $tab_category_attributes; ?> </a></li>
+                                            <li><a href="#tab-cache" data-toggle="pill"> <?php echo $tab_cache; ?> </a></li>
+                                            <li><a href="#tab-standart" data-toggle="pill"> <?php echo $tab_standart; ?></a></li>
                                         </ul>
                                     </div>
                                     <hr class="hidden-lg hidden-md">
@@ -621,6 +598,35 @@
                                                                     </div>
                                                                 </td>
                                                                 <td><button type="button" onclick=" return tools('defrag')" data-toggle="tooltip" title="<?php echo $button_play; ?>" class="btn btn-warning"><i class="fa fa-play"></i></button></td>
+                                                                <td>
+                                                                    <div class="ajax-loader"><img class="loader-img" src="view/javascript/fancytree/skin-win7/loading.gif" style="display:none;" /></div>
+                                                                    <div class="task-complete"><img class="complete-img" src="view/javascript/fancytree/skin-custom/accept.png" style="display:none;" /></div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane" id="tab-sorting">
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered">
+                                                        <colgroup>
+                                                            <col class="col-xs-12 col-md-10">
+                                                            <col class="col-xs-4 col-md-1">
+                                                            <col class="col-xs-4 col-md-1">
+                                                        </colgroup>
+                                                        <thead>
+                                                            <tr>
+                                                                <th><?php echo $head_settings; ?></th>
+                                                                <th><?php echo $head_command; ?></th>
+                                                                <th><?php echo $head_status; ?></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <th style="text-align: center;">
+                                                                    <?php echo $help_nosettings; ?> </th>
+                                                                <td><button type="button" onclick=" return tools('sorting')" data-toggle="tooltip" title="<?php echo $button_play; ?>" class="btn btn-warning"><i class="fa fa-play"></i></button></td>
                                                                 <td>
                                                                     <div class="ajax-loader"><img class="loader-img" src="view/javascript/fancytree/skin-win7/loading.gif" style="display:none;" /></div>
                                                                     <div class="task-complete"><img class="complete-img" src="view/javascript/fancytree/skin-custom/accept.png" style="display:none;" /></div>
