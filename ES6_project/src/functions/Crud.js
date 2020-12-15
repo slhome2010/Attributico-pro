@@ -20,8 +20,7 @@ export function addNewAttribute(activeNode, activeKey, lng_id) {
         },
         url: 'index.php?route=' + extension + 'module/attributico/addAttribute',
         success: function (newNode) {
-            // Здесь dispatch не нужен, т.к. сработает SaveAfterEdit
-            console.log(newNode)
+            // Здесь dispatch не нужен, т.к. сработает SaveAfterEdit            
             node.editCreateNode("child", newNode);
         }
     });
@@ -46,8 +45,7 @@ export function deleteAttribute(node, store) {
                 // let cloneNode = jQuery.extend(true, {}, node)
                 if (node.isTemplate() || node.isValue()) {
                     affectedNodes.push(node.getParentAttribute())
-                    // Не удаляем видимые узлы, т.к. родительский перезагрузится и их там может уже не быть
-                    // TODO устранить конфликт перезагрузки и удаления видимиых узлов
+                    // Не удаляем видимые узлы, т.к. родительский перезагрузится и их там может уже не быть                    
                     removeVisibleNodes = false
                 } else if (node.isAttribute()) {
                     affectedNodes.push(node.getParentGroup())

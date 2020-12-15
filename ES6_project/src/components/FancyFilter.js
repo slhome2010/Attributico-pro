@@ -21,12 +21,12 @@ export default class Filter {
     }
 
     attachEvents() {        
-        this.input.keyup(this.data, this.search).focus();
-        this.btnSearch.click(this.data, this.search);
-        this.checkbox.change(this.data, this.changeSettings);
-        this.btnResetSearch.click(this.data, this.clear).attr("disabled", true);
+        this.input.on('keyup focus', this.data, this.search);
+        this.btnSearch.on('click', this.data, this.search);
+        this.checkbox.on('change', this.data, this.changeSettings);
+        this.btnResetSearch.on('click', this.data, this.clear).attr("disabled", true);
         this.btnSearch.attr("disabled", this.autoComplete.is(":checked"));        
-        $("a[id ^=f_" + this.data.tab + this.data.lng_id + "]").click(this.data, this.action);
+        $("a[id ^=f_" + this.data.tab + this.data.lng_id + "]").on('click', this.data, this.action);
     }
 
     clear(e) {
@@ -84,7 +84,7 @@ export default class Filter {
         let match = $("input[name=" + tab + "_search" + lng_id + "]").val();        
 
         if (e && e.which === $.ui.keyCode.ESCAPE || $.trim(match) === "") {
-            $("button#" + tab + "_btnResetSearch" + lng_id).click();
+            $("button#" + tab + "_btnResetSearch" + lng_id).trigger("click");
             return;
         }
         if (!$("#fs_" + tab + "_autoComplete" + lng_id).is(":checked") && e.type === "keyup") {

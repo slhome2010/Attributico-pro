@@ -44,6 +44,13 @@ class ModelCatalogAttributicoTools extends Model
         return $count_of_defrag;
     }
 
+    public function sorting() {
+        set_time_limit(600);
+        $this->db->query("SET @num :=0");
+        $this->db->query("UPDATE " . DB_PREFIX . "attribute a INNER JOIN (SELECT t1.attribute_id FROM  " . DB_PREFIX . "attribute t1 LEFT JOIN  " . DB_PREFIX . "attribute_group t2 ON t1.attribute_group_id = t2.attribute_group_id ORDER BY t2.sort_order ASC, t1.sort_order ASC) AS g ON a.attribute_id = g.attribute_id SET a.sort_order = @num :=@num+1");
+        return $this->db->countAffected();
+    }
+
     public function scavengery()
     {
         $categoryAttributes = $this->db->query("SELECT * FROM " . DB_PREFIX . "category_attribute");

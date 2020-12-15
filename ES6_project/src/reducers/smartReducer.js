@@ -1,8 +1,9 @@
-import { COPY_NODE, ADD_NODE, DELETE_NODE, UPDATE_NODE, PASTE_NODE, CUT_NODE } from '../constants/actions'
+import { COPY_NODE, RENAME_NODE, ADD_NODE, DELETE_NODE, UPDATE_NODE, PASTE_NODE, CUT_NODE } from '../constants/actions'
 
 export default function smart(state = {}, action) {
     switch (action.type) {
-        
+
+        case RENAME_NODE:
         case UPDATE_NODE:
             return {
                 ...state,                

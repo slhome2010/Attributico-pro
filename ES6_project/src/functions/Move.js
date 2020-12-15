@@ -61,7 +61,7 @@ export async function moveNode(sourceNode, targetNode, clipboard, ctrlKey, direc
         affectedNodes = [sourceGroup, targetNode.getParentGroup()]
         dispatchAction = dndReplaceParent;
     } else {
-        url = 'index.php?route=' + extension + 'module/attributico/sortAttributeGroup';
+        url = 'index.php?route=' + extension + 'module/attributico/sortAttribute';
         if (sourceNode.isGroup()) {
             affectedNodes = null
         } else {

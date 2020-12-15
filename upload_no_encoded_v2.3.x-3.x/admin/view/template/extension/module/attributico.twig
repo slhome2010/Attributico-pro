@@ -19,7 +19,7 @@
     <div class="container-fluid">
         {% if error_warning %}
         <div id="error_warning" class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{error_warning}}
-            <button type="button" class="close" data-dismiss="alert">{{ '&times;' | escape }}</button>
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
         </div>
         {% endif %}
         <div id="reload" class="alert alert-danger alert-dismissible" role="alert" style="display: none"><i class="fa fa-exclamation-triangle"></i> {{alert_reload}}</div>
@@ -351,8 +351,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane active" id="tab-attribute">
-                                {% if duty_check %}
+                            <div class="tab-pane active" id="tab-attribute">                                
                                 <ul class="nav nav-tabs" id="tab-attribute_language">
                                     {% for language in languages %}
                                     <li><a href="#tab-attribute_language{{language.language_id}}" data-toggle="tab"><img src="{{language.src}}" title="{{language.name}}" /> {{language.name}}</a></li>
@@ -368,17 +367,9 @@
                                         <div class="dialog-options" id="options_attribute_group_tree{{language.language_id}}" title="{{text_Options[ language.language_id]}}"></div>
                                     </div>
                                     {% endfor %}
-                                </div>
-                                {% else %}
-                                <div class="jumbotron">
-                                    <h1>{{text_attention}}</h1>
-                                    <p>{{help_upgrade}}</p>
-                                    <p><a class="btn btn-primary btn-lg" role="button" OnClick="dutyUpgrade();">{{entry_upgrade}}</a></p>
-                                </div>
-                                {% endif %}
+                                </div>                                
                             </div>
-                            <div class="tab-pane" id="tab-duty">
-                                {% if duty_check %}
+                            <div class="tab-pane" id="tab-duty">                                
                                 <ul class="nav nav-tabs" id="tab-duty_language">
                                     {% for language in languages %}
                                     <li><a href="#tab-duty_language{{language.language_id}}" data-toggle="tab"><img src="{{language.src}}" title="{{language.name}}" /> {{language.name}}</a></li>
@@ -394,14 +385,7 @@
                                         <div class="dialog-options" id="options_duty_attribute_tree{{language.language_id}}" title="{{text_Options[ language.language_id]}}"></div>
                                     </div>
                                     {% endfor %}
-                                </div>
-                                {% else %}
-                                <div class="jumbotron">
-                                    <h1>{{text_attention}}</h1>
-                                    <p>{{help_upgrade}}</p>
-                                    <p><a class="btn btn-primary btn-lg" role="button" OnClick="dutyUpgrade();">{{entry_upgrade}}</a></p>
-                                </div>
-                                {% endif %}
+                                </div>                                
                             </div>
                             <div class="tab-pane" id="tab-category">
                                 <ul class="nav nav-tabs" id="tab-category_language">
@@ -488,6 +472,7 @@
                                             <li class="active"><a href="#tab-empty" data-toggle="pill"> {{tab_empty}} </a></li>
                                             <li><a href="#tab-scavengery" data-toggle="pill"> {{tab_scavengery}} </a></li>
                                             <li><a href="#tab-defrag" data-toggle="pill"> {{tab_defrag}} </a></li>
+                                            <li><a href="#tab-sorting" data-toggle="pill"> {{tab_sorting}} </a></li>
                                             <li><a href="#tab-detached" data-toggle="pill"> {{tab_detached}} </a></li>
                                             <li><a href="#tab-deduplicate" data-toggle="pill"> {{tab_deduplicate}} </a></li>
                                             <li><a href="#tab-category-attributes" data-toggle="pill"> {{tab_category_attributes}} </a></li>
@@ -583,6 +568,34 @@
                                                                     </div>
                                                                 </td>
                                                                 <td><button type="button" onclick=" return tools('defrag')" data-toggle="tooltip" title="{{button_play}}" class="btn btn-warning"><i class="fa fa-play"></i></button></td>
+                                                                <td>
+                                                                    <div class="ajax-loader"><img class="loader-img" src="view/javascript/fancytree/skin-win7/loading.gif" style="display:none;" /></div>
+                                                                    <div class="task-complete"><img class="complete-img" src="view/javascript/fancytree/skin-custom/accept.png" style="display:none;" /></div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane" id="tab-sorting">
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered">
+                                                        <colgroup>
+                                                            <col class="col-xs-12 col-md-10">
+                                                            <col class="col-xs-4 col-md-1">
+                                                            <col class="col-xs-4 col-md-1">
+                                                        </colgroup>
+                                                        <thead>
+                                                            <tr>
+                                                                <th>{{head_settings}}</th>
+                                                                <th>{{head_command}}</th>
+                                                                <th>{{head_status}}</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <th style="text-align: center;"> {{help_nosettings}} </th>
+                                                                <td><button type="button" onclick=" return tools('sorting')" data-toggle="tooltip" title="{{button_play}}" class="btn btn-warning"><i class="fa fa-play"></i></button></td>
                                                                 <td>
                                                                     <div class="ajax-loader"><img class="loader-img" src="view/javascript/fancytree/skin-win7/loading.gif" style="display:none;" /></div>
                                                                     <div class="task-complete"><img class="complete-img" src="view/javascript/fancytree/skin-custom/accept.png" style="display:none;" /></div>
@@ -823,7 +836,7 @@
                                         </div>
                                         <div class="alert alert-warning" role="alert" style="display: none"> {{alert_warning}} </div>
                                         <div class="alert alert-success alert-dismissible" role="alert" style="display: none">
-                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">{{ '&times;' | escape }}</span></button>
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                             {{alert_success}}
                                         </div>
                                     </div>
