@@ -8,11 +8,21 @@ const customStyles = {
     right: 'auto',
     bottom: 'auto',
     marginRight: '-50%',
-    transform: 'translate(-50%, -50%)'
+    transform: 'translate(-50%, -50%)',
+    padding: '15px'
+  },
+  overlay: { 
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,  
+    backgroundColor: 'rgba(102, 102, 102, 0.75)'
   }
 };
 
 Modal.setAppElement(document.querySelector( '#root' ))
+//Modal.defaultStyles.overlay.backgroundColor = 'rgba(0, 0, 0, 0.3)'
+//Modal.defaultStyles.content.padding = '15px'
 
 function AttributeForm(props) {
   var subtitle;
@@ -20,8 +30,7 @@ function AttributeForm(props) {
   // const { modalIsOpen, closeModal } = props;
   function openModal() {
     setIsOpen(true);
-  }
-  console.log('modalIsOpen',modalIsOpen)
+  }  
 
   function afterOpenModal() {
     // references are now sync'd and can be accessed.
@@ -38,8 +47,7 @@ function AttributeForm(props) {
 
   useLayoutEffect(() => {
     window.modalAttached = true;
-    window.toggleModal = toggle;
-    console.log('useEffect');
+    window.toggleModal = toggle;    
   });
   
 
