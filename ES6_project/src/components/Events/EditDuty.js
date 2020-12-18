@@ -1,4 +1,6 @@
-//import { isDuty } from '../../functions/Plugin/NodeMethod';
+import React from 'react';
+import ReactDOM from "react-dom";
+import AttributeForm from '../AttributeForm';
 
 export function editDuty(event, data) {
     const handler = (e) => {                        
@@ -35,5 +37,11 @@ export function editDuty(event, data) {
 
     if (data.node.isDuty()){
         data.input.on("click", handler);
-    }                    
+    } else {
+        if (!window.modalAttached) {
+            ReactDOM.render( <AttributeForm node={data.node} input={data.input} />, document.querySelector( '#root' ) );
+          }      
+          window.toggleModal();
+          
+    }                   
 }

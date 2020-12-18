@@ -1,5 +1,6 @@
 import React, { useState, useLayoutEffect } from 'react';
 import Modal from 'react-modal';
+import Form from './Form';
 
 const customStyles = {
   content: {
@@ -27,7 +28,47 @@ Modal.setAppElement(document.querySelector('#root'))
 function AttributeForm(props) {
   var subtitle;
   const [modalIsOpen, setIsOpen] = useState(false); // TODO false
-  // const { modalIsOpen, closeModal } = props;
+  let template = {
+    title: 'Job Application Form',
+    fields: [
+        {
+            title: 'Attribute',
+            type: 'text',
+            name: 'attribute',
+            value: props.node.title,
+            validationProps: {
+                required: 'Attribute is mandatory'
+            }
+        },
+        {
+            title: 'Second Name',
+            type: 'text',
+            name: 'secondname',
+            validationProps: {
+                required: 'Second Name is mandatory'
+            }
+        },
+        {
+            title: 'Email',
+            type: 'email',
+            name: 'email'
+        },
+        {
+            title: 'Include Portfolio',
+            type: 'checkbox',
+            name: 'include_portfolio'
+        },
+        {
+            title: 'Portfolio Link',
+            type: 'url',
+            name: 'portfolio_link',
+            dynamic: {
+                field: 'include_portfolio',
+                value: true
+            }
+        }
+    ]
+  }
   function openModal() {
     setIsOpen(true);
   }
@@ -50,10 +91,17 @@ function AttributeForm(props) {
     window.toggleModal = toggle;
   });
 
+  function onSubmit(values) {
+    console.log(values);
+    window.toggleModal();
+    props.node.setTitle(values.attribute);
+    props.input.trigger('keyup', 'enter')
+          // Important: exit sucessfull editing
+          //props.node.editEnd(false);
+  }
 
   return (
     <div>
-
       <Modal
         isOpen={modalIsOpen}
         onAfterOpen={afterOpenModal}
@@ -62,25 +110,40 @@ function AttributeForm(props) {
         contentLabel="Example Modal"
         shouldCloseOnOverlayClick={false}
       >
-
-        <div className="panel panel-default">
-          <div className="panel-heading">
-            <h3 className="panel-title"><i className="fa fa-pencil"></i> Title </h3>
-            <button type="button" className="close" onClick={toggle}><span>&times;</span></button>
-          </div>
-          <div className="panel-body">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente corporis voluptas quod, aliquid minima quibusdam maxime amet nisi.
-          </div>
-          <div className="modal-footer">
-            <button type="button" className="btn btn-default" onClick={toggle}>Close</button>
-            <button type="submit" className="btn btn-primary">Save changes</button>
-          </div>
-        </div>
-
-
+        <Form
+          template={template}
+          //watchFields={['firstname', 'include_portfolio']}
+          validate={validate}
+          onSubmit={onSubmit}
+          onCancel={toggle}
+        />
       </Modal>
     </div>
   );
+
+
 }
+
+
+
+function validate(watchValues, errorMethods) {
+  let { errors, setError, clearErrors } = errorMethods;
+
+  // Firstname validation
+  if(watchValues['firstname'] === 'Admin'){
+      if(!errors['firstname']){
+          setError('firstname', {
+              type: 'manual',
+              message: 'You cannot use this first name'
+          })
+      }
+  }else{
+      if(errors['firstname'] && errors['firstname']['type'] === 'manual'){
+          clearErrors('firstname');
+      }
+  }
+}
+
+
 
 export default AttributeForm;
