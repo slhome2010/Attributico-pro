@@ -94,7 +94,8 @@ function AttributeForm(props) {
   function onSubmit(values) {
     console.log(values);
     window.toggleModal();
-    props.node.setTitle(values.attribute);
+    props.input.val(values.attribute)
+    //props.node.setTitle(values.attribute); // TODO data.input vs setTitle
     props.input.trigger('keyup', 'enter')
           // Important: exit sucessfull editing
           //props.node.editEnd(false);
