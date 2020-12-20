@@ -11,7 +11,8 @@ const customStyles = {
     bottom: 'auto',
     marginRight: '-50%',
     transform: 'translate(-50%, -50%)',
-    padding: '0px'
+    padding: '0px',
+    minWidth: '500px'
   },
   overlay: {
     top: 0,
@@ -57,14 +58,11 @@ function AttributeForm(props) {
     console.log(values);
     window.toggleModal();    
     props.nodeData.node.setTitle(values.attribute); 
-    saveForm(props.nodeData, props.store)
-    //props.input.trigger('keyup', 'enter')
-          // Important: exit sucessfull editing
-          //props.node.editEnd(false);
+    saveForm(props.nodeData, props.store)   
   }
 
   return (
-    <div>
+    <div className="container-fluid">
       <Modal
         isOpen={modalIsOpen}
         onAfterOpen={afterOpenModal}

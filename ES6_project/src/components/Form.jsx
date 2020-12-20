@@ -22,9 +22,13 @@ function Form({ template, onSubmit, onCancel, watchFields, validate }) {
                 case 'text':
                     return (
                         <div key={name}>
-                            <label htmlFor={name}>{title}</label>
-                            <input type="text" name={name} id={name} defaultValue={value} ref={register(validationProps)} />
-                            {errors[name] && <span className="text-warning">{errors[name]['message']}</span>}
+                            <div className={"form-group " + (errors[name] ? "has-error" : "")}>
+                                <label className="col-sm-2 control-label" htmlFor={name}>{title}</label>
+                                <div className="col-sm-10">
+                                    <input type="text" name={name} id={name} defaultValue={value} placeholder={name} className="form-control" ref={register(validationProps)} />
+                                    {errors[name] && <div className="text-danger">{errors[name]['message']}</div>}
+                                </div>
+                            </div>
                         </div>
                     )
                 case 'email':
@@ -105,7 +109,7 @@ function Form({ template, onSubmit, onCancel, watchFields, validate }) {
                 {renderTitle()}
             </div>
             <div className="panel-body">
-                <form onSubmit={handleSubmit(onSubmit)}>
+                <form onSubmit={handleSubmit(onSubmit)} className="form-horizontal">
                     {renderFields(fields)}
                     <div className="modal-footer">
                         {renderFooter()}
