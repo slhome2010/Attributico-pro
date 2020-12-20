@@ -4,7 +4,7 @@ import Filter from '../FancyFilter';
 import { loadError } from '../Events/LoadError';
 //import { isOneOf, isDuty, isAttribute, isTemplate, isValue } from '../../functions/Plugin/NodeMethod';
 import { saveAfterEdit } from '../Events/SaveAfterEdit';
-import { editDuty } from '../Events/EditDuty';
+import { editNode } from '../Events/EditNode';
 import { smartScroll } from '../../constants/global';
 
 // --------------------------------------- duty attribute tree ----------------------------------------------
@@ -63,7 +63,7 @@ export default class DutyTree {
                     this.tree.options.filter['highlight'] = false;
                     this.tree.clearFilter();
                 },
-                edit: (event, data) => editDuty(event, data),
+                edit: (event, data) => editNode(event, data, this.store),
                 save: (event, data) => saveAfterEdit(event, data, this.store),
                 close: function (event, data) {
                     if (data.save) {

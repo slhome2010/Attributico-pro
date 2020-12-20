@@ -3,7 +3,7 @@ import { ContextmenuCommand } from '../ContextMenuCommand';
 import { KeydownCommand } from '../KeyDownCommand';
 import { deSelectNodes, selectControl } from '../../functions/Select';
 import { loadError } from '../Events/LoadError';
-import { editDuty } from '../Events/EditDuty';
+import { editNode } from '../Events/EditNode';
 import { saveAfterEdit } from '../Events/SaveAfterEdit';
 import { smartScroll } from '../../constants/global';
 
@@ -66,7 +66,7 @@ export default class AttributeTree {
                 },
                 // Editor was opened (available as data.input)
                 // Alt+Shift+click on input call autocomplete function
-                edit: (event, data) => editDuty(event, data),
+                edit: (event, data) => editNode(event, data, this.store),
                 beforeClose: function (event, data) {
                     // Return false to prevent cancel/save (data.input is available)
                 },

@@ -5,6 +5,7 @@ import { ContextmenuCommandCategory } from '../ContextMenuCommand';
 import { loadError } from '../Events/LoadError';
 import { smartScroll } from '../../constants/global';
 import { dndAddNode } from '../../actions';
+import { attributeAutoComplete } from '../../functions/AutoComplete';
 
 // --------------------------------------- category attribute tree -------------------------------------
 export default class CategoryAttributeTree {
@@ -51,36 +52,7 @@ export default class CategoryAttributeTree {
                         return false;
                     }
                 },
-                edit: (event, data) => {
-                    $(data.node.span).addClass("fancytree-loading");
-                    data.input.dropmenu({
-                        'source': function (request, response) {
-                            $.ajax({
-                                data: {
-                                    'user_token': user_token,
-                                    'token': token,
-                                    'filter_name': encodeURIComponent(request),
-                                    'language_id': this.lng_id
-                                },
-                                url: 'index.php?route=' + extension + 'module/attributico/autocomplete',
-                                dataType: 'json',
-                                success: function (json) {
-                                    response($.map(json, function (item) {
-                                        return {
-                                            category: item.attribute_group,
-                                            label: item.name,
-                                            value: item.attribute_id
-                                        };
-                                    }));
-                                }
-                            });
-                        },
-                        'select': function (item) {
-                            data.input.val(item.label);
-                            data.node.key = 'attribute_' + item.value;
-                        }
-                    });
-                },
+                edit: (event, data) => attributeAutoComplete(data),
                 beforeClose: function (event, data) {
                     // Return false to prevent cancel/save (data.input is available)
                 },

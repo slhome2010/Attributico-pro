@@ -4,7 +4,7 @@ import { KeydownCommand } from '../KeyDownCommand';
 import { deSelectNodes, getSelectedKeys, selectControl } from '../../functions/Select';
 import { loadError } from '../Events/LoadError';
 import { saveAfterEdit } from '../Events/SaveAfterEdit'
-import { editDuty } from '../Events/EditDuty';
+import { editNode } from '../Events/EditNode';
 import { smartScroll } from '../../constants/global';
 import { moveNode } from '../../functions/Move';
 
@@ -64,7 +64,7 @@ export default class AttributeGroupTree {
                     this.tree.options.filter['highlight'] = false;
                     this.tree.clearFilter();
                 },
-                edit: (event, data) => editDuty(event, data), // Editor was opened (available as data.input)                
+                edit: (event, data) => editNode(event, data, this.store), // Editor was opened (available as data.input)                
                 beforeClose: function (event, data) {
                     // Return false to prevent cancel/save (data.input is available)
                 },

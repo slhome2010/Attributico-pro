@@ -1,5 +1,6 @@
 import React, { useState, useLayoutEffect } from 'react';
 import Modal from 'react-modal';
+import { loadForm, saveForm } from '../functions/Form';
 import Form from './Form';
 
 const customStyles = {
@@ -27,48 +28,9 @@ Modal.setAppElement(document.querySelector('#root'))
 
 function AttributeForm(props) {
   var subtitle;
-  const [modalIsOpen, setIsOpen] = useState(false); // TODO false
-  let template = {
-    title: 'Job Application Form',
-    fields: [
-        {
-            title: 'Attribute',
-            type: 'text',
-            name: 'attribute',
-            value: props.node.title,
-            validationProps: {
-                required: 'Attribute is mandatory'
-            }
-        },
-        {
-            title: 'Second Name',
-            type: 'text',
-            name: 'secondname',
-            validationProps: {
-                required: 'Second Name is mandatory'
-            }
-        },
-        {
-            title: 'Email',
-            type: 'email',
-            name: 'email'
-        },
-        {
-            title: 'Include Portfolio',
-            type: 'checkbox',
-            name: 'include_portfolio'
-        },
-        {
-            title: 'Portfolio Link',
-            type: 'url',
-            name: 'portfolio_link',
-            dynamic: {
-                field: 'include_portfolio',
-                value: true
-            }
-        }
-    ]
-  }
+  const [modalIsOpen, setIsOpen] = useState(false); 
+  const template = loadForm(props.nodeData)  
+
   function openModal() {
     setIsOpen(true);
   }
@@ -93,10 +55,10 @@ function AttributeForm(props) {
 
   function onSubmit(values) {
     console.log(values);
-    window.toggleModal();
-    props.input.val(values.attribute)
-    //props.node.setTitle(values.attribute); // TODO data.input vs setTitle
-    props.input.trigger('keyup', 'enter')
+    window.toggleModal();    
+    props.nodeData.node.setTitle(values.attribute); 
+    saveForm(props.nodeData, props.store)
+    //props.input.trigger('keyup', 'enter')
           // Important: exit sucessfull editing
           //props.node.editEnd(false);
   }
