@@ -61,9 +61,12 @@
     "vars-on-top": 2,
     "no-warning-comments": [1, {
       "terms": ["todo", "fixme"], "location": "anywhere"
-    }]
+    }],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   },
   "plugins": [
-    "react"
+    "react",
+    "react-hooks"
   ]
 }

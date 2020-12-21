@@ -1,6 +1,6 @@
 import React, { useState, useLayoutEffect } from 'react';
 import Modal from 'react-modal';
-import { loadForm, saveForm } from '../functions/Form';
+import { loadForm, saveForm } from '../../functions/Form';
 import Form from './Form';
 
 const customStyles = {
@@ -29,8 +29,9 @@ Modal.setAppElement(document.querySelector('#root'))
 
 function AttributeForm(props) {
   var subtitle;
-  const [modalIsOpen, setIsOpen] = useState(false); 
-  const template = loadForm(props.nodeData)  
+  const [modalIsOpen, setIsOpen] = useState(false);
+  
+  let template = loadForm(props.nodeData)
 
   function openModal() {
     setIsOpen(true);
@@ -50,17 +51,18 @@ function AttributeForm(props) {
   }
 
   useLayoutEffect(() => {
+    console.log('useLayautEffect');
     window.modalAttached = true;
     window.toggleModal = toggle;
-  });
+  }, []);
 
   function onSubmit(values) {
     console.log(values);
-    window.toggleModal();    
-    props.nodeData.node.setTitle(values.attribute); 
-    saveForm(props.nodeData, props.store)   
+    window.toggleModal();
+    props.nodeData.node.setTitle(values.attribute);
+    saveForm(props.nodeData, props.store)
   }
-
+  console.log('render Attribute Form', modalIsOpen);
   return (
     <div className="container-fluid">
       <Modal
@@ -71,13 +73,13 @@ function AttributeForm(props) {
         contentLabel="Example Modal"
         shouldCloseOnOverlayClick={false}
       >
-        <Form
+        {modalIsOpen && <Form
           template={template}
           //watchFields={['firstname', 'include_portfolio']}
           validate={validate}
           onSubmit={onSubmit}
           onCancel={toggle}
-        />
+        />}
       </Modal>
     </div>
   );
@@ -91,17 +93,17 @@ function validate(watchValues, errorMethods) {
   let { errors, setError, clearErrors } = errorMethods;
 
   // Firstname validation
-  if(watchValues['firstname'] === 'Admin'){
-      if(!errors['firstname']){
-          setError('firstname', {
-              type: 'manual',
-              message: 'You cannot use this first name'
-          })
-      }
-  }else{
-      if(errors['firstname'] && errors['firstname']['type'] === 'manual'){
-          clearErrors('firstname');
-      }
+  if (watchValues['firstname'] === 'Admin') {
+    if (!errors['firstname']) {
+      setError('firstname', {
+        type: 'manual',
+        message: 'You cannot use this first name'
+      })
+    }
+  } else {
+    if (errors['firstname'] && errors['firstname']['type'] === 'manual') {
+      clearErrors('firstname');
+    }
   }
 }
 

@@ -84,7 +84,7 @@ export function loadForm(data) {
             }
         )
     }) */
-
+console.log('loadForm :', data.node.title)
     return (
         {
             title: 'Job Application Form',
