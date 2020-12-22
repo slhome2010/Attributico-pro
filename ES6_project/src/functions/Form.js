@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { updateNode } from '../actions';
 
 export function saveForm(data, store) {
@@ -40,65 +41,44 @@ export function saveForm(data, store) {
 
 export function loadForm(data) {
     let lng_id = data.node.getLanguageId()
-    /* $.ajax({
-        data: {
-            'user_token': user_token,
-            'token': token,
-            'key': data.node.key,
-            'language_id': lng_id
-        },
-        url: ''
-    }).done(function (result) {
-        return (
-            {
+    const [config, setConfig] = useState([]);
+    const [isLoading, setLoading] = useState(false);
+
+    useEffect(() => {    
+        console.log('loadForm useEffect')    
+        $.ajax({
+            data: {
+                'user_token': user_token,
+                'token': token,
+                'key': data.node.key,
+                'language_id': lng_id
+            },
+            url: 'index.php?route=' + extension + 'module/attributico/getAttributeInfo',
+            beforeSend: () => {
+                setLoading(true) 
+            }
+        }).done(function (json) {
+            setConfig({
                 title: 'Job Application Form',
                 fields: [
                     {
                         title: 'Attribute',
                         type: 'text',
                         name: 'attribute',
-                        value: data.node.title,
+                        value: json.name,
                         validationProps: {
                             required: 'Attribute is mandatory'
                         }
                     }
                 ]
-            }
-        )
-    }).fail(function (result) {
-        // Ajax error: reset title (and maybe issue a warning)
-        return (
-            {
-                title: 'Job Application Form',
-                fields: [
-                    {
-                        title: 'Attribute',
-                        type: 'text',
-                        name: 'attribute',
-                        value: data.node.title,
-                        validationProps: {
-                            required: 'Attribute is mandatory'
-                        }
-                    }
-                ]
-            }
-        )
-    }) */
-console.log('loadForm :', data.node.title)
-    return (
-        {
-            title: 'Job Application Form',
-            fields: [
-                {
-                    title: 'Attribute',
-                    type: 'text',
-                    name: 'attribute',
-                    value: data.node.title,
-                    validationProps: {
-                        required: 'Attribute is mandatory'
-                    }
-                }
-            ]
-        }
-    )
-}
+            })
+            setLoading(false)
+            console.log('loadForm :', json.name)
+        }).fail(function (error) {
+            // Ajax error: reset title (and maybe issue a warning)
+            setConfig(error)
+        })
+    }, [data]);
+    console.log('loadForm return:', config)
+    return [config, isLoading];
+} 

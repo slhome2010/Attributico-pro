@@ -654,12 +654,24 @@ class ControllerModuleAttributico extends Controller
         $this->response->setOutput(json_encode($json));
     }
 
-    /* public function getAttributeInfo()    // На будущее
-    {
-        $json = array();
-        $attribute_id = isset($this->request->get['attribute_id']) ? (int) $this->request->get['attribute_id'] : 0;
+    public function getAttributeInfo()    // На будущее
+    {            
+        $language_id = isset($this->request->get['language_id']) ? $this->request->get['language_id'] : $this->config->get('config_language_id');
+        $key = isset($this->request->get['key']) ? explode("_", $this->request->get['key']) : array('0', '0');
         
-        $this->load->model('localisation/language');
+
+        $this->load->model('catalog/attributico');       
+
+        if ($key[0] == 'group') {
+            
+        }
+
+        if ($key[0] == 'attribute') {
+            $attribute_id = $key[1];  
+            $info = $this->model_catalog_attributico->getAttributeInfo($attribute_id, $language_id);          
+        }
+        
+        /* $this->load->model('localisation/language');
         $languages = $this->model_localisation_language->getLanguages();        
         
         foreach ($languages as $language) {   
@@ -672,14 +684,11 @@ class ControllerModuleAttributico extends Controller
             } else {
                 $image_src = 'view/image/flags/' . $language['image'];
             }
-        }
-
-        $this->load->model('catalog/attributico');
-        $attribute_info = $this->model_catalog_attributico->getAttributeInfo($attribute_id);
+        }         */
 
         $this->response->addHeader('Content-Type: application/json');
-        $this->response->setOutput(json_encode($attribute_info));
-    } */
+        $this->response->setOutput(json_encode($info));
+    }
 
     public function getAttributeGroupTree()
     {

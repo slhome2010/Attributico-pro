@@ -30,9 +30,8 @@ Modal.setAppElement(document.querySelector('#root'))
 function AttributeForm(props) {
   var subtitle;
   const [modalIsOpen, setIsOpen] = useState(false);
+  const [config, isLoading] = loadForm(props.nodeData)
   
-  let template = loadForm(props.nodeData)
-
   function openModal() {
     setIsOpen(true);
   }
@@ -73,13 +72,20 @@ function AttributeForm(props) {
         contentLabel="Example Modal"
         shouldCloseOnOverlayClick={false}
       >
-        {modalIsOpen && <Form
-          template={template}
-          //watchFields={['firstname', 'include_portfolio']}
-          validate={validate}
-          onSubmit={onSubmit}
-          onCancel={toggle}
-        />}
+        {modalIsOpen && (
+          isLoading ? (            
+            <div class="ajax-loader"><img class="loader-img" src="view/javascript/fancytree/skin-win7/loading.gif" /></div>
+         ) : (          
+          <Form
+            template={config}
+            //watchFields={['firstname', 'include_portfolio']}
+            validate={validate}
+            onSubmit={onSubmit}
+            onCancel={toggle}
+          />
+         )
+        )
+      }
       </Modal>
     </div>
   );
