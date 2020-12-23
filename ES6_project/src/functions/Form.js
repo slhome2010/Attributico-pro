@@ -43,9 +43,9 @@ export function loadForm(data) {
     let lng_id = data.node.getLanguageId()
     const [config, setConfig] = useState([]);
     const [isLoading, setLoading] = useState(false);
-
-    useEffect(() => {    
-        console.log('loadForm useEffect')    
+    
+    useEffect(() => {
+        console.log('loadForm useEffect')
         $.ajax({
             data: {
                 'user_token': user_token,
@@ -55,7 +55,7 @@ export function loadForm(data) {
             },
             url: 'index.php?route=' + extension + 'module/attributico/getAttributeInfo',
             beforeSend: () => {
-                setLoading(true) 
+                setLoading(true)
             }
         }).done(function (json) {
             setConfig({
@@ -72,13 +72,16 @@ export function loadForm(data) {
                     }
                 ]
             })
-            setLoading(false)
-            console.log('loadForm :', json.name)
+
+            console.log('loadForm done:', json.name)
         }).fail(function (error) {
             // Ajax error: reset title (and maybe issue a warning)
-            setConfig(error)
+            setConfig(error) // TODO как обработать если не json a HTML
+            console.log('loadForm error:', error)
+        }).always(function () {
+            setLoading(false)
         })
-    }, [data]);
+    }, [data]); // TODO зависимость от полей формы а не узда дерева или и то и то
     console.log('loadForm return:', config)
     return [config, isLoading];
 } 

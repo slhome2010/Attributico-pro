@@ -30,7 +30,8 @@ Modal.setAppElement(document.querySelector('#root'))
 function AttributeForm(props) {
   var subtitle;
   const [modalIsOpen, setIsOpen] = useState(false);
-  const [config, isLoading] = loadForm(props.nodeData)
+  const [config, isLoading] = loadForm(props.nodeData) // TODO сделать Dataprovider
+  const [modalAttached, setModalAttached] = useState(true)
   
   function openModal() {
     setIsOpen(true);
@@ -50,18 +51,19 @@ function AttributeForm(props) {
   }
 
   useLayoutEffect(() => {
-    console.log('useLayautEffect');
-    window.modalAttached = true;
+    console.log('useLayoutEffect node',props.nodeData.node.title);
+    //setModalAttached(true)
+    window.modalAttached = modalAttached;
     window.toggleModal = toggle;
-  }, []);
+  }, [modalAttached]);
 
   function onSubmit(values) {
-    console.log(values);
-    window.toggleModal();
-    props.nodeData.node.setTitle(values.attribute);
+    console.log('submit' ,values);
+    toggle();
+    props.nodeData.node.setTitle(values.attribute); // TODO убрать в saveForm
     saveForm(props.nodeData, props.store)
   }
-  console.log('render Attribute Form', modalIsOpen);
+  console.log('render Attribute Form modalIsOpen', modalIsOpen);
   return (
     <div className="container-fluid">
       <Modal

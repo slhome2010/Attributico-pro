@@ -8,7 +8,7 @@ function FormInput({ register, field, errors }) {
    // let showField = dynamic ? watchValues[dynamic['field']] === dynamic['value'] : true;
 
    // if (!showField) return null;
-   console.log('FormInput',type);
+   console.log('render FormInput',type);
 
     switch (type) {
         case 'text':
