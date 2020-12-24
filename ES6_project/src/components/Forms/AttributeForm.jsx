@@ -14,7 +14,7 @@ const customStyles = {
     transform: 'translate(-50%, -50%)',
     padding: '0px',
     minWidth: '50%',
-    minHeigh: '50%'
+    minHeight: '50%'
   },
   overlay: {
     top: 0,
@@ -33,8 +33,8 @@ function AttributeForm(props) {
   var subtitle;
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalAttached, setModalAttached] = useState(true)
-  const {data, store} = useData()
-  const [config, isLoading] = loadForm(data) 
+  const { data, store } = useData()
+  const [config, isLoading] = loadForm(data)
 
   function openModal() {
     setIsOpen(true);
@@ -62,7 +62,7 @@ function AttributeForm(props) {
 
   function onSubmit(values) {
     console.log('submit', values);
-    toggle();    
+    toggle();
     saveForm(data, store, values)
   }
   console.log('render Attribute Form', modalAttached, modalIsOpen, isLoading, data.node.title, config);
@@ -78,7 +78,11 @@ function AttributeForm(props) {
       >
         {modalIsOpen && (
           isLoading ? (
-            <div className="ajax-loader"><img className="loader-img" src="view/javascript/fancytree/skin-win7/loading.gif" /></div>
+            <div class="container-fluid text-center">
+              <div className="ajax-loader">
+                <img className="loader-img" src="view/javascript/fancytree/skin-win7/loading.gif" />
+              </div>
+            </div>
           ) : (
               <Form
                 template={config}
