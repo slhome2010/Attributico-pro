@@ -1,6 +1,7 @@
 import React, { useState, useLayoutEffect } from 'react';
 import Modal from 'react-modal';
 import { loadForm, saveForm } from '../../functions/Form';
+import { useData } from './DataContext';
 import Form from './Form';
 
 const customStyles = {
@@ -12,7 +13,8 @@ const customStyles = {
     marginRight: '-50%',
     transform: 'translate(-50%, -50%)',
     padding: '0px',
-    minWidth: '500px'
+    minWidth: '50%',
+    minHeigh: '50%'
   },
   overlay: {
     top: 0,
@@ -30,9 +32,10 @@ Modal.setAppElement(document.querySelector('#root'))
 function AttributeForm(props) {
   var subtitle;
   const [modalIsOpen, setIsOpen] = useState(false);
-  const [config, isLoading] = loadForm(props.nodeData) // TODO сделать Dataprovider
   const [modalAttached, setModalAttached] = useState(true)
-  
+  const {data, store} = useData()
+  const [config, isLoading] = loadForm(data) 
+
   function openModal() {
     setIsOpen(true);
   }
@@ -51,19 +54,18 @@ function AttributeForm(props) {
   }
 
   useLayoutEffect(() => {
-    console.log('useLayoutEffect node',props.nodeData.node.title);
+    console.log('useLayoutEffect node', data.node.title);
     //setModalAttached(true)
     window.modalAttached = modalAttached;
     window.toggleModal = toggle;
   }, [modalAttached]);
 
   function onSubmit(values) {
-    console.log('submit' ,values);
-    toggle();
-    props.nodeData.node.setTitle(values.attribute); // TODO убрать в saveForm
-    saveForm(props.nodeData, props.store)
+    console.log('submit', values);
+    toggle();    
+    saveForm(data, store, values)
   }
-  console.log('render Attribute Form modalIsOpen', modalIsOpen);
+  console.log('render Attribute Form', modalAttached, modalIsOpen, isLoading, data.node.title, config);
   return (
     <div className="container-fluid">
       <Modal
@@ -75,19 +77,19 @@ function AttributeForm(props) {
         shouldCloseOnOverlayClick={false}
       >
         {modalIsOpen && (
-          isLoading ? (            
-            <div class="ajax-loader"><img class="loader-img" src="view/javascript/fancytree/skin-win7/loading.gif" /></div>
-         ) : (          
-          <Form
-            template={config}
-            //watchFields={['firstname', 'include_portfolio']}
-            validate={validate}
-            onSubmit={onSubmit}
-            onCancel={toggle}
-          />
-         )
+          isLoading ? (
+            <div className="ajax-loader"><img className="loader-img" src="view/javascript/fancytree/skin-win7/loading.gif" /></div>
+          ) : (
+              <Form
+                template={config}
+                //watchFields={['firstname', 'include_portfolio']}
+                validate={validate}
+                onSubmit={onSubmit}
+                onCancel={toggle}
+              />
+            )
         )
-      }
+        }
       </Modal>
     </div>
   );

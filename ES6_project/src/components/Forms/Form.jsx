@@ -10,11 +10,11 @@ function Form({ template, onSubmit, onCancel, watchFields, validate }) {
 
     let watchValues = watch(watchFields);
     validate(watchValues, { errors, setError, clearErrors });
-console.log('render Form', fields);
+    console.log('render Form', fields);
     const renderFields = (fields) => {
         return fields.map(field => {
             return (
-            <FormInput register={register} field={field} errors={errors}></FormInput>
+                <FormInput register={register} field={field} errors={errors}></FormInput>
             )
         })
     }

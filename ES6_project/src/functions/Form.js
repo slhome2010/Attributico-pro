@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { updateNode } from '../actions';
 
-export function saveForm(data, store) {
+export function saveForm(data, store, values) {
     let lng_id = data.node.getLanguageId()
+    data.node.setTitle(values.attribute); // TODO убрать в saveForm
     $.ajax({
         data: {
             'user_token': user_token,

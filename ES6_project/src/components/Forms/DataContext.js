@@ -1,9 +1,28 @@
-import React, { createContext, useContext, useState } from "react"
+import React, { createContext, useContext, useState } from 'react'
 
 const DataContext = createContext()
 
-export const DataProvider = ({ children }) => {
-    const [data, setData] = useState({})
+export const DataProvider = props => {
+    const {
+        data,
+        store,
+        children
+     } = props
+
+    return (
+        <DataContext.Provider value={{data, store}}>
+            { children}
+        </DataContext.Provider>
+    )
+}
+
+export const useData = () => useContext(DataContext)
+
+
+const FormContext = createContext()
+
+export const FormProvider = ({ children }) => {
+    const [formData, setData] = useState({})
 
     const setValues = (values) => {
         setData((prevData) => ({
@@ -13,10 +32,10 @@ export const DataProvider = ({ children }) => {
     }
 
     return (
-        <DataContext.Provider value={{ data, setValues }}>
+        <FormContext.Provider value={{ formData, setValues }}>
             { children}
-        </DataContext.Provider>
+        </FormContext.Provider>
     )
 }
 
-export const useData = () => useContext(DataContext)
+export const useForm = () => useContext(FormContext)
