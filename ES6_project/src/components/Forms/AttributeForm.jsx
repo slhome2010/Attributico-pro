@@ -3,6 +3,7 @@ import Modal from 'react-modal';
 import { loadForm, saveForm } from '../../functions/Form';
 import { useData } from './DataContext';
 import Form from './Form';
+import Loader from './Loader';
 
 const customStyles = {
   content: {
@@ -22,19 +23,6 @@ const customStyles = {
     right: 0,
     bottom: 0,
     backgroundColor: 'rgba(102, 102, 102, 0.75)'
-  }
-};
-
-const formStyles = {
-  flexContainer: {
-    display: 'flex',
-    alignItems: 'center'
-  },
-  verticalCenter: {    
-    margin: 'auto'
-  },
-  h100: {
-    height: '100%'
   }
 };
 
@@ -91,17 +79,7 @@ function AttributeForm(props) {
       >
         {modalIsOpen && (
           isLoading ? (
-            <div className="panel panel-default">
-              <div className="panel-heading"></div>
-              <div className="panel-body">
-                <div className="text-center">
-                <div className="ajax-loader"><img className="loader-img" src="view/javascript/fancytree/skin-win7/loading.gif" alt="Loader"/>
-                Loading...
-                </div>
-                  
-                </div>
-              </div>
-              </div>
+            <Loader/>
           ) : (
               <Form
                 template={config}

@@ -14,7 +14,7 @@ function FormInput({ register, field, errors }) {
         case 'text':
             return (
                 <div key={name}>
-                    <div className={"form-group " + (errors[name] ? "has-error" : "")}>
+                    <div className={'form-group' + (errors[name] ? 'has-error' : '')}>
                         <label className="col-sm-2 control-label" htmlFor={name}>{title}</label>
                         <div className="col-sm-10">
                             <input type="text" name={name} id={name} defaultValue={value} placeholder={name} className="form-control" ref={register(validationProps)} />
