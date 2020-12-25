@@ -43,7 +43,7 @@ export function saveForm(data, store, values) {
 export function loadForm(data) {
     let lng_id = data.node.getLanguageId()
     const [config, setConfig] = useState([]);
-    const [isLoading, setLoading] = useState(false);
+    const [isLoading, setLoading] = useState(true);
     
     useEffect(() => {
         console.log('loadForm useEffect')

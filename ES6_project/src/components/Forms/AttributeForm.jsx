@@ -25,6 +25,19 @@ const customStyles = {
   }
 };
 
+const formStyles = {
+  flexContainer: {
+    display: 'flex',
+    alignItems: 'center'
+  },
+  verticalCenter: {    
+    margin: 'auto'
+  },
+  h100: {
+    height: '100%'
+  }
+};
+
 Modal.setAppElement(document.querySelector('#root'))
 //Modal.defaultStyles.overlay.backgroundColor = 'rgba(0, 0, 0, 0.3)'
 //Modal.defaultStyles.content.padding = '15px'
@@ -78,11 +91,17 @@ function AttributeForm(props) {
       >
         {modalIsOpen && (
           isLoading ? (
-            <div class="container-fluid text-center">
-              <div className="ajax-loader">
-                <img className="loader-img" src="view/javascript/fancytree/skin-win7/loading.gif" />
+            <div className="panel panel-default">
+              <div className="panel-heading"></div>
+              <div className="panel-body">
+                <div className="text-center">
+                <div className="ajax-loader"><img className="loader-img" src="view/javascript/fancytree/skin-win7/loading.gif" alt="Loader"/>
+                Loading...
+                </div>
+                  
+                </div>
               </div>
-            </div>
+              </div>
           ) : (
               <Form
                 template={config}
