@@ -8,8 +8,8 @@ function Form({ template, onSubmit, onCancel, watchFields, validate }) {
     let { register, handleSubmit, errors, watch, setError, clearErrors } = useForm();
     let { title, fields } = template;
 
-    let watchValues = watch(watchFields);
-    validate(watchValues, { errors, setError, clearErrors });
+    //let watchValues = watch(watchFields);
+    //validate(watchValues, { errors, setError, clearErrors });
     console.log('render Form', fields);
     const renderFields = (fields) => {
         return fields.map(field => {

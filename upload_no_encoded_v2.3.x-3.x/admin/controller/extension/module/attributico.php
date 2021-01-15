@@ -2,7 +2,7 @@
 
 @include_once(DIR_SYSTEM . 'license/sllic.lic');
 require_once(DIR_SYSTEM . 'library/attributico/attributico.php');
-define('MODULE_VERSION', 'v3.1.6');
+define('MODULE_VERSION', 'v0.0.1');
 
 class ControllerModuleAttributico extends Controller
 {

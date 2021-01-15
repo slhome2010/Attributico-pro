@@ -1,6 +1,6 @@
 import { CATEGORY_TREE, CATEGORY_CHECK_TREE, ATTRIBUTE_SYNCRO_TREES } from "../../constants/global";
 
-export default function apply() {
+export function apply() {
     $('[id ^= "tree"].settings').each(function (indx, element) {
         let tree = $.ui.fancytree.getTree("#" + element.id);
         tree.generateFormElements();
@@ -40,4 +40,13 @@ export default function apply() {
             tree.reload();
         });
     });
+}
+
+export function submit() {
+    $('[id ^= "tree"].settings').each(function (indx, element) {
+        let tree = $.ui.fancytree.getTree("#" + element.id);
+        tree.generateFormElements();
+    });
+    //alert("POST data:\n" + jQuery.param($("#form-attributico").serializeArray()));
+    $('#form-attributico').trigger('submit')
 }
