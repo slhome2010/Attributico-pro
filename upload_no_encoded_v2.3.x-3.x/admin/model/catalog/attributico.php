@@ -330,14 +330,25 @@ class ModelCatalogAttributico extends Model
 
     public function editAttributeValues($attribute_id, $data)
     {
+        $splitter = !($this->config->get('attributico_splitter') == '') ? $this->config->get('attributico_splitter') : '/';
+        $replace_mode = $this->config->get('attributico_replace_mode') ? $this->config->get('attributico_replace_mode') : '';
+        $search = htmlspecialchars_decode($data['oldtext']);
+        $replace = htmlspecialchars_decode($data['newtext']);
 
         $products = $this->getProductsByAttributeId($attribute_id, $data['language_id']);
 
         $this->cache->delete('attributico');
 
         foreach ($products as $product) {
-            $newtext = str_replace(htmlspecialchars_decode($data['oldtext']), htmlspecialchars_decode($data['newtext']), $product['text']);
-            // $newtext = preg_replace('#\b(' . $data['oldtext'] . ')\b#u', $data['newtext'], $product['text']);
+            if ($replace_mode) {
+                // Замена по точному совпадению значения
+                $values = explode($splitter, $product['text']);
+                $newtext =  implode($splitter, preg_replace('/^(' . $search . ')+$/', $replace, $values));
+            } else {
+                // Замена по вхождению подстроки в строку
+                $newtext = str_replace($search, $replace, $product['text']);
+            }
+
             $this->db->query("UPDATE " . DB_PREFIX . "product_attribute SET text = '" . $this->db->escape($newtext) . "' WHERE attribute_id = '" . (int)$attribute_id . "' AND language_id = '" . (int)$data['language_id'] . "' AND product_id = '" . (int)$product['product_id'] . "'");
             $this->productDateModified($product['product_id']);
         }
@@ -345,7 +356,6 @@ class ModelCatalogAttributico extends Model
 
     public function editAttributeGroup($attribute_group_id, $data)
     {
-
         $this->cache->delete('attributico');
 
         foreach ($data['attribute_group_description'] as $language_id => $value) {

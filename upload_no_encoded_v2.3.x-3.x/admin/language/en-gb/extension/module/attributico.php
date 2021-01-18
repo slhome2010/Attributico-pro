@@ -1,7 +1,7 @@
 <?php
 
 // Heading
-$_['heading_title'] = '<span> Attribut<b style="color: #2199C7;">&</b>coPro</span>';
+$_['heading_title'] = '<span> Attribut<b style="color: #2199C7;">&</b>co Pro</span>';
 $_['button_check_for_updates'] = 'Check for updates';
 
 // Text
