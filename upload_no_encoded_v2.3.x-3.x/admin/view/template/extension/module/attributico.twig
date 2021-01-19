@@ -17,6 +17,8 @@
         </div>
     </div>
     <div class="container-fluid">
+        <div id="root"></div>
+        <div id="portal"></div>
         {% if error_warning %}
         <div id="error_warning" class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{error_warning}}
             <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -59,17 +61,17 @@
                             <div class="tab-pane" id="tab-general">
                                 <div class="col-sm-3">
                                     <ul class="nav nav-tabs tabs-left" id="verticalTab">
-                                        <li><a href="#tab-common" data-toggle="tab">{{legend_general}}</a></li>
-                                        <li><a href="#tab-children" data-toggle="tab">{{legend_children}}</a></li>
-                                        <li><a href="#tab-ct" data-toggle="tab">{{legend_category}}</a></li>
-                                        <li><a href="#tab-inherit" data-toggle="tab">{{legend_inherit}}</a></li>
-                                        <li><a href="#tab-algorithm" data-toggle="tab">{{legend_algorithm}}</a></li>
+                                        <li><a href="#tab-common" data-toggle="tab">{{settings_general}}</a></li>
+                                        <li><a href="#tab-children" data-toggle="tab">{{settings_children}}</a></li>
+                                        <li><a href="#tab-ct" data-toggle="tab">{{settings_category}}</a></li>
+                                        <li><a href="#tab-inherit" data-toggle="tab">{{settings_inherit}}</a></li>
+                                        <li><a href="#tab-method" data-toggle="tab">{{settings_algorithm}}</a></li>
                                     </ul>
                                 </div>
                                 <div class="col-sm-9">
                                     <div class="tab-content">
                                         <div class="tab-pane" id="tab-common">
-                                            <legend>{{legend_general}}</legend>
+                                            <h3>{{settings_general}}</h3>
                                             <div class="form-group">
                                                 <div class="row">
                                                     <label class="col-sm-4 control-label" for="input-attributico_splitter">{{entry_splitter}}</label>
@@ -178,7 +180,7 @@
                                             </div>
                                         </div>
                                         <div class="tab-pane" id="tab-children">
-                                            <legend>{{legend_children}}</legend>
+                                            <h3>{{settings_children}}</h3>
                                             <div class="form-group">
                                                 <div class="row">
                                                     <div class="col-md-6">
@@ -213,7 +215,7 @@
                                             </div>
                                         </div>
                                         <div class="tab-pane" id="tab-ct">
-                                            <legend>{{legend_category}}</legend>
+                                            <h3>{{settings_category}}</h3>
                                             <div class="form-group">
                                                 <div class="row">
                                                     <div class="col-md-6">
@@ -248,7 +250,7 @@
                                             </div>
                                         </div>
                                         <div class="tab-pane" id="tab-inherit">
-                                            <legend>{{legend_inherit}}</legend>
+                                            <h3>{{settings_inherit}}</h3>
                                             <div class="form-group">
                                                 <div class="row">
                                                     <div class="col-md-6">
@@ -296,8 +298,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="tab-pane" id="tab-algorithm">
-                                            <legend>{{legend_algorithm}}</legend>
+                                        <div class="tab-pane" id="tab-method">
+                                            <h3>{{settings_algorithm}}</h3>
                                             <div class="form-group">
                                                 <label class="col-sm-3 control-label"><span data-toggle="tooltip" title="{{help_product_text}}">{{entry_attribute_values}}</span></label>
                                                 <div class="col-sm-9">
@@ -781,15 +783,15 @@
                                                                             </div>
                                                                             <div class="col-sm-6">
                                                                                 <label class="radio-inline">
-                                                                                    <input type="radio" name="clone-language-method" value="insert" checked="checked" />
+                                                                                    <input type="radio" name="clone-language-mode" value="insert" checked="checked" />
                                                                                     {{text_insert}}
                                                                                 </label>
                                                                                 <label class="radio-inline">
-                                                                                    <input type="radio" name="clone-language-method" value="overwrite" />
+                                                                                    <input type="radio" name="clone-language-mode" value="overwrite" />
                                                                                     {{text_overwrite}}
                                                                                 </label>
                                                                                 <label class="radio-inline">
-                                                                                    <input type="radio" name="clone-language-method" value="overifempty" />
+                                                                                    <input type="radio" name="clone-language-mode" value="overifempty" />
                                                                                     {{text_overwrite_if_empty}}
                                                                                 </label>
                                                                             </div>
