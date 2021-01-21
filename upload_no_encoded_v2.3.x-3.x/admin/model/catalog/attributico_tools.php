@@ -241,7 +241,7 @@ class ModelCatalogAttributicoTools extends Model
                       ORDER BY p.product_id, hca.attribute_id";
 
         switch ($method) {
-            case '1':    // text = ''
+            case 'clean':    // text = ''
                 $sql = "INSERT INTO " . DB_PREFIX . "product_attribute(product_id, attribute_id, language_id, text)
                     SELECT p.product_id, hca.attribute_id, hl.language_id, '' FROM  " . DB_PREFIX . "product p
                     LEFT JOIN " . DB_PREFIX . "product_to_category p2c ON (p.product_id = p2c.product_id)
@@ -251,10 +251,10 @@ class ModelCatalogAttributicoTools extends Model
                     ORDER BY p.product_id, hca.attribute_id
                     ON DUPLICATE KEY UPDATE text = ''";
                 break;
-            case '2': // text not write
+            case 'unchange': // text not write
                 $sql = $sql_not_change;
                 break;
-            case '3':
+            case 'overwrite':
                 /* Во всех записях поле Text будет заменено на непустой Duty */
                 $sql = "INSERT INTO " . DB_PREFIX . "product_attribute(product_id, attribute_id, language_id, text)
                         SELECT p.product_id, hca.attribute_id, hl.language_id, had.duty FROM " . DB_PREFIX . "product p
@@ -266,7 +266,7 @@ class ModelCatalogAttributicoTools extends Model
                         ORDER BY p.product_id, hca.attribute_id
                         ON DUPLICATE KEY UPDATE text = had.duty";
                 break;
-            case '4':
+            case 'ifempty':
                 /* Сначала вставляем записи с несовпадающими ключами */
                 $this->db->query($sql_not_change);
                 $count_affected = $this->db->countAffected();
@@ -291,7 +291,7 @@ class ModelCatalogAttributicoTools extends Model
         return $count_affected ? $count_affected : $this->db->countAffected();
     }
 
-    public function cloneLanguage($source_lng, $target_lng, $method, $node = [])
+    public function cloneLanguage($source_lng, $target_lng, $mode, $node = [])
     {
 
         set_time_limit(600);
@@ -314,7 +314,7 @@ class ModelCatalogAttributicoTools extends Model
                                        language_id = '" . (int) $target_lng . "', name = '" . $this->db->escape($attribute_group['name']) . "'
                                        ON DUPLICATE KEY UPDATE attribute_group_id = '" . (int) $attribute_group['attribute_group_id'] . "',
                                        language_id = '" . (int) $target_lng . "', name = '" . $this->db->escape($attribute_group['name']) . "'";
-                switch ($method) {
+                switch ($mode) {
                     case 'insert':
                         $this->db->query($insert_query);
                         break;
@@ -346,7 +346,7 @@ class ModelCatalogAttributicoTools extends Model
                              ON DUPLICATE KEY UPDATE attribute_id = '" . (int) $attribute['attribute_id'] . "',
                              language_id = '" . (int) $target_lng . "', name = '" . $this->db->escape($attribute['name']) . "', duty = '" . $this->db->escape($attribute['duty']) . "'";
 
-                switch ($method) {
+                switch ($mode) {
                     case 'insert':
                         $this->db->query($insert_query);
                         break;
@@ -377,7 +377,7 @@ class ModelCatalogAttributicoTools extends Model
                                        language_id = '" . (int) $target_lng . "', text = '" . $this->db->escape($product_attribute['text']) . "'
                                        ON DUPLICATE KEY UPDATE product_id = '" . (int) $product_attribute['product_id'] . "', attribute_id = '" . (int) $product_attribute['attribute_id'] . "',
                                        language_id = '" . (int) $target_lng . "', text = '" . $this->db->escape($product_attribute['text']) . "'";
-                switch ($method) {
+                switch ($mode) {
                     case 'insert':
                         $this->db->query($insert_query);
                         break;
@@ -406,7 +406,7 @@ class ModelCatalogAttributicoTools extends Model
                 $overwrite_query = "UPDATE " . DB_PREFIX . "attribute_description SET duty = '" . $this->db->escape($attribute['duty']) . "'
                 WHERE attribute_id = '" . (int) $attribute['attribute_id'] . "' AND language_id = '" . (int) $target_lng . "'";
 
-                switch ($method) {
+                switch ($mode) {
                     case 'insert':
                         break;
                     case 'overwrite':

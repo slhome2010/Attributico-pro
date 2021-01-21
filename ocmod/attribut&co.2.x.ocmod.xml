@@ -2,7 +2,7 @@
 <modification>
     <name>Attributico</name>
     <code>attributico</code>
-    <version>3.1.5(oc v2.x)</version>
+    <version>3.1.7(oc v2.x)</version>
     <author>comtronics@mail.ru</author>
     <link>http://www.servenus.com</link>
 
@@ -131,17 +131,7 @@
         </operation>
     </file>
 
-    <file path="admin/view/template/catalog/product_form.tpl">
-        <operation error="skip">
-            <search><![CDATA[<?php if ($error_warning) { ?>]]></search>
-            <add position="before"><![CDATA[
-                <?php if ($redirect_options) { ?>
-                    <div class="alert alert-info"><i class="fa fa-info-circle"></i> <?php echo $redirect_options; ?>
-                        <button type="button" class="close" data-dismiss="alert">&times;</button>
-                    </div>
-                <?php } ?>
-            ]]>            </add>
-        </operation>
+    <file path="admin/view/template/catalog/product_form.tpl">        
         <operation error="skip">
             <search><![CDATA[function addAttribute() {]]></search>
             <add position="before"><![CDATA[           
@@ -180,10 +170,11 @@
                             }
 
                             // Set filter values display mode when start and loadValues
-                            $("input[value=\"" + localStorage.getItem('filter-values') + "\"]").trigger('change'); 
-
-                            // Load values for all attributes and lang
-                            // loadValues()
+                            if (localStorage.getItem('filter-values')) {
+                                $("input[value=\"" + localStorage.getItem('filter-values') + "\"]").trigger('change'); 
+                            } else {
+                                loadValues()
+                            }
                         }
                     });  
 
@@ -301,16 +292,16 @@
                             $.each(json, function (language_id, duty) {
                                 var textarea = $('textarea[name="product_attribute\[' + attribute_row + '\]\[product_attribute_description\]\[' + language_id + '\]\[text\]"]');
                                 switch (method) {
-                                    case "1":                                    
+                                    case "clean":                                    
                                         textarea.val('');
                                         break;
-                                    case "2":                                        
+                                    case "unchange":                                        
                                         break;
-                                    case "3":
+                                    case "overwrite":
                                         if (duty != '')
                                              textarea.val(duty); 
                                         break;
-                                    case "4":
+                                    case "ifempty":
                                         if(textarea.val()=='')                                   
                                             textarea.val(duty);
                                         break;                                   
@@ -483,30 +474,23 @@
             <add position="after"><![CDATA[newCategory(item['value']);]]></add>
         </operation>
     </file>
-    <file path="admin/controller/catalog/product.php">        
-        <operation error="skip">
-            <search><![CDATA[if (isset($this->request->get['product_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {]]></search>
-            <add position="before"><![CDATA[
-                $this->load->model('catalog/attributico');
-                if (isset($this->request->get['attribute_id'])) {                   
-                    $attribute_info = $this->model_catalog_attributico->getAttributeInfo($this->request->get['attribute_id']);
-                    $data['redirect_options'] = $this->language->get('entry_attribute') . " - " . $attribute_info[$this->config->get('config_language_id')]['name'] . "  /  "
-			.  $this->language->get('entry_attribute_group') . " - " . $attribute_info[$this->config->get('config_language_id')]['group_name'];
-		} else {
-                    $data['redirect_options'] = '';
-		}
-            ]]>            </add>
-        </operation>
+    <file path="admin/controller/catalog/product.php"> 
         <operation error="skip">
             <search><![CDATA[$data['footer'] = $this->load->controller('common/footer');]]></search>
             <add position="after"><![CDATA[
 		        $data['extension'] = version_compare(VERSION, '2.3.0', '>=') ? "extension/" : "";                
             ]]></add>
-        </operation>        
+        </operation>  
+        <operation error="skip">
+            <search><![CDATA[$this->load->model('catalog/attribute');]]></search>
+            <add position="after"><![CDATA[
+		        $this->load->model('catalog/attributico');                
+            ]]></add>
+        </operation>      
         <operation error="skip">
             <search><![CDATA[$attribute_info = $this->model_catalog_attribute->getAttribute($product_attribute['attribute_id']);]]></search>
             <add position="replace"><![CDATA[
-		        $attribute_info = $this->model_catalog_attributico->getAttributeInfo($product_attribute['attribute_id'])[$this->config->get('config_language_id')];
+		        $attribute_info = $this->model_catalog_attributico->getAttributeInfo($product_attribute['attribute_id'], [$this->config->get('config_language_id')]);
             ]]>            </add>
         </operation>
         <operation error="skip">

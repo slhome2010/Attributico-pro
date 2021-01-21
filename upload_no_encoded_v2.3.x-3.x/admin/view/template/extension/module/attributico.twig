@@ -66,12 +66,13 @@
                                         <li><a href="#tab-ct" data-toggle="tab">{{settings_category}}</a></li>
                                         <li><a href="#tab-inherit" data-toggle="tab">{{settings_inherit}}</a></li>
                                         <li><a href="#tab-method" data-toggle="tab">{{settings_algorithm}}</a></li>
+                                        <li><a href="#tab-replace" data-toggle="tab">{{settings_replace}}</a></li>
                                     </ul>
                                 </div>
                                 <div class="col-sm-9">
                                     <div class="tab-content">
                                         <div class="tab-pane" id="tab-common">
-                                            <h3>{{settings_general}}</h3>
+                                            <legend>{{settings_general}}</legend>
                                             <div class="form-group">
                                                 <div class="row">
                                                     <label class="col-sm-4 control-label" for="input-attributico_splitter">{{entry_splitter}}</label>
@@ -180,7 +181,7 @@
                                             </div>
                                         </div>
                                         <div class="tab-pane" id="tab-children">
-                                            <h3>{{settings_children}}</h3>
+                                            <legend>{{settings_children}}</legend>
                                             <div class="form-group">
                                                 <div class="row">
                                                     <div class="col-md-6">
@@ -215,7 +216,7 @@
                                             </div>
                                         </div>
                                         <div class="tab-pane" id="tab-ct">
-                                            <h3>{{settings_category}}</h3>
+                                            <legend>{{settings_category}}</legend>
                                             <div class="form-group">
                                                 <div class="row">
                                                     <div class="col-md-6">
@@ -250,7 +251,7 @@
                                             </div>
                                         </div>
                                         <div class="tab-pane" id="tab-inherit">
-                                            <h3>{{settings_inherit}}</h3>
+                                            <legend>{{settings_inherit}}</legend>
                                             <div class="form-group">
                                                 <div class="row">
                                                     <div class="col-md-6">
@@ -299,54 +300,81 @@
                                             </div>
                                         </div>
                                         <div class="tab-pane" id="tab-method">
-                                            <h3>{{settings_algorithm}}</h3>
+                                            <legend>{{settings_algorithm}}</legend>
                                             <div class="form-group">
                                                 <label class="col-sm-3 control-label"><span data-toggle="tooltip" title="{{help_product_text}}">{{entry_attribute_values}}</span></label>
                                                 <div class="col-sm-9">
                                                     <div class="radio">
                                                         <label>
-                                                            {% if attributico_product_text == '1' %}
-                                                            <input type="radio" name="attributico_product_text" value="1" checked="checked" />
+                                                            {% if attributico_product_text == 'clean' %}
+                                                            <input type="radio" name="attributico_product_text" value='clean' checked="checked" />
                                                             {{text_clear}}
                                                             {% else %}
-                                                            <input type="radio" name="attributico_product_text" value="1" />
+                                                            <input type="radio" name="attributico_product_text" value='clean' />
                                                             {{text_clear}}
                                                             {% endif %}
                                                         </label>
                                                     </div>
                                                     <div class="radio">
                                                         <label>
-                                                            {% if attributico_product_text == '2' %}
-                                                            <input type="radio" name="attributico_product_text" value="2" checked="checked" />
+                                                            {% if attributico_product_text == 'unchange' %}
+                                                            <input type="radio" name="attributico_product_text" value='unchange' checked="checked" />
                                                             {{text_keep}}
                                                             {% else %}
-                                                            <input type="radio" name="attributico_product_text" value="2" />
+                                                            <input type="radio" name="attributico_product_text" value='unchange' />
                                                             {{text_keep}}
                                                             {% endif %}
                                                         </label>
                                                     </div>
                                                     <div class="radio">
                                                         <label>
-                                                            {% if attributico_product_text == '3' %}
-                                                            <input type="radio" name="attributico_product_text" value="3" checked="checked" />
+                                                            {% if attributico_product_text == 'overwrite' %}
+                                                            <input type="radio" name="attributico_product_text" value='overwrite' checked="checked" />
                                                             {{text_duty}}
                                                             {% else %}
-                                                            <input type="radio" name="attributico_product_text" value="3" />
+                                                            <input type="radio" name="attributico_product_text" value='overwrite' />
                                                             {{text_duty}}
                                                             {% endif %}
                                                         </label>
                                                     </div>
                                                     <div class="radio">
                                                         <label>
-                                                            {% if attributico_product_text == '4' %}
-                                                            <input type="radio" name="attributico_product_text" value="4" checked="checked" />
+                                                            {% if attributico_product_text == 'ifempty' %}
+                                                            <input type="radio" name="attributico_product_text" value='ifempty' checked="checked" />
                                                             {{text_duty_only}}
                                                             {% else %}
-                                                            <input type="radio" name="attributico_product_text" value="4" />
+                                                            <input type="radio" name="attributico_product_text" value='ifempty' />
                                                             {{text_duty_only}}
                                                             {% endif %}
                                                         </label>
                                                     </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane" id="tab-replace">
+                                            <legend>{{settings_replace}}</legend>
+                                            <div class="form-group">
+                                                <div class="radio">
+                                                    <label class="control-label">
+                                                        {% if attributico_replace_mode == 'substr' %}  
+                                                            <input type="radio" name="attributico_replace_mode" value="substr" checked="checked"/>
+                                                        {% else %} 
+                                                            <input type="radio" name="attributico_replace_mode" value="substr"/>
+                                                        {% endif %} 
+                                                        <span data-toggle="tooltip" title="{{help_replace_substr}}">{{text_replace_substr}}
+                                                        </span>                                                        
+                                                    </label>                                                
+                                                </div>                
+                                                <div class="radio">
+                                                    <label class="control-label">
+                                                        {% if attributico_replace_mode == 'match' %}          
+                                                            <input type="radio" name="attributico_replace_mode" value="match" checked="checked"/>
+                                                        {% else %}
+                                                            <input type="radio" name="attributico_replace_mode" value="match"/>
+                                                        {% endif %}
+                                                        <span data-toggle="tooltip" title="{{help_replace_match}}">{{text_replace_match}}
+                                                        </span>                              
+                                                    </label>
                                                 </div>
                                             </div>
                                         </div>

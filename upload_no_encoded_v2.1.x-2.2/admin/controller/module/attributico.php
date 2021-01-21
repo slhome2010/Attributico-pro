@@ -2,7 +2,7 @@
 
 @include_once(DIR_SYSTEM . 'license/sllic.lic');
 require_once(DIR_SYSTEM . 'library/attributico/attributico.php');
-define('MODULE_VERSION', 'v3.1.6');
+define('MODULE_VERSION', 'v3.1.7');
 
 class ControllerModuleAttributico extends Controller
 {
@@ -130,6 +130,8 @@ class ControllerModuleAttributico extends Controller
         $this->data['text_keep'] = $this->language->get('text_keep');
         $this->data['text_confirm'] = $this->language->get('text_confirm');
         $this->data['error_not_info'] = $this->language->get('error_not_info');
+        $this->data['text_replace_substr'] = $this->language->get('text_replace_substr');
+        $this->data['text_replace_match'] = $this->language->get('text_replace_match');
 
         $this->data['text_duty'] = $this->language->get('text_duty');
         $this->data['text_duty_only'] = $this->language->get('text_duty_only');
@@ -154,11 +156,12 @@ class ControllerModuleAttributico extends Controller
         $this->data['tab_cache'] = $this->language->get('tab_cache');
         $this->data['tab_category_attributes'] = $this->language->get('tab_category_attributes');
 
-        $this->data['legend_general'] = $this->language->get('legend_general');
-        $this->data['legend_category'] = $this->language->get('legend_category');
-        $this->data['legend_algorithm'] = $this->language->get('legend_algorithm');
-        $this->data['legend_inherit'] = $this->language->get('legend_inherit');
-        $this->data['legend_children'] = $this->language->get('legend_children');
+        $this->data['settings_general'] = $this->language->get('settings_general');
+        $this->data['settings_category'] = $this->language->get('settings_category');
+        $this->data['settings_algorithm'] = $this->language->get('settings_algorithm');
+        $this->data['settings_inherit'] = $this->language->get('settings_inherit');
+        $this->data['settings_children'] = $this->language->get('settings_children');
+        $this->data['settings_replace'] = $this->language->get('settings_replace');
 
         $this->data['entry_splitter'] = $this->language->get('entry_splitter');
         $this->data['entry_sortorder'] = $this->language->get('entry_sortorder');
@@ -210,6 +213,8 @@ class ControllerModuleAttributico extends Controller
         $this->data['help_categories_options'] = $this->language->get('help_categories_options');
         $this->data['help_multistore'] = $this->language->get('help_multistore');
         $this->data['help_clone_options'] = $this->language->get('help_clone_options');
+        $this->data['help_replace_substr'] = $this->language->get('help_replace_substr');
+        $this->data['help_replace_match'] = $this->language->get('help_replace_match');
 
         $this->data['button_apply'] = $this->language->get('button_apply');
         $this->data['button_save'] = $this->language->get('button_save');
@@ -338,107 +343,27 @@ class ControllerModuleAttributico extends Controller
         $this->data['action'] = $this->url->link($extension . 'module/attributico', $token_name . '=' . $this->token, $ssl);
         $this->data['cancel'] = $this->url->link($link, $token_name . '=' . $this->token . '&type=module', $ssl);
 
-        if (isset($this->request->post['attributico_splitter'])) {
-            $this->data['attributico_splitter'] = $this->request->post['attributico_splitter'];
-        } else {
-            $this->data['attributico_splitter'] = $this->config->get('attributico_splitter');
-        }
-        if (isset($this->request->post['attributico_sortorder'])) {
-            $this->data['attributico_sortorder'] = $this->request->post['attributico_sortorder'];
-        } elseif (($this->config->get('attributico_sortorder'))) {
-            $this->data['attributico_sortorder'] = $this->config->get('attributico_sortorder');
-        } else {
-            $this->data['attributico_sortorder'] = 0;
-        }
-        if (isset($this->request->post['attributico_smart_scroll'])) {
-            $this->data['attributico_smart_scroll'] = $this->request->post['attributico_smart_scroll'];
-        } elseif (($this->config->get('attributico_smart_scroll'))) {
-            $this->data['attributico_smart_scroll'] = $this->config->get('attributico_smart_scroll');
-        } else {
-            $this->data['attributico_smart_scroll'] = 0;
-        }
-        if (isset($this->request->post['attributico_multiselect'])) {
-            $this->data['attributico_multiselect'] = $this->request->post['attributico_multiselect'];
-        } elseif (($this->config->get('attributico_multiselect'))) {
-            $this->data['attributico_multiselect'] = $this->config->get('attributico_multiselect');
-        } else {
-            $this->data['attributico_multiselect'] = 0;
-        }
-        if (isset($this->request->post['attributico_empty'])) {
-            $this->data['attributico_empty'] = $this->request->post['attributico_empty'];
-        } elseif (($this->config->get('attributico_empty'))) {
-            $this->data['attributico_empty'] = $this->config->get('attributico_empty');
-        } else {
-            $this->data['attributico_empty'] = 0;
-        }
-        if (isset($this->request->post['attributico_autoadd'])) {
-            $this->data['attributico_autoadd'] = $this->request->post['attributico_autoadd'];
-        } elseif (($this->config->get('attributico_autoadd'))) {
-            $this->data['attributico_autoadd'] = $this->config->get('attributico_autoadd');
-        } else {
-            $this->data['attributico_autoadd'] = 0;
-        }
-        if (isset($this->request->post['attributico_autodel'])) {
-            $this->data['attributico_autodel'] = $this->request->post['attributico_autodel'];
-        } elseif (($this->config->get('attributico_autodel'))) {
-            $this->data['attributico_autodel'] = $this->config->get('attributico_autodel');
-        } else {
-            $this->data['attributico_autodel'] = 0;
-        }
-        if (isset($this->request->post['attributico_autoadd_subcategory'])) {
-            $this->data['attributico_autoadd_subcategory'] = $this->request->post['attributico_autoadd_subcategory'];
-        } elseif (($this->config->get('attributico_autoadd_subcategory'))) {
-            $this->data['attributico_autoadd_subcategory'] = $this->config->get('attributico_autoadd_subcategory');
-        } else {
-            $this->data['attributico_autoadd_subcategory'] = 0;
-        }
-        if (isset($this->request->post['attributico_autodel_subcategory'])) {
-            $this->data['attributico_autodel_subcategory'] = $this->request->post['attributico_autodel_subcategory'];
-        } elseif (($this->config->get('attributico_autodel_subcategory'))) {
-            $this->data['attributico_autodel_subcategory'] = $this->config->get('attributico_autodel_subcategory');
-        } else {
-            $this->data['attributico_autodel_subcategory'] = 0;
-        }
-        if (isset($this->request->post['attributico_product_text'])) {
-            $this->data['attributico_product_text'] = $this->request->post['attributico_product_text'];
-        } elseif (($this->config->get('attributico_product_text'))) {
-            $this->data['attributico_product_text'] = $this->config->get('attributico_product_text');
-        } else {
-            $this->data['attributico_product_text'] = 2;
-        }
         if ($this->config->get('attributico_filter')) {
             $this->data['filter_settings'] = unserialize($this->config->get('attributico_filter'));
         } else {
             $this->data['filter_settings'] = $default_settings;
         }
-        if (isset($this->request->post['attributico_about_blank'])) {
-            $this->data['attributico_about_blank'] = $this->request->post['attributico_about_blank'];
-        } elseif (($this->config->get('attributico_about_blank'))) {
-            $this->data['attributico_about_blank'] = $this->config->get('attributico_about_blank');
-        } else {
-            $this->data['attributico_about_blank'] = 0;
-        }
-        if (isset($this->request->post['attributico_lazyload'])) {
-            $this->data['attributico_lazyload'] = $this->request->post['attributico_lazyload'];
-        } elseif (($this->config->get('attributico_lazyload'))) {
-            $this->data['attributico_lazyload'] = $this->config->get('attributico_lazyload');
-        } else {
-            $this->data['attributico_lazyload'] = 0;
-        }
-        if (isset($this->request->post['attributico_cache'])) {
-            $this->data['attributico_cache'] = $this->request->post['attributico_cache'];
-        } elseif (($this->config->get('attributico_cache'))) {
-            $this->data['attributico_cache'] = $this->config->get('attributico_cache');
-        } else {
-            $this->data['attributico_cache'] = 0;
-        }
-        if (isset($this->request->post['attributico_multistore'])) {
-            $this->data['attributico_multistore'] = $this->request->post['attributico_multistore'];
-        } elseif (($this->config->get('attributico_multistore'))) {
-            $this->data['attributico_multistore'] = $this->config->get('attributico_multistore');
-        } else {
-            $this->data['attributico_multistore'] = 0;
-        }
+
+        $this->assignData('attributico_splitter', '/');
+        $this->assignData('attributico_sortorder', 0);
+        $this->assignData('attributico_smart_scroll', 0);
+        $this->assignData('attributico_multiselect', 0);
+        $this->assignData('attributico_empty', 0);
+        $this->assignData('attributico_autoadd', 0);
+        $this->assignData('attributico_autodel', 0);
+        $this->assignData('attributico_autoadd_subcategory', 0);
+        $this->assignData('attributico_autodel_subcategory', 0);
+        $this->assignData('attributico_product_text', 'unchange');
+        $this->assignData('attributico_about_blank', 0);
+        $this->assignData('attributico_lazyload', 0);
+        $this->assignData('attributico_cache', 0);
+        $this->assignData('attributico_multistore', 0);
+        $this->assignData('attributico_replace_mode', 'substr'); 
 
         if (version_compare(VERSION, '2.0.1', '>=')) {
             $this->data['header'] = $this->load->controller('common/header');
@@ -464,6 +389,16 @@ class ControllerModuleAttributico extends Controller
             $this->error['warning'] = $this->language->get('error_permission');
         }
         return !$this->error;
+    }
+
+    protected function assignData( $key, $default_value) {
+        if (isset($this->request->post[$key])) {
+            $this->data[$key] = $this->request->post[$key];
+        } elseif (($this->config->get($key))) {
+            $this->data[$key] = $this->config->get($key);
+        } else {
+            $this->data[$key] = $default_value;
+        }
     }
 
     /** Fuction for product form integration */
@@ -598,11 +533,11 @@ class ControllerModuleAttributico extends Controller
 
             $this->load->model('catalog/attributico');
 
-            if ($method == '3' || $method == '4')
+            if ($method == 'overwrite' || $method == 'ifempty')
                 foreach ($languages as $language) {
                     $json[$language['language_id']][] = $this->model_catalog_attributico->whoisOnDuty($attribute_id, $language);
                 }
-            if ($method == '1')
+            if ($method == 'clean')
                 foreach ($languages as $language) {
                     $json[$language['language_id']][] = '';
                 }
@@ -636,10 +571,10 @@ class ControllerModuleAttributico extends Controller
         $select = "<select class='form-control' id='method-view' style='margin-left:3px; font-weight:normal; width:27%'>";
         $option_style = "overflow:hidden; white-space:nowrap; text-overflow:ellipsis;";
         $method = $this->config->get('attributico_product_text');
-        $options =  "<option " . ($method == '1' ? "selected " : "") . "value='1' style=" . $option_style . ">" . $this->language->get('text_clear') . "</option>";
-        $options .= "<option " . ($method == '2' ? "selected " : "") . "value='2' style=" . $option_style . ">" . $this->language->get('text_keep') . "</option>";
-        $options .= "<option " . ($method == '3' ? "selected " : "") . "value='3' style=" . $option_style . ">" . $this->language->get('text_duty') . "</option>";
-        $options .= "<option " . ($method == '4' ? "selected " : "") . "value='4' style=" . $option_style . ">" . $this->language->get('text_duty_only') . "</option>";
+        $options =  "<option " . ($method == 'clean' ? "selected " : "") . "value='clean' style=" . $option_style . ">" . $this->language->get('text_clear') . "</option>";
+        $options .= "<option " . ($method == 'unchange' ? "selected " : "") . "value='unchange' style=" . $option_style . ">" . $this->language->get('text_keep') . "</option>";
+        $options .= "<option " . ($method == 'overwrite' ? "selected " : "") . "value='overwrite' style=" . $option_style . ">" . $this->language->get('text_duty') . "</option>";
+        $options .= "<option " . ($method == 'ifempty' ? "selected " : "") . "value='ifempty' style=" . $option_style . ">" . $this->language->get('text_duty_only') . "</option>";
 
         $select .= $options;
         $select .= "</select>";
@@ -1877,7 +1812,7 @@ class ControllerModuleAttributico extends Controller
             case 'clone':
                 $source_lng = isset($options['clone-language-source']) ? $options['clone-language-source'] : $this->config->get('config_language_id');
                 $target_lng = isset($options['clone-language-target']) ? $options['clone-language-target'] : $this->config->get('config_language_id');
-                $method = isset($options['clone-language-method']) ? $options['clone-language-method'] : 'insert';
+                $mode = isset($options['clone-language-mode']) ? $options['clone-language-mode'] : 'insert';
                 $node = [
                     'group' => isset($options['clone-language-group']),
                     'attribute' => isset($options['clone-language-attribute']),
@@ -1886,7 +1821,7 @@ class ControllerModuleAttributico extends Controller
                 ];
 
                 if ($source_lng !== $target_lng) {
-                    $count_obj = $this->model_catalog_attributico_tools->cloneLanguage($source_lng, $target_lng, $method, $node);
+                    $count_obj = $this->model_catalog_attributico_tools->cloneLanguage($source_lng, $target_lng, $mode, $node);
 
                     $task_result .= $language->get('message_clone_group') . "  " . (string) $count_obj->group . " "
                         . $language->get('message_clone_attribute') . "  " . (string) $count_obj->attribute . " "
