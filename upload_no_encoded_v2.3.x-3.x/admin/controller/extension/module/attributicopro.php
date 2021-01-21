@@ -3,6 +3,7 @@
 @include_once(DIR_SYSTEM . 'license/sllic.lic');
 require_once(DIR_SYSTEM . 'library/attributico/attributico.php');
 define('MODULE_VERSION', 'v3.1.7');
+define('PUBLIC_MODULE_NAME', 'module/attributicopro/');
 
 class ControllerModuleAttributico extends Controller
 {
@@ -30,7 +31,7 @@ class ControllerModuleAttributico extends Controller
         $this->document->addStyle('view/javascript/fancytree/skin-custom/custom.css');
         $this->document->addStyle('view/stylesheet/attributico.css');
 
-        $this->document->addScript('view/javascript/attributico.js');
+        $this->document->addScript('view/javascript/attributicopro.js');
 
         $extension = version_compare(VERSION, '2.3.0', '>=') ? "extension/" : "";
         $edit = version_compare(VERSION, '2.0.0', '>=') ? "edit" : "update";
@@ -58,7 +59,8 @@ class ControllerModuleAttributico extends Controller
         }
 
         $this->data['user_token'] = $this->data['token'] = $this->token;
-        $this->data['extension'] = $extension;
+        $this->data['extension'] = $extension;        
+        $this->data['route'] = 'index.php?route=' + $extension + PUBLIC_MODULE_NAME;
         $this->data['edit'] = $edit;
 
         $this->data['heading_title'] = $this->language->get('heading_title') . ' ' . MODULE_VERSION;

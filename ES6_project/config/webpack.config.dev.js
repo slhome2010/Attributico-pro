@@ -35,7 +35,7 @@ module.exports = {
     },
     output: {
         path: PATHS.dist,
-        filename: 'attributico.js',
+        filename: 'attributicopro.js',
         publicPath: './'
     },
     devtool: 'source-map',
@@ -123,7 +123,7 @@ module.exports = {
             errors: true
         },
         port: 0,
-        publicPath: 'http://hozmag/admin/index.php?route=module/attributico&token=YStWHt087IqtCIPUF2EbcCSgYaMfQWaZ',
+        publicPath: 'http://hozmag/admin/index.php?route=module/attributicopro&token=YStWHt087IqtCIPUF2EbcCSgYaMfQWaZ',
         hot: true
     },
     stats: {

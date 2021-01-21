@@ -38,7 +38,7 @@ module.exports = {
     },
     output: {
         path: PATHS.dist,
-        filename: 'attributico.js',
+        filename: 'attributicopro.js',
         publicPath: './'
     },
     optimization: optimization,
