@@ -2,10 +2,10 @@
 
 @include_once(DIR_SYSTEM . 'license/sllic.lic');
 require_once(DIR_SYSTEM . 'library/attributico/attributico.php');
-define('MODULE_VERSION', 'v3.1.7');
+define('MODULE_VERSION', 'v0.0.3');
 define('PUBLIC_MODULE_NAME', 'module/attributicopro/');
 
-class ControllerModuleAttributico extends Controller
+class ControllerModuleAttributicopro extends Controller
 {
 
     protected $data = array();
@@ -42,10 +42,10 @@ class ControllerModuleAttributico extends Controller
         }
 
         if (version_compare(VERSION, '2.2.0', '>=')) {
-            $this->load->language($extension . 'module/attributico');
+            $this->load->language($extension . 'module/attributicopro');
             $ssl = true;
         } else {
-            $this->language->load('module/attributico');
+            $this->language->load('module/attributicopro');
             $ssl = 'SSL';
         }
 
@@ -60,7 +60,7 @@ class ControllerModuleAttributico extends Controller
 
         $this->data['user_token'] = $this->data['token'] = $this->token;
         $this->data['extension'] = $extension;        
-        $this->data['route'] = 'index.php?route=' + $extension + PUBLIC_MODULE_NAME;
+        $this->data['route'] = 'index.php?route=' . $extension . PUBLIC_MODULE_NAME;
         $this->data['edit'] = $edit;
 
         $this->data['heading_title'] = $this->language->get('heading_title') . ' ' . MODULE_VERSION;
@@ -84,14 +84,14 @@ class ControllerModuleAttributico extends Controller
             }
             $this->request->post['attributico_filter'] = serialize($filter_settings);
 
-            if (($this->config->get('module_attributico_status'))) {
-                $this->request->post['module_attributico_status'] = $this->config->get('module_attributico_status');
+            if (($this->config->get('module_attributicopro_status'))) { //TODO status error
+                $this->request->post['module_attributicopro_status'] = $this->config->get('module_attributicopro_status');
             } else {
-                $this->request->post['module_attributico_status'] = 0;
+                $this->request->post['module_attributicopro_status'] = 0;
             }
 
             $this->model_setting_setting->editSetting('attributico', $this->request->post);
-            $this->model_setting_setting->editSetting('module_attributico', $this->request->post);
+            $this->model_setting_setting->editSetting('module_attributicopro', $this->request->post);
             $this->session->data['success'] = $this->language->get('text_success');
 
             if (version_compare(VERSION, '2.0.1', '>=')) { // иначе вылетает из админки
@@ -110,7 +110,7 @@ class ControllerModuleAttributico extends Controller
         }
 
         $this->data['duty_check'] = $this->duty_check();
-        $this->data['status'] = $this->config->get('module_attributico_status');
+        $this->data['status'] = $this->config->get('module_attributicopro_status');
         if (!$this->data['status'] || !$this->data['duty_check']) {
             $this->error['warning'] = $this->language->get('error_status');
         }
@@ -258,7 +258,7 @@ class ControllerModuleAttributico extends Controller
 
         $this->data['breadcrumbs'][] = array(
             'text' => $this->language->get('heading_title'),
-            'href' => $this->url->link($extension . 'module/attributico', $token_name . '=' . $this->token, $ssl),
+            'href' => $this->url->link($extension . 'module/attributicopro', $token_name . '=' . $this->token, $ssl),
             'separator' => ' :: '
         );
 
@@ -342,7 +342,7 @@ class ControllerModuleAttributico extends Controller
             }
         }
 
-        $this->data['action'] = $this->url->link($extension . 'module/attributico', $token_name . '=' . $this->token, $ssl);
+        $this->data['action'] = $this->url->link($extension . 'module/attributicopro', $token_name . '=' . $this->token, $ssl);
         $this->data['cancel'] = $this->url->link($link, $token_name . '=' . $this->token . '&type=module', $ssl);
 
         if ($this->config->get('attributico_filter')) {
@@ -387,7 +387,7 @@ class ControllerModuleAttributico extends Controller
     protected function validate()
     {
         $extension = version_compare(VERSION, '2.3.0', '>=') ? "extension/" : "";
-        if (!$this->user->hasPermission('modify', $extension . 'module/attributico')) {
+        if (!$this->user->hasPermission('modify', $extension . 'module/attributicopro')) {
             $this->error['warning'] = $this->language->get('error_permission');
         }
         return !$this->error;
@@ -555,9 +555,9 @@ class ControllerModuleAttributico extends Controller
         $extension = version_compare(VERSION, '2.3.0', '>=') ? "extension/" : "";
 
         if (version_compare(VERSION, '2.2.0', '>=')) {
-            $this->load->language($extension . 'module/attributico');
+            $this->load->language($extension . 'module/attributicopro');
         } else {
-            $this->language->load('module/attributico');
+            $this->language->load('module/attributicopro');
         }
 
         $labels = "<label class='radio-inline'><input type='radio' name='filter-values' id='filter-nofilter' value='all' checked>" . $this->language->get('entry_flter_all') . "</label>";
@@ -1545,7 +1545,7 @@ class ControllerModuleAttributico extends Controller
         $extension = version_compare(VERSION, '2.3.0', '>=') ? "extension/" : "";
         $directory = $this->getLanguageDirectory($language_id);
         $language = new Language($directory);
-        $language->load($extension . 'module/attributico');
+        $language->load($extension . 'module/attributicopro');
         return $language;
     }
 
@@ -1876,6 +1876,6 @@ class ControllerModuleAttributico extends Controller
     }
 }
 
-class ControllerExtensionModuleAttributico extends ControllerModuleAttributico
+class ControllerExtensionModuleAttributicopro extends ControllerModuleAttributicopro
 {
 }
