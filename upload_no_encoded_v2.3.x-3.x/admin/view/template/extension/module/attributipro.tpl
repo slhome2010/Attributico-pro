@@ -48,7 +48,7 @@
                         </div>
                     </div>
                 </div>
-                <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form-attributico" class="form-horizontal">
+                <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form-attributipro" class="form-horizontal">
                     <div id="tabs">
                         <ul class="nav nav-tabs">
                             <li><a href="#tab-general" data-toggle="tab"><i class="fa fa-cog"></i>
@@ -84,20 +84,20 @@
                                             <legend><?php echo $settings_general ?></legend>
                                             <div class="form-group">
                                                 <div class="row">
-                                                    <label class="col-sm-4 control-label" for="input-attributico_splitter"><?php echo $entry_splitter; ?></label>
+                                                    <label class="col-sm-4 control-label" for="input-attributipro_splitter"><?php echo $entry_splitter; ?></label>
                                                     <div class="col-sm-8">
-                                                        <input type="text" name="attributico_splitter" value="<?php echo $attributico_splitter; ?>" class="form-control" id="input-attributico_splitter" />
+                                                        <input type="text" name="attributipro_splitter" value="<?php echo $attributipro_splitter; ?>" class="form-control" id="input-attributipro_splitter" />
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <label class="col-sm-4 control-label" for="input-attributico_sortorder"><span data-toggle="tooltip" title="<?php echo $help_sortorder; ?>"><?php echo $entry_sortorder; ?></span></label>
+                                                    <label class="col-sm-4 control-label" for="input-attributipro_sortorder"><span data-toggle="tooltip" title="<?php echo $help_sortorder; ?>"><?php echo $entry_sortorder; ?></span></label>
                                                     <div class="col-sm-8">
                                                         <div class="checkbox">
                                                             <label>
-                                                                <?php if ($attributico_sortorder) { ?>
-                                                                    <input type="checkbox" name="attributico_sortorder" value="1" checked="checked" id="input-attributico_sortorder" />
+                                                                <?php if ($attributipro_sortorder) { ?>
+                                                                    <input type="checkbox" name="attributipro_sortorder" value="1" checked="checked" id="input-attributipro_sortorder" />
                                                                 <?php } else { ?>
-                                                                    <input type="checkbox" name="attributico_sortorder" value="1" id="input-attributico_sortorder" />
+                                                                    <input type="checkbox" name="attributipro_sortorder" value="1" id="input-attributipro_sortorder" />
                                                                 <?php } ?>
                                                                 &nbsp;
                                                             </label>
@@ -105,14 +105,14 @@
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <label class="col-sm-4 control-label" for="input-attributico_smart_scroll"><span data-toggle="tooltip" title="<?php echo $help_smart_scroll; ?>"><?php echo $entry_smart_scroll; ?></span></label>
+                                                    <label class="col-sm-4 control-label" for="input-attributipro_smart_scroll"><span data-toggle="tooltip" title="<?php echo $help_smart_scroll; ?>"><?php echo $entry_smart_scroll; ?></span></label>
                                                     <div class="col-sm-8">
                                                         <div class="checkbox">
                                                             <label>
-                                                                <?php if ($attributico_smart_scroll) { ?>
-                                                                    <input type="checkbox" name="attributico_smart_scroll" value="1" checked="checked" id="input-attributico_smart_scroll" />
+                                                                <?php if ($attributipro_smart_scroll) { ?>
+                                                                    <input type="checkbox" name="attributipro_smart_scroll" value="1" checked="checked" id="input-attributipro_smart_scroll" />
                                                                 <?php } else { ?>
-                                                                    <input type="checkbox" name="attributico_smart_scroll" value="1" id="input-attributico_smart_scroll" />
+                                                                    <input type="checkbox" name="attributipro_smart_scroll" value="1" id="input-attributipro_smart_scroll" />
                                                                 <?php } ?>
                                                                 &nbsp;
                                                             </label>
@@ -120,14 +120,14 @@
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <label class="col-sm-4 control-label" for="input-attributico_empty"><span data-toggle="tooltip" title="<?php echo $help_empty; ?>"><?php echo $entry_empty; ?></span></label>
+                                                    <label class="col-sm-4 control-label" for="input-attributipro_empty"><span data-toggle="tooltip" title="<?php echo $help_empty; ?>"><?php echo $entry_empty; ?></span></label>
                                                     <div class="col-sm-8">
                                                         <div class="checkbox">
                                                             <label>
-                                                                <?php if ($attributico_empty) { ?>
-                                                                    <input type="checkbox" name="attributico_empty" value="1" checked="checked" id="input-attributico_empty" />
+                                                                <?php if ($attributipro_empty) { ?>
+                                                                    <input type="checkbox" name="attributipro_empty" value="1" checked="checked" id="input-attributipro_empty" />
                                                                 <?php } else { ?>
-                                                                    <input type="checkbox" name="attributico_empty" value="1" id="input-attributico_empty" />
+                                                                    <input type="checkbox" name="attributipro_empty" value="1" id="input-attributipro_empty" />
                                                                 <?php } ?>
                                                                 &nbsp;
                                                             </label>
@@ -135,14 +135,14 @@
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <label class="col-sm-4 control-label" for="input-attributico_about_blank"><span data-toggle="tooltip" title="<?php echo $help_about_blank; ?>"><?php echo $entry_about_blank; ?></span></label>
+                                                    <label class="col-sm-4 control-label" for="input-attributipro_about_blank"><span data-toggle="tooltip" title="<?php echo $help_about_blank; ?>"><?php echo $entry_about_blank; ?></span></label>
                                                     <div class="col-sm-8">
                                                         <div class="checkbox">
                                                             <label>
-                                                                <?php if ($attributico_about_blank) { ?>
-                                                                    <input type="checkbox" name="attributico_about_blank" value="1" checked="checked" id="input-attributico_about_blank" />
+                                                                <?php if ($attributipro_about_blank) { ?>
+                                                                    <input type="checkbox" name="attributipro_about_blank" value="1" checked="checked" id="input-attributipro_about_blank" />
                                                                 <?php } else { ?>
-                                                                    <input type="checkbox" name="attributico_about_blank" value="1" id="input-attributico_about_blank" />
+                                                                    <input type="checkbox" name="attributipro_about_blank" value="1" id="input-attributipro_about_blank" />
                                                                 <?php } ?>
                                                                 &nbsp;
                                                             </label>
@@ -150,14 +150,14 @@
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <label class="col-sm-4 control-label" for="input-attributico_lazyload"><span data-toggle="tooltip" title="<?php echo $help_lazyload; ?>"><?php echo $entry_lazyload; ?></span></label>
+                                                    <label class="col-sm-4 control-label" for="input-attributipro_lazyload"><span data-toggle="tooltip" title="<?php echo $help_lazyload; ?>"><?php echo $entry_lazyload; ?></span></label>
                                                     <div class="col-sm-8">
                                                         <div class="checkbox">
                                                             <label>
-                                                                <?php if ($attributico_lazyload) { ?>
-                                                                    <input type="checkbox" name="attributico_lazyload" value="1" checked="checked" id="input-attributico_lazyload" />
+                                                                <?php if ($attributipro_lazyload) { ?>
+                                                                    <input type="checkbox" name="attributipro_lazyload" value="1" checked="checked" id="input-attributipro_lazyload" />
                                                                 <?php } else { ?>
-                                                                    <input type="checkbox" name="attributico_lazyload" value="1" id="input-attributico_lazyload" />
+                                                                    <input type="checkbox" name="attributipro_lazyload" value="1" id="input-attributipro_lazyload" />
                                                                 <?php } ?>
                                                                 &nbsp;
                                                             </label>
@@ -165,14 +165,14 @@
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <label class="col-sm-4 control-label" for="input-attributico_cache"><span data-toggle="tooltip" title="<?php echo $help_cache; ?>"><?php echo $entry_cache; ?></span></label>
+                                                    <label class="col-sm-4 control-label" for="input-attributipro_cache"><span data-toggle="tooltip" title="<?php echo $help_cache; ?>"><?php echo $entry_cache; ?></span></label>
                                                     <div class="col-sm-8">
                                                         <div class="checkbox">
                                                             <label>
-                                                                <?php if ($attributico_cache) { ?>
-                                                                    <input type="checkbox" name="attributico_cache" value="1" checked="checked" id="input-attributico_cache" />
+                                                                <?php if ($attributipro_cache) { ?>
+                                                                    <input type="checkbox" name="attributipro_cache" value="1" checked="checked" id="input-attributipro_cache" />
                                                                 <?php } else { ?>
-                                                                    <input type="checkbox" name="attributico_cache" value="1" id="input-attributico_cache" />
+                                                                    <input type="checkbox" name="attributipro_cache" value="1" id="input-attributipro_cache" />
                                                                 <?php } ?>
                                                                 &nbsp;
                                                             </label>
@@ -180,14 +180,14 @@
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <label class="col-sm-4 control-label" for="input-attributico_multistore"><span data-toggle="tooltip" title="<?php echo $help_multistore; ?>"><?php echo $entry_multistore; ?></span></label>
+                                                    <label class="col-sm-4 control-label" for="input-attributipro_multistore"><span data-toggle="tooltip" title="<?php echo $help_multistore; ?>"><?php echo $entry_multistore; ?></span></label>
                                                     <div class="col-sm-8">
                                                         <div class="checkbox">
                                                             <label>
-                                                                <?php if ($attributico_multistore) { ?>
-                                                                    <input type="checkbox" name="attributico_multistore" value="1" checked="checked" id="input-attributico_multistore" />
+                                                                <?php if ($attributipro_multistore) { ?>
+                                                                    <input type="checkbox" name="attributipro_multistore" value="1" checked="checked" id="input-attributipro_multistore" />
                                                                 <?php } else { ?>
-                                                                    <input type="checkbox" name="attributico_multistore" value="1" id="input-attributico_multistore" />
+                                                                    <input type="checkbox" name="attributipro_multistore" value="1" id="input-attributipro_multistore" />
                                                                 <?php } ?>
                                                                 &nbsp;
                                                             </label>
@@ -236,28 +236,28 @@
                                             <div class="form-group">
                                                 <div class="row">
                                                     <div class="col-md-6">
-                                                        <label class="col-sm-8 control-label" for="input-attributico_autoadd"><span data-toggle="tooltip" title="<?php echo $help_autoattribute; ?>"><?php echo $entry_autoattribute; ?></span></label>
+                                                        <label class="col-sm-8 control-label" for="input-attributipro_autoadd"><span data-toggle="tooltip" title="<?php echo $help_autoattribute; ?>"><?php echo $entry_autoattribute; ?></span></label>
                                                         <div class="col-sm-4">
                                                             <div class="checkbox">
                                                                 <label>
-                                                                    <?php if ($attributico_autoadd) { ?>
-                                                                        <input type="checkbox" name="attributico_autoadd" value="1" checked="checked" id="input-attributico_autoadd" />
+                                                                    <?php if ($attributipro_autoadd) { ?>
+                                                                        <input type="checkbox" name="attributipro_autoadd" value="1" checked="checked" id="input-attributipro_autoadd" />
                                                                     <?php } else { ?>
-                                                                        <input type="checkbox" name="attributico_autoadd" value="1" id="input-attributico_autoadd" />
+                                                                        <input type="checkbox" name="attributipro_autoadd" value="1" id="input-attributipro_autoadd" />
                                                                     <?php } ?>
                                                                     &nbsp; </label>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <label class="col-sm-8 control-label" for="input-attributico_autodel"><span data-toggle="tooltip" title="<?php echo $help_autodel; ?>"><?php echo $entry_autodel; ?></span></label>
+                                                        <label class="col-sm-8 control-label" for="input-attributipro_autodel"><span data-toggle="tooltip" title="<?php echo $help_autodel; ?>"><?php echo $entry_autodel; ?></span></label>
                                                         <div class="col-sm-4">
                                                             <div class="checkbox">
                                                                 <label>
-                                                                    <?php if ($attributico_autodel) { ?>
-                                                                        <input type="checkbox" name="attributico_autodel" value="1" checked="checked" id="input-attributico_autodel" />
+                                                                    <?php if ($attributipro_autodel) { ?>
+                                                                        <input type="checkbox" name="attributipro_autodel" value="1" checked="checked" id="input-attributipro_autodel" />
                                                                     <?php } else { ?>
-                                                                        <input type="checkbox" name="attributico_autodel" value="1" id="input-attributico_autodel" />
+                                                                        <input type="checkbox" name="attributipro_autodel" value="1" id="input-attributipro_autodel" />
                                                                     <?php } ?>
                                                                     &nbsp; </label>
                                                             </div>
@@ -271,28 +271,28 @@
                                             <div class="form-group">
                                                 <div class="row">
                                                     <div class="col-md-6">
-                                                        <label class="col-sm-8 control-label" for="input-attributico_autoadd_subcategory"><span data-toggle="tooltip" title="<?php echo $help_autoadd_inherit; ?>"><?php echo $entry_autoadd_inherit; ?></span></label>
+                                                        <label class="col-sm-8 control-label" for="input-attributipro_autoadd_subcategory"><span data-toggle="tooltip" title="<?php echo $help_autoadd_inherit; ?>"><?php echo $entry_autoadd_inherit; ?></span></label>
                                                         <div class="col-sm-4">
                                                             <div class="checkbox">
                                                                 <label>
-                                                                    <?php if ($attributico_autoadd_subcategory) { ?>
-                                                                        <input type="checkbox" name="attributico_autoadd_subcategory" value="1" checked="checked" id="input-attributico_autoadd_subcategory" />
+                                                                    <?php if ($attributipro_autoadd_subcategory) { ?>
+                                                                        <input type="checkbox" name="attributipro_autoadd_subcategory" value="1" checked="checked" id="input-attributipro_autoadd_subcategory" />
                                                                     <?php } else { ?>
-                                                                        <input type="checkbox" name="attributico_autoadd_subcategory" value="1" id="input-attributico_autoadd_subcategory" />
+                                                                        <input type="checkbox" name="attributipro_autoadd_subcategory" value="1" id="input-attributipro_autoadd_subcategory" />
                                                                     <?php } ?>
                                                                     &nbsp; </label>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <label class="col-sm-8 control-label" for="input-attributico_autodel_subcategory"><span data-toggle="tooltip" title="<?php echo $help_autodel_inherit; ?>"><?php echo $entry_autodel_inherit; ?></span></label>
+                                                        <label class="col-sm-8 control-label" for="input-attributipro_autodel_subcategory"><span data-toggle="tooltip" title="<?php echo $help_autodel_inherit; ?>"><?php echo $entry_autodel_inherit; ?></span></label>
                                                         <div class="col-sm-4">
                                                             <div class="checkbox">
                                                                 <label>
-                                                                    <?php if ($attributico_autodel_subcategory) { ?>
-                                                                        <input type="checkbox" name="attributico_autodel_subcategory" value="1" checked="checked" id="input-attributico_autodel_subcategory" />
+                                                                    <?php if ($attributipro_autodel_subcategory) { ?>
+                                                                        <input type="checkbox" name="attributipro_autodel_subcategory" value="1" checked="checked" id="input-attributipro_autodel_subcategory" />
                                                                     <?php } else { ?>
-                                                                        <input type="checkbox" name="attributico_autodel_subcategory" value="1" id="input-attributico_autodel_subcategory" />
+                                                                        <input type="checkbox" name="attributipro_autodel_subcategory" value="1" id="input-attributipro_autodel_subcategory" />
                                                                     <?php } ?>
                                                                     &nbsp; </label>
                                                             </div>
@@ -301,14 +301,14 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-sm-4 control-label" for="input-attributico_multiselect"><span data-toggle="tooltip" title="<?php echo $help_multiselect; ?>"><?php echo $entry_multiselect; ?></span></label>
+                                                <label class="col-sm-4 control-label" for="input-attributipro_multiselect"><span data-toggle="tooltip" title="<?php echo $help_multiselect; ?>"><?php echo $entry_multiselect; ?></span></label>
                                                 <div class="col-sm-8">
                                                     <div class="checkbox">
                                                         <label>
-                                                            <?php if ($attributico_multiselect) { ?>
-                                                                <input type="checkbox" name="attributico_multiselect" value="1" checked="checked" id="input-attributico_multiselect" />
+                                                            <?php if ($attributipro_multiselect) { ?>
+                                                                <input type="checkbox" name="attributipro_multiselect" value="1" checked="checked" id="input-attributipro_multiselect" />
                                                             <?php } else { ?>
-                                                                <input type="checkbox" name="attributico_multiselect" value="1" id="input-attributico_multiselect" />
+                                                                <input type="checkbox" name="attributipro_multiselect" value="1" id="input-attributipro_multiselect" />
                                                             <?php } ?>
                                                             &nbsp; </label>
                                                     </div>
@@ -322,44 +322,44 @@
                                                 <div class="col-sm-9">
                                                     <div class="radio">
                                                         <label>
-                                                            <?php if ($attributico_product_text == 'clean') { ?>
-                                                                <input type="radio" name="attributico_product_text" value="clean" checked="checked" />
+                                                            <?php if ($attributipro_product_text == 'clean') { ?>
+                                                                <input type="radio" name="attributipro_product_text" value="clean" checked="checked" />
                                                                 <?php echo $text_clear; ?>
                                                             <?php } else { ?>
-                                                                <input type="radio" name="attributico_product_text" value="clean" />
+                                                                <input type="radio" name="attributipro_product_text" value="clean" />
                                                                 <?php echo $text_clear; ?>
                                                             <?php } ?>
                                                         </label>
                                                     </div>
                                                     <div class="radio">
                                                         <label>
-                                                            <?php if ($attributico_product_text == 'unchange') { ?>
-                                                                <input type="radio" name="attributico_product_text" value='unchange' checked="checked" />
+                                                            <?php if ($attributipro_product_text == 'unchange') { ?>
+                                                                <input type="radio" name="attributipro_product_text" value='unchange' checked="checked" />
                                                                 <?php echo $text_keep; ?>
                                                             <?php } else { ?>
-                                                                <input type="radio" name="attributico_product_text" value='unchange' />
+                                                                <input type="radio" name="attributipro_product_text" value='unchange' />
                                                                 <?php echo $text_keep; ?>
                                                             <?php } ?>
                                                         </label>
                                                     </div>
                                                     <div class="radio">
                                                         <label>
-                                                            <?php if ($attributico_product_text == 'overwrite') { ?>
-                                                                <input type="radio" name="attributico_product_text" value='overwrite' checked="checked" />
+                                                            <?php if ($attributipro_product_text == 'overwrite') { ?>
+                                                                <input type="radio" name="attributipro_product_text" value='overwrite' checked="checked" />
                                                                 <?php echo $text_duty; ?>
                                                             <?php } else { ?>
-                                                                <input type="radio" name="attributico_product_text" value='overwrite' />
+                                                                <input type="radio" name="attributipro_product_text" value='overwrite' />
                                                                 <?php echo $text_duty; ?>
                                                             <?php } ?>
                                                         </label>
                                                     </div>
                                                     <div class="radio">
                                                         <label>
-                                                            <?php if ($attributico_product_text == 'ifempty') { ?>
-                                                                <input type="radio" name="attributico_product_text" value='ifempty' checked="checked" />
+                                                            <?php if ($attributipro_product_text == 'ifempty') { ?>
+                                                                <input type="radio" name="attributipro_product_text" value='ifempty' checked="checked" />
                                                                 <?php echo $text_duty_only; ?>
                                                             <?php } else { ?>
-                                                                <input type="radio" name="attributico_product_text" value='ifempty' />
+                                                                <input type="radio" name="attributipro_product_text" value='ifempty' />
                                                                 <?php echo $text_duty_only; ?>
                                                             <?php } ?>
                                                         </label>
@@ -372,10 +372,10 @@
                                             <div class="form-group">
                                                 <div class="radio">
                                                     <label class="control-label">
-                                                        <?php if ($attributico_replace_mode == 'substr') { ?>        
-                                                            <input type="radio" name="attributico_replace_mode" value="substr" checked="checked"/>
+                                                        <?php if ($attributipro_replace_mode == 'substr') { ?>        
+                                                            <input type="radio" name="attributipro_replace_mode" value="substr" checked="checked"/>
                                                         <?php } else { ?> 
-                                                            <input type="radio" name="attributico_replace_mode" value="substr"/>
+                                                            <input type="radio" name="attributipro_replace_mode" value="substr"/>
                                                         <?php } ?>  
                                                         <span data-toggle="tooltip" title="<?php echo $help_replace_substr;?>"><?php echo $text_replace_substr; ?>
                                                         </span>                                                        
@@ -383,10 +383,10 @@
                                                 </div>                
                                                 <div class="radio">
                                                     <label class="control-label">
-                                                        <?php if ($attributico_replace_mode == 'match') { ?>        
-                                                            <input type="radio" name="attributico_replace_mode" value="match" checked="checked"/>
+                                                        <?php if ($attributipro_replace_mode == 'match') { ?>        
+                                                            <input type="radio" name="attributipro_replace_mode" value="match" checked="checked"/>
                                                         <?php } else { ?> 
-                                                            <input type="radio" name="attributico_replace_mode" value="match"/>
+                                                            <input type="radio" name="attributipro_replace_mode" value="match"/>
                                                         <?php } ?>
                                                         <span data-toggle="tooltip" title="<?php echo $help_replace_match;?>"><?php echo $text_replace_match;?>
                                                         </span>                              
@@ -935,7 +935,7 @@
     const token = '<?php echo $token; ?>';
     const user_token = '<?php echo $user_token; ?>';
     const extension = '<?php echo $extension; ?>'; // для v2.3 другая структура каталогов
-    const edit = '<?php echo $edit; ?>'; // для v1.5 другая функция входа в товар    
+    const route = '<?php echo $route; ?>'; // для v1.5 другая функция входа в товар    
     const textConfirm = <?php echo json_encode($text_confirm) ?>;
     const FILTERSETTINGS = <?php echo json_encode($filter_settings) ?>;
 
@@ -1050,12 +1050,12 @@
             sortorder: {
                 label: <?php echo json_encode($text_sortOrder) ?>[lng_id],
                 selector: 'sortOrder',
-                state: '<?php echo $attributico_sortorder; ?>'
+                state: '<?php echo $attributipro_sortorder; ?>'
             },
             lazyload: {
                 label: <?php echo json_encode($text_lazyLoad) ?>[lng_id],
                 selector: 'lazyLoad',
-                state: '<?php echo $attributico_lazyload; ?>'
+                state: '<?php echo $attributipro_lazyload; ?>'
             },
             autocollapse: {
                 label: <?php echo json_encode($text_autoCollapse) ?>[lng_id],
@@ -1065,7 +1065,7 @@
             hierarchy: {
                 label: <?php echo json_encode($text_multiSelect) ?>[lng_id],
                 selector: 'multiSelect',
-                state: '<?php echo $attributico_multiselect; ?>'
+                state: '<?php echo $attributipro_multiselect; ?>'
             },
             divergency: {
                 label: <?php echo json_encode($text_Diver) ?>[lng_id],

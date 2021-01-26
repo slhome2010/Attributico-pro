@@ -40,7 +40,7 @@ export default function commonSettings(store) {
                 'user_token': user_token,
                 'token': token
             },
-            url: 'index.php?route=' + extension + 'module/attributico/cacheDelete',
+            url: route + 'cacheDelete',
             success: function (json) { 
                 $(CATEGORY_SYNCRO_TREES).each(function (indx, element) {
                     let tree = $.ui.fancytree.getTree("#" + element.id);
@@ -58,7 +58,7 @@ export default function commonSettings(store) {
                 'user_token': user_token,
                 'token': token
             },
-            url: 'index.php?route=' + extension + 'module/attributico/cacheDelete',
+            url: route + 'cacheDelete',
             success: function (json) {                
                 $(CATEGORY_SYNCRO_TREES).each(function (indx, element) {
                     let tree = $.ui.fancytree.getTree("#" + element.id);

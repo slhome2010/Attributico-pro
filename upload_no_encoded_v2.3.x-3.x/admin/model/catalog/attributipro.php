@@ -1,8 +1,8 @@
 <?php
 
-require_once(DIR_SYSTEM . 'library/attributico/array_column.php');
+//require_once(DIR_SYSTEM . 'library/attributipro/array_column.php');
 
-class ModelCatalogAttributico extends Model
+class ModelCatalogAttributipro extends Model
 {
 
     public function getAttributes($data = array())
@@ -163,7 +163,7 @@ class ModelCatalogAttributico extends Model
     public function getAllCategories($non_hierarchical = false)
     {
         // TODO clear cache if checkbox was checked
-        if ($this->config->get('attributico_multistore')) {
+        if ($this->config->get('attributipro_multistore')) {
             $multistore = "";
         } else {
             $multistore = " AND c2s.store_id = '" . (int)$this->config->get('config_store_id') . "' ";
@@ -320,7 +320,7 @@ class ModelCatalogAttributico extends Model
 
         $products = $this->getProductsByText($attribute_id, $data['language_id'], $data['oldtext']);
 
-        $this->cache->delete('attributico');
+        $this->cache->delete('attributipro');
 
         foreach ($products as $product) {
             $this->db->query("UPDATE " . DB_PREFIX . "product_attribute SET text = '" . $this->db->escape($data['newtext']) . "' WHERE attribute_id = '" . (int)$attribute_id . "' AND language_id = '" . (int)$data['language_id'] . "' AND product_id = '" . (int)$product['product_id'] . "'");
@@ -330,14 +330,14 @@ class ModelCatalogAttributico extends Model
 
     public function editAttributeValues($attribute_id, $data)
     {
-        $splitter = !($this->config->get('attributico_splitter') == '') ? $this->config->get('attributico_splitter') : '/';
-        $replace_mode = $this->config->get('attributico_replace_mode') ? $this->config->get('attributico_replace_mode') : 'substr';
+        $splitter = !($this->config->get('attributipro_splitter') == '') ? $this->config->get('attributipro_splitter') : '/';
+        $replace_mode = $this->config->get('attributipro_replace_mode') ? $this->config->get('attributipro_replace_mode') : 'substr';
         $search = htmlspecialchars_decode($data['oldtext']);
         $replace = htmlspecialchars_decode($data['newtext']);
 
         $products = $this->getProductsByAttributeId($attribute_id, $data['language_id']);
 
-        $this->cache->delete('attributico');
+        $this->cache->delete('attributipro');
 
         foreach ($products as $product) {
             if ($replace_mode === 'match') {
@@ -356,7 +356,7 @@ class ModelCatalogAttributico extends Model
 
     public function editAttributeGroup($attribute_group_id, $data)
     {
-        $this->cache->delete('attributico');
+        $this->cache->delete('attributipro');
 
         foreach ($data['attribute_group_description'] as $language_id => $value) {
             $this->db->query("UPDATE " . DB_PREFIX . "attribute_group_description SET name = '" . $this->db->escape($value['name']) . "' WHERE attribute_group_id = '" . (int)$attribute_group_id . "' AND language_id = '" . (int)$language_id . "'");
@@ -394,7 +394,7 @@ class ModelCatalogAttributico extends Model
 
     public function editAttribute($attribute_id, $data)
     {
-        $this->cache->delete('attributico');
+        $this->cache->delete('attributipro');
 
         foreach ($data['attribute_description'] as $language_id => $value) {
             $this->db->query("UPDATE " . DB_PREFIX . "attribute_description SET name = '" . $this->db->escape($value['name']) . "' WHERE attribute_id = '" . (int)$attribute_id . "' AND language_id = '" . (int)$language_id . "'");
@@ -403,7 +403,7 @@ class ModelCatalogAttributico extends Model
 
     public function editDuty($attribute_id, $data)
     {
-        $this->cache->delete('attributico');
+        $this->cache->delete('attributipro');
 
         foreach ($data['attribute_description'] as $language_id => $value) {
             $this->db->query("UPDATE " . DB_PREFIX . "attribute_description SET duty = '" . $this->db->escape($value['duty']) . "' WHERE attribute_id = '" . (int)$attribute_id . "' AND language_id = '" . (int)$language_id . "'");
@@ -421,7 +421,7 @@ class ModelCatalogAttributico extends Model
 
     public function deleteAttributes($data)
     {
-        $this->cache->delete('attributico');
+        $this->cache->delete('attributipro');
 
         if (isset($data['attribute'])) {
             $this->db->query("DELETE FROM " . DB_PREFIX . "product_attribute WHERE attribute_id IN (" . implode(",", $data['attribute']) . ")");
@@ -434,7 +434,7 @@ class ModelCatalogAttributico extends Model
     public function deleteValues($data, $language_id)
     {
         set_time_limit(600);
-        $this->cache->delete('attributico');
+        $this->cache->delete('attributipro');
 
         if (isset($data['value'])) {
             foreach ($data['value'] as $instance) {
@@ -492,7 +492,7 @@ class ModelCatalogAttributico extends Model
 
     public function deleteAttributeGroups($data)
     {
-        $this->cache->delete('attributico');
+        $this->cache->delete('attributipro');
 
         if (isset($data['group'])) {
             foreach ($data['group'] as $attribute_group_id) {
@@ -527,7 +527,7 @@ class ModelCatalogAttributico extends Model
     {
         // in foreach
         set_time_limit(600);
-        $method = $this->config->get('attributico_product_text');
+        $method = $this->config->get('attributipro_product_text');
         $count_affected = 0;
         foreach ($products as $product) {
             $text = $method == 'unchange' ? "'" : "', text = '' ";
@@ -571,7 +571,7 @@ class ModelCatalogAttributico extends Model
 
     public function sortAttribute($data)
     {
-        $this->cache->delete('attributico');
+        $this->cache->delete('attributipro');
 
         switch ($data['table']) {
             case 'attribute':

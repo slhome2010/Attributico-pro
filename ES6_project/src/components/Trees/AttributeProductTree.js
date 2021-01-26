@@ -30,7 +30,7 @@ export default class AttributeProductTree {
                     'lazyLoad': this.lazyLoad,                    
                     'tree': "5"
                 },
-                url: 'index.php?route=' + extension + 'module/attributico/getAttributeGroupTree'
+                url: route + 'getAttributeGroupTree'
             },
             loadError: (e, data) => loadError(e, data),
             beforeActivate: function (event, data) {
@@ -51,7 +51,7 @@ export default class AttributeProductTree {
                         'sortOrder': $('input[id = "sortOrder_attribute_product_tree' + this.lng_id + '"]:checkbox').is(":checked"),
                         'invert': $('input[id = "diver_product_tree' + this.lng_id + '"]:checkbox').is(":checked")
                     },
-                    url: 'index.php?route=' + extension + 'module/attributico/getProductTree'
+                    url: route + 'getProductTree'
                 });
             },
             lazyLoad: (event, data) => {
@@ -65,7 +65,7 @@ export default class AttributeProductTree {
                         'lazyLoad': this.lazyLoad,                        
                         'tree': "5"
                     }, // cache:true,
-                    url: data.node.isGroup() ? 'index.php?route=' + extension + 'module/attributico/getLazyGroup' : 'index.php?route=' + extension + 'module/attributico/getLazyAttributeValues'
+                    url: data.node.isGroup() ? route + 'getLazyGroup' : route + 'getLazyAttributeValues'
                 };
             },
             beforeSelect: function (event, data) {

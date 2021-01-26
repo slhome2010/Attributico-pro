@@ -63,21 +63,7 @@ $(function () {
             let t1 = performance.now();
             console.log("Call to initTrees took " + (t1 - t0) + " milliseconds.");
         }
-    });
-
-
-    /* Button Save onclick event */
-    $("#form-attributico").on('submit', function () {
-        // Render hidden <input> elements for active and selected nodes
-        $('[id ^= "tree"].settings').each(function (indx, element) {
-            let tree = $.ui.fancytree.getTree("#" + element.id);
-            tree.generateFormElements();
-        });
-        // alert("POST data:\n" + jQuery.param($(this).serializeArray()));
-        // return false to prevent submission of this sample
-        //  return false;
-        //TODO submit deprecated
-    });
+    });   
 
     /**
      * Alerts for tools when tasks is running

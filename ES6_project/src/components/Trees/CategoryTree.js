@@ -26,7 +26,7 @@ export default class CategoryTree {
                     'language_id': this.lng_id,
                     'sortOrder': this.sortOrder
                 },
-                url: 'index.php?route=' + extension + 'module/attributico/getCategoryTree'
+                url: route + 'getCategoryTree'
             },
             activate: (event, data) => {
                 let tree = $.ui.fancytree.getTree("#category_attribute_tree" + this.lng_id);
@@ -40,7 +40,7 @@ export default class CategoryTree {
                         'sortOrder': $('input[id = "sortOrder_category_attribute_tree' + this.lng_id + '"]:checkbox').is(":checked"),
                         'tree': "4"
                     },
-                    url: 'index.php?route=' + extension + 'module/attributico/getCategoryAttributeTree'
+                    url: route + 'getCategoryAttributeTree'
                 });
             },
             dnd: {

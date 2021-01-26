@@ -9,7 +9,7 @@ export function dutyAutoComplete(data) {
                     'language_id': parseInt(data.tree.$div[0].id.replace(/\D+/ig, '')),
                     'attribute_id': parseInt(data.node.key.replace(/\D+/ig, ''))
                 },
-                url: 'index.php?route=' + extension + 'module/attributico/getValuesList',
+                url: route + 'getValuesList',
                 dataType: 'json',
                 success: function (json) {
                     response($.map(json, function (item) {
@@ -39,7 +39,7 @@ export function attributeAutoComplete(data) {
                     'filter_name': encodeURIComponent(request),
                     'language_id': this.lng_id
                 },
-                url: 'index.php?route=' + extension + 'module/attributico/autocomplete',
+                url: route + 'autocomplete',
                 dataType: 'json',
                 success: function (json) {
                     response($.map(json, function (item) {

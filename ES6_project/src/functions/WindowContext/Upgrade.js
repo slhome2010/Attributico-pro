@@ -5,7 +5,7 @@ export function dutyUpgrade() {
             'user_token': user_token,
             'token': token,
         },
-        url: 'index.php?route=' + extension + 'module/attributico/dutyUpgrade',
+        url: route + 'dutyUpgrade',
         //  async: false,
         success: function () {
             location.reload();
@@ -22,7 +22,7 @@ export function checkForUpdates() {
             'user_token': user_token,
             'token': token,
         },
-        url: 'index.php?route=' + extension + 'module/attributico/check_for_updates',
+        url: route + 'check_for_updates',
         dataType: 'json',
         success: function (check) {
            /*  $('#infoModal').modal('show'); */

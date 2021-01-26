@@ -5,9 +5,9 @@ export function apply() {
         let tree = $.ui.fancytree.getTree("#" + element.id);
         tree.generateFormElements();
     });
-    //alert("POST data:\n" + jQuery.param($("#form-attributico").serializeArray()));
+    //alert("POST data:\n" + jQuery.param($("#form-attributipro").serializeArray()));
     $(".alert-success, #error_warning.alert-danger").hide();
-    $.post($("#form-attributico").attr('action'), $("#form-attributico").serialize(), function (html) {
+    $.post($("#form-attributipro").attr('action'), $("#form-attributipro").serialize(), function (html) {
         var $success = $(html).find(".alert-success, #error_warning.alert-danger"); // если после редиректа форма выставила success
         if ($success.length > 0) {
             $(".alert-before").before($success);
@@ -21,9 +21,9 @@ export function apply() {
             });
         }
         // Re-apply settings for each trees and contextmenus
-        $('input[id ^= "multiSelect"]:checkbox').prop("checked", $('input[name = "attributico_multiselect"]:checkbox').is(":checked"));
-        $('input[id ^= "sortOrder"]:checkbox').prop("checked", $('input[name = "attributico_sortorder"]:checkbox').is(":checked"));
-        $('input[id ^= "lazyLoad"]:checkbox').prop("checked", $('input[name = "attributico_lazyload"]:checkbox').is(":checked"));
+        $('input[id ^= "multiSelect"]:checkbox').prop("checked", $('input[name = "attributipro_multiselect"]:checkbox').is(":checked"));
+        $('input[id ^= "sortOrder"]:checkbox').prop("checked", $('input[name = "attributipro_sortorder"]:checkbox').is(":checked"));
+        $('input[id ^= "lazyLoad"]:checkbox').prop("checked", $('input[name = "attributipro_lazyload"]:checkbox').is(":checked"));
         $(CATEGORY_TREE).each(function (indx, element) {
             var tree = $.ui.fancytree.getTree("#" + element.id);
             tree.options.selectMode = $('input[id ^= "multiSelect"]:checkbox').is(":checked") ? 3 : 2;
@@ -47,6 +47,6 @@ export function submit() {
         let tree = $.ui.fancytree.getTree("#" + element.id);
         tree.generateFormElements();
     });
-    //alert("POST data:\n" + jQuery.param($("#form-attributico").serializeArray()));
-    $('#form-attributico').trigger('submit')
+    //alert("POST data:\n" + jQuery.param($("#form-attributipro").serializeArray()));
+    $('#form-attributipro').trigger('submit')
 }

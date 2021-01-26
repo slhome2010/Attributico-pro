@@ -13,4 +13,4 @@ export const VALUE_SYNCRO_TREES = ATTRIBUTE_GROUP_TREE + ',' + DUTY_ATTRIBUTE_TR
 export const GROUP_CHECK_TREE = DEDUPLICATE_TREE + ',' + DETACH_TREE;
 export const CATEGORY_CHECK_TREE = '[name ^= "category_check_tree"]';
 export const CATEGORY_SYNCRO_TREES = CATEGORY_TREE + ',' + CATEGORY_CHECK_TREE;
-export const smartScroll = 'input[name = "attributico_smart_scroll"]:checkbox';
+export const smartScroll = 'input[name = "attributipro_smart_scroll"]:checkbox';

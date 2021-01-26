@@ -4,7 +4,7 @@
   "private": true,
   "description": "Attribut&co for Opencart",
   "homepage": "http://attributico/dist",
-  "main": "src/attributico.js",
+  "main": "src/attributipro.js",
   "dependencies": {
     "@babel/runtime": "^7.12.5",
     "jquery": "^3.5.1",

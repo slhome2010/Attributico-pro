@@ -16,7 +16,7 @@ export default class ChildConfigTree {
                     'token': token,
                     'tree': this.id
                 },
-                url: 'index.php?route=' + extension + 'module/attributico/getChildrenSettings'
+                url: route + 'getChildrenSettings'
             }
         }
     }

@@ -41,7 +41,7 @@ export class KeydownCommand {
                             'user_token': user_token,
                             'token': token,
                         },
-                        url: 'index.php?route=' + extension + 'module/attributico/debugSwitch',
+                        url: route + 'debugSwitch',
                         success: function (message) {
                             console.log(message);
                         }

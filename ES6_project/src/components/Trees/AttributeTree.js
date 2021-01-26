@@ -34,7 +34,7 @@ export default class AttributeTree {
                     'lazyLoad': this.lazyLoad,
                     'tree': "3"
                 },
-                url: 'index.php?route=' + extension + 'module/attributico/getAttributeGroupTree'
+                url: route + 'getAttributeGroupTree'
             },
             loadError: (e, data) => loadError(e, data),
             lazyLoad: (event, data) => {
@@ -48,7 +48,7 @@ export default class AttributeTree {
                         'lazyLoad': this.lazyLoad,
                         'tree': "3"
                     }, // cache:true,
-                    url: data.node.isGroup() ? 'index.php?route=' + extension + 'module/attributico/getLazyGroup' : 'index.php?route=' + extension + 'module/attributico/getLazyAttributeValues'
+                    url: data.node.isGroup() ? route + 'getLazyGroup' : route + 'getLazyAttributeValues'
                 };
             },
             edit: {

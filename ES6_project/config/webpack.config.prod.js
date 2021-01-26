@@ -34,11 +34,11 @@ module.exports = {
     context: __dirname,
     mode: 'production',
     entry: {
-        app: `${PATHS.src}/attributico.js`,
+        app: `${PATHS.src}/attributipro.js`,
     },
     output: {
         path: PATHS.dist,
-        filename: 'attributicopro.js',
+        filename: 'attributipro.js',
         publicPath: './'
     },
     optimization: optimization,

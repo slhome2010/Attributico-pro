@@ -13,7 +13,7 @@ export function saveForm(data, store, values) {
             'language_id': lng_id,
             'oldname': data.orgTitle
         },
-        url: 'index.php?route=' + extension + 'module/attributico/editAttribute'
+        url: route + 'editAttribute'
     }).done(function (result) {
         // Server might return an error or a modified title
         // Maybe also check for non-ajax errors, e.g. 'title invalid', ... in case server modified it         
@@ -54,7 +54,7 @@ export function loadForm(data) {
                 'key': data.node.key,
                 'language_id': lng_id
             },
-            url: 'index.php?route=' + extension + 'module/attributico/getAttributeInfo',
+            url: route + 'getAttributeInfo',
             beforeSend: () => {
                 setLoading(true)
             }

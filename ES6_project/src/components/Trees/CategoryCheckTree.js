@@ -20,7 +20,7 @@ export default class CategoryCheckTree {
                     'token': token,
                     'sortOrder': this.sortOrder
                 },
-                url: 'index.php?route=' + extension + 'module/attributico/getCategoryTree'
+                url: route + 'getCategoryTree'
             },
             keydown: (e, data) => {
                 let command = new KeydownCommand(e, data, this.store);

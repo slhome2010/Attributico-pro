@@ -19,7 +19,7 @@ export default class GroupCheckTree {
                     'sortOrder': this.sortOrder,
                     'onlyGroup': true                    
                 },
-                url: 'index.php?route=' + extension + 'module/attributico/getAttributeGroupTree'
+                url: route + 'getAttributeGroupTree'
             },
             keydown: (e, data) => {
                 let command = new KeydownCommand(e, data, this.store);

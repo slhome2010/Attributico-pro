@@ -28,7 +28,7 @@ export default class CategoryAttributeTree {
                     'sortOrder': this.sortOrder,
                     'tree': "4"
                 },                
-                url: `index.php?route=${extension}module/attributico/getCategoryAttributeTree&user_token=${user_token}&token=${token}`,
+                url: `${route}getCategoryAttributeTree&user_token=${user_token}&token=${token}`,
             },
             loadError: (e, data) => loadError(e, data),
             lazyLoad: (event, data) => {
@@ -39,7 +39,7 @@ export default class CategoryAttributeTree {
                         'sortOrder': this.sortOrder,
                         'tree': "4"
                     }, // cache:true,                   
-                    url: `index.php?route=${extension}module/attributico/getLazyAttributeValues&user_token=${user_token}&token=${token}`,
+                    url: `${route}getLazyAttributeValues&user_token=${user_token}&token=${token}`,
                 };
             },
             edit: {
@@ -63,7 +63,7 @@ export default class CategoryAttributeTree {
                             'category_id': data.node.getParent().key,
                             'categories': selCategories ? getSelectedKeys(selCategories) : [data.node.getParent().key]
                         },                        
-                        url: `index.php?route=${extension}module/attributico/addCategoryAttributes&user_token=${user_token}&token=${token}`,
+                        url: `${route}addCategoryAttributes&user_token=${user_token}&token=${token}`,
                         type: 'POST'
                     }).done(function () {
                         $(data.node.span).removeClass("pending");

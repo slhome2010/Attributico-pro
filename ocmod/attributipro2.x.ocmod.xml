@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <modification>
-    <name>Attributico</name>
-    <code>attributico</code>
-    <version>3.1.7(oc v2.x)</version>
+    <name>Attributipro</name>
+    <code>attributipro</code>
+    <version>0.0.3(oc v2.x)</version>
     <author>comtronics@mail.ru</author>
     <link>http://www.servenus.com</link>
 
     <file path="admin/language/*/common/menu.php">
         <operation error="skip">
             <search><![CDATA[// Text]]></search>
-            <add position="after"><![CDATA[$_['text_attributico']  = '<span> Attribut<b style="color: #2199C7;">&</b>co</span>';]]></add>
+            <add position="after"><![CDATA[$_['text_attributipro']  = '<span> Attribut<b style="color: #2199C7;">&</b>pro</span>';]]></add>
         </operation>
     </file>
     <file path="admin/controller/common/menu.php">
         <operation error="skip">
             <search><![CDATA[$data['order_recurring'] = $this->url->link('sale/recurring', 'token=' . $this->session->data['token'], 'SSL');]]></search>
-            <add position="after"><![CDATA[$data['attributico'] = $this->url->link('module/attributico', 'token=' . $this->session->data['token'], 'SSL');]]></add>
+            <add position="after"><![CDATA[$data['attributipro'] = $this->url->link('module/attributipro', 'token=' . $this->session->data['token'], 'SSL');]]></add>
         </operation>
         <operation>
             <search><![CDATA[$data['text_dashboard'] = $this->language->get('text_dashboard');]]></search>
-            <add position="after"><![CDATA[$data['text_attributico'] = $this->language->get('text_attributico');]]></add>
+            <add position="after"><![CDATA[$data['text_attributipro'] = $this->language->get('text_attributipro');]]></add>
         </operation>
     </file>
     <file path="admin/controller/common/menu.php">
         <operation error="skip">
             <search><![CDATA[$data['order_recurring'] = $this->url->link('sale/recurring', 'token=' . $this->session->data['token'], true);]]></search>
-            <add position="after"><![CDATA[$data['attributico'] = $this->url->link('module/attributico', 'token=' . $this->session->data['token'], true);]]></add>
+            <add position="after"><![CDATA[$data['attributipro'] = $this->url->link('module/attributipro', 'token=' . $this->session->data['token'], true);]]></add>
         </operation>
     </file>
     <file path="admin/view/template/common/menu.tpl">
         <operation error="skip">
             <search><![CDATA[<li><a href="<?php echo $attribute_group; ?>"><?php echo $text_attribute_group; ?></a></li>]]></search>
             <add position="after"><![CDATA[
-                <?php if(isset($text_attributico)) { ?>
-                    <li><a href="<?php echo $attributico; ?>"><i class="parent"></i> <span><?php echo $text_attributico; ?></span></a></li>
+                <?php if(isset($text_attributipro)) { ?>
+                    <li><a href="<?php echo $attributipro; ?>"><i class="parent"></i> <span><?php echo $text_attributipro; ?></span></a></li>
 		<?php } ?>
             ]]>            </add>
         </operation>
@@ -42,7 +42,7 @@
     <file path="admin/language/*/common/column_left.php">
         <operation error="skip">
             <search><![CDATA[// Text]]></search>
-            <add position="after"><![CDATA[$_['text_attributico']  = '<span> Attribut<b style="color: #2199C7;">&</b>co</span>';]]></add>
+            <add position="after"><![CDATA[$_['text_attributipro']  = '<span> Attribut<b style="color: #2199C7;">&</b>pro</span>';]]></add>
         </operation>
     </file>
 
@@ -50,10 +50,10 @@
         <operation error="skip">
             <search><![CDATA[if ($attribute) {]]></search>
             <add position="before"><![CDATA[
-                if ($this->user->hasPermission('access', 'extension/module/attributico')) {
+                if ($this->user->hasPermission('access', 'extension/module/attributipro')) {
                     $attribute[] = array(
-                        'name'	   => $this->language->get('text_attributico'),
-                        'href'     => $this->url->link('extension/module/attributico', 'token=' . $this->session->data['token'], true),
+                        'name'	   => $this->language->get('text_attributipro'),
+                        'href'     => $this->url->link('extension/module/attributipro', 'token=' . $this->session->data['token'], true),
                         'children' => array()
                     );
                 }
@@ -90,7 +90,7 @@
     <file path="admin/controller/catalog/category.php">
         <operation>
             <search><![CDATA[$this->load->model('catalog/category');]]></search>
-            <add position="after"><![CDATA[$this->load->model('catalog/attributico');]]></add>
+            <add position="after"><![CDATA[$this->load->model('catalog/attributipro');]]></add>
         </operation>
         <operation>
             <search><![CDATA[$data['tab_design'] = $this->language->get('tab_design');]]></search>
@@ -102,17 +102,17 @@
                 $data['language_id'] = $this->config->get('config_language_id'); 
                 $data['entry_attribute'] = $this->language->get('tab_attribute');      
                 $this->load->model('catalog/attribute');
-                $this->load->model('catalog/attributico');
+                $this->load->model('catalog/attributipro');
 
                 if (isset($this->request->post['category_attribute'])) {
                             $attributes = $this->request->post['category_attribute'];
                 } elseif (isset($this->request->get['category_id'])) {
-                            $sortOrder = $this->config->get('attributico_sortorder') == '1' ? true : false;
+                            $sortOrder = $this->config->get('attributipro_sortorder') == '1' ? true : false;
                             $filter_data = array(
                                 'category_id' => (int) $this->request->get['category_id'],
                                 'sort' => $sortOrder ? 'attribute_group, a.sort_order' : ''
                             );
-                            $attributes = $this->model_catalog_attributico->getCategoryAttributes($filter_data);
+                            $attributes = $this->model_catalog_attributipro->getCategoryAttributes($filter_data);
                 } else {
                             $attributes = array();
                 }
@@ -149,11 +149,11 @@
                                 'token': token,
                                 'user_token': user_token
                         },
-                        url: 'index.php?route=' + extension + 'module/attributico/getServPanel',
+                        url: 'index.php?route=' + extension + 'module/attributipro/getServPanel',
                         dataType: "json",
                         success: function (json) {                            
                             splitter = json.splitter
-                            add_category_attribute = json.attributico_autoadd                            
+                            add_category_attribute = json.attributipro_autoadd                            
                             remove_category_attribute = json.remove_category_attribute
 
                             $('#serv-panel').append(json.serv_panel) 
@@ -188,7 +188,7 @@
                             'user_token': user_token,
                             'category_id': category_id
                         },
-                        url: 'index.php?route=' + extension + 'module/attributico/getCategoryAttributes',
+                        url: 'index.php?route=' + extension + 'module/attributipro/getCategoryAttributes',
                         dataType: 'json',
                         success: function (json) {
                             if (add_category_attribute) {
@@ -218,7 +218,7 @@
                             'category_id': category_id,
                             'categories': getSelectedCategories()
                         },
-                        url: 'index.php?route=' + extension + 'module/attributico/getCategoryAttributes',
+                        url: 'index.php?route=' + extension + 'module/attributipro/getCategoryAttributes',
                         dataType: 'json',
                         success: function (json) {
                             if (confirm(remove_category_attribute)) {
@@ -265,7 +265,7 @@
                             'categories': $('input[id=\'filter-category\']').is(":checked") ? getSelectedCategories() : [],
                             'duty': $('input[id=\'filter-duty\']').is(":checked") ? 'true' : ''
                         },
-                        url: 'index.php?route=' + extension + 'module/attributico/getValuesList',
+                        url: 'index.php?route=' + extension + 'module/attributipro/getValuesList',
                         dataType: 'json',
                         success: function (json) {
                             $.each(json, function (language_id, select) {
@@ -286,7 +286,7 @@
                             'attribute_id': attribute_id,
                             'method': method
                         },
-                        url: 'index.php?route=' + extension + 'module/attributico/getAttributeDuty',
+                        url: 'index.php?route=' + extension + 'module/attributipro/getAttributeDuty',
                         dataType: 'json',
                         success: function (json) {
                             $.each(json, function (language_id, duty) {
@@ -328,7 +328,7 @@
                             'user_token': user_token,
                             'attribute_id': attribute_id
                         },
-                        url: 'index.php?route=' + extension + 'module/attributico/getAttributeInfo',
+                        url: 'index.php?route=' + extension + 'module/attributipro/getAttributeInfo',
                         dataType: 'json',
                         success: function (json) {
                           let baseSelector = $('input[name="product_attribute[' + row + '][name]"]').parent()
@@ -484,13 +484,13 @@
         <operation error="skip">
             <search><![CDATA[$this->load->model('catalog/attribute');]]></search>
             <add position="after"><![CDATA[
-		        $this->load->model('catalog/attributico');                
+		        $this->load->model('catalog/attributipro');                
             ]]></add>
         </operation>      
         <operation error="skip">
             <search><![CDATA[$attribute_info = $this->model_catalog_attribute->getAttribute($product_attribute['attribute_id']);]]></search>
             <add position="replace"><![CDATA[
-		        $attribute_info = $this->model_catalog_attributico->getAttributeInfo($product_attribute['attribute_id'], [$this->config->get('config_language_id')]);
+		        $attribute_info = $this->model_catalog_attributipro->getAttributeInfo($product_attribute['attribute_id'], [$this->config->get('config_language_id')]);
             ]]>            </add>
         </operation>
         <operation error="skip">

@@ -1,0 +1,527 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+    <name>Attributipro</name>
+    <code>attributipro_3</code>
+    <version>0.0.3(oc v3.x)</version>
+    <author>comtronics@mail.ru</author>
+    <link>http://www.servenus.com</link>    
+
+    <file path="admin/language/*/common/column_left.php">
+        <operation error="skip">
+            <search><![CDATA[// Text]]></search>
+            <add position="after"><![CDATA[$_['text_attributipro']  = '<span> Attribut<b style="color: #2199C7;">&</b>pro</span>';]]></add>
+        </operation>
+    </file>
+
+    <file path="admin/controller/common/column_left.php">
+        <operation error="skip">
+            <search><![CDATA[if ($attribute) {]]></search>
+            <add position="before"><![CDATA[
+		if ($this->user->hasPermission('access', 'extension/module/attributipro')) {
+                    $attribute[] = array(
+			'name'	   => $this->language->get('text_attributipro'),
+			'href'     => $this->url->link('extension/module/attributipro', 'user_token=' . $this->session->data['user_token'], true),
+			'children' => array()
+                    );
+		}
+            ]]></add>
+        </operation>
+    </file>
+
+    <file path="admin/view/template/catalog/category_form.twig">
+        <operation>
+            <search><![CDATA[<li><a href="#tab-design" data-toggle="tab">{{ tab_design }}</a></li>]]></search>
+            <add position="after" ><![CDATA[<li><a href="#tab-attribute" data-toggle="tab">{{ tab_attribute }}</a></li>]]></add>
+        </operation>
+        <operation>
+            <search index='1'><![CDATA[</table>]]></search>
+            <add position="after" offset="2"><![CDATA[
+            <div class="tab-pane" id="tab-attribute">
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-attribute"><span data-toggle="tooltip" title="{{ category_description[language_id].name }}">{{ entry_attribute }}</span></label>
+                <div class="col-sm-10">                 
+                  <div id="category-attribute" class="well well-sm" style="height: 150px; overflow: auto;">
+                    {% for category_attribute in category_attributes %}
+                    <div id="category-attribute{{ category_attribute.attribute_id }}"><i class="fa fa-minus-circle"></i> {{ category_attribute.name }}
+                      <input type="hidden" name="category_attribute[]" value="{{category_attribute.attribute_id}}" />
+                    </div>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </div>
+            ]]></add>
+        </operation>        
+    </file>
+
+    <file path="admin/controller/catalog/category.php">
+        <operation>
+            <search><![CDATA[$this->load->model('catalog/category');]]></search>
+            <add position="after"><![CDATA[$this->load->model('catalog/attributipro');]]></add>
+        </operation>        
+        <operation>
+            <search><![CDATA[$this->load->model('setting/store');]]></search>
+            <add position="before"><![CDATA[
+        $data['language_id'] = $this->config->get('config_language_id'); 
+        $data['entry_attribute'] = $this->language->get('tab_attribute');   
+		$this->load->model('catalog/attribute');
+		$this->load->model('catalog/attributipro');
+
+		if (isset($this->request->post['category_attribute'])) {
+                    $attributes = $this->request->post['category_attribute'];
+		} elseif (isset($this->request->get['category_id'])) {
+                    $sortOrder = $this->config->get('attributipro_sortorder') == '1' ? true : false;
+                    $filter_data = array(
+                        'category_id' => (int) $this->request->get['category_id'],
+                        'sort' => $sortOrder ? 'attribute_group, a.sort_order' : ''
+                    );
+                    $attributes = $this->model_catalog_attributipro->getCategoryAttributes($filter_data);
+		} else {
+                    $attributes = array();
+		}
+
+		$data['category_attributes'] = array();
+		foreach ($attributes as $result) {
+                    $attribute_info = $this->model_catalog_attribute->getAttribute($result['attribute_id']);
+                    if ($attribute_info) {
+                        $data['category_attributes'][] = array(
+                            'attribute_id' => $attribute_info['attribute_id'],
+                            'name'      => $attribute_info['name']
+                        );
+                    }
+		}
+		]]>
+            </add>
+        </operation>
+    </file>
+
+    <file path="admin/view/template/catalog/product_form.twig">        
+        <operation error="skip">
+            <search><![CDATA[function addAttribute() {]]></search>
+            <add position="before"><![CDATA[			
+                let product_attribute_id = new Array();
+                const extension = '{{extension}}';                 
+                const token = '{{user_token}}';
+                const user_token = '{{user_token}}';
+                let add_category_attribute = false;
+                let remove_category_attribute = 'Remove attributes for this category?'; 
+                let splitter = '/';             
+                let method;
+               
+                const getServPanel = $.ajax({
+                        data: {
+                                'token': token,
+                                'user_token': user_token
+                        },
+                        url: 'index.php?route=' + extension + 'module/attributipro/getServPanel',
+                        dataType: "json",
+                        success: function (json) {                            
+                            splitter = json.splitter
+                            add_category_attribute = json.attributipro_autoadd                            
+                            remove_category_attribute = json.remove_category_attribute                          
+
+                            $('#serv-panel').append(json.serv_panel) 
+
+                            method = $('#method-view option:selected').val()  
+                        
+                            // Set attribute values display mode when start
+                            if (localStorage.getItem('display_attribute') == 'template') {
+                                $('#values-view').removeClass('btn-info');
+                                $('#template-view').addClass('btn-info');
+                            } else {
+                                $('#values-view').addClass('btn-info');
+                                $('#template-view').removeClass('btn-info');
+                            }
+
+                            // Set filter values display mode when start and loadValues
+                            if (localStorage.getItem('filter-values')) {
+                                $("input[value=\"" + localStorage.getItem('filter-values') + "\"]").trigger('change'); 
+                            } else {
+                                loadValues()
+                            }
+                        }
+                    });  
+
+                function newCategory(category_id) {
+                    $.each(product_attribute_id, function (key, attribute_id) { 
+                        addAttributeDuty(attribute_id, key);
+                    });
+                    $.ajax({
+                      data: {
+                            'token': token,
+                            'user_token': user_token,
+                            'category_id': category_id
+                        },
+                        url: 'index.php?route=' + extension + 'module/attributipro/getCategoryAttributes',
+                        dataType: 'json',
+                        success: function (json) {
+                            if (add_category_attribute) {
+                                $.each(json, (key, attribute) => {
+                                    if (!in_array(attribute['attribute_id'], product_attribute_id)) {
+                                        var row = attribute_row;
+                                        addAttribute(); 
+                                        $('input[name="product_attribute[' + row + '][name]"]').val(attribute['name']); 
+                                        $('input[name="product_attribute[' + row + '][attribute_id]"]').val(attribute['attribute_id']);
+                                        $('#group-name' + row).remove()
+                                        $('input[name=\'product_attribute[' + row + '][name]\']').parent().prepend('<label id=group-name' + row + '>' + attribute['group_name'] + '</label>')
+                                        makeValuesList(attribute['attribute_id'], row);
+                                        addAttributeDuty(attribute['attribute_id'], row);
+                                        product_attribute_id.push(attribute['attribute_id']);
+                                    }
+                                });
+                            }
+                        }
+                    });
+                }
+
+                function removeCategoryAttribute(category_id) {                    
+                    $.ajax({
+                      data: {
+                            'token': token,
+                            'user_token': user_token,
+                            'category_id': category_id,
+                            'categories': getSelectedCategories()
+                        },
+                        url: 'index.php?route=' + extension + 'module/attributipro/getCategoryAttributes',
+                        dataType: 'json',
+                        success: function (json) {
+                            if (confirm(remove_category_attribute)) {
+                                json.forEach( attribute => {                                  
+                                  $('[id ^= attribute-row]').each((row, tr) => {                                                                       
+                                    if ($(tr).find('[name *= attribute_id]').val() === attribute['attribute_id']) {                                      
+                                      $(tr).remove()                                      
+                                      product_attribute_id = product_attribute_id.filter( item => item !== attribute['attribute_id']);
+                                      attribute_row--
+                                    }                                    
+                                  })                                   
+                                });
+                            }
+                        }
+                    });
+                }
+
+                function in_array(value, array) {
+                    for (var i = 0; i < array.length; i++) {
+                        if (array[i] == value) return true;
+                    }
+                    return false;
+                }
+
+                function getSelectedCategories() {
+                    var selKeys = [];
+                    $('input[name=\'product_category[]\']').each(function (indx, element) {                      
+                        if ($(this).is(":checked") || ($(this).prev().hasClass('fa-minus-circle') && $(this).val() != 0)) {                            
+                            selKeys.push($(this).val());
+                        }
+                    });                   
+                    selKeys.push($('select[name=\'main_category_id\']').val())
+                    selKeys = [...new Set(selKeys)]
+                    return selKeys;
+                }
+
+                function makeValuesList(attribute_id, attribute_row) {
+                    $.ajax({
+                        data: {
+                            'token': token,
+                            'user_token': user_token,
+                            'attribute_id': attribute_id,
+                            'view_mode': localStorage.getItem('display_attribute'),
+                            'categories': $('input[id=\'filter-category\']').is(":checked") ? getSelectedCategories() : [],
+                            'duty': $('input[id=\'filter-duty\']').is(":checked") ? 'true' : ''
+                        },
+                        url: 'index.php?route=' + extension + 'module/attributipro/getValuesList',
+                        dataType: 'json',
+                        success: function (json) {
+                            $.each(json, function (language_id, select) {
+                                var textarea = $('textarea[name="product_attribute\[' + attribute_row + '\]\[product_attribute_description\]\[' + language_id + '\]\[text\]"]'); 
+                                $('select[language_id="' + language_id + '"]', textarea.parent()).remove();
+                                textarea.before(select);
+                                textarea.attr('rows', 3);
+                            });
+                        }
+                    });
+                }
+
+                function addAttributeDuty(attribute_id, attribute_row) {
+                    $.ajax({
+                      data: {
+                            'token': token,
+                            'user_token': user_token,
+                            'attribute_id': attribute_id,
+                            'method': method
+                        },
+                        url: 'index.php?route=' + extension + 'module/attributipro/getAttributeDuty',
+                        dataType: 'json',
+                        success: function (json) {
+                            $.each(json, function (language_id, duty) {
+                                var textarea = $('textarea[name="product_attribute\[' + attribute_row + '\]\[product_attribute_description\]\[' + language_id + '\]\[text\]"]');
+                                switch (method) {
+                                    case "clean":                                    
+                                        textarea.val('');
+                                        break;
+                                    case "unchange":                                        
+                                        break;
+                                    case "overwrite":
+                                        if (duty != '')
+                                             textarea.val(duty); 
+                                        break;
+                                    case "ifempty":
+                                        if(textarea.val()=='')                                   
+                                            textarea.val(duty);
+                                        break;                                   
+                                    default:
+                                        break;
+                                }                                
+                            });
+                        }
+                    });
+                }
+
+                function loadValues() {
+                    $('#attribute tbody tr').each(function(index, element) {
+                            var attribute_id = $('[name="product_attribute\[' + index + '\]\[attribute_id\]"]').val();
+                            makeValuesList(attribute_id, index);
+                            product_attribute_id.push(attribute_id);
+                    });                   
+                }
+
+                function getAttributeInfo(attribute_id, row) {
+                    $.ajax({
+                      data: {
+                            'token': token,
+                            'user_token': user_token,
+                            'attribute_id': attribute_id
+                        },
+                        url: 'index.php?route=' + extension + 'module/attributipro/getAttributeInfo',
+                        dataType: 'json',
+                        success: function (json) {
+                          let baseSelector = $('input[name="product_attribute[' + row + '][name]"]').parent()
+                          let outputInfo = $('<textarea>', {
+                              class: 'form-control',
+                              id: 'attribute-info' + row,
+                              disabled: 'disabled',
+                              style: 'resize:vertical; overflow:auto;',
+                              wrap:"off",
+                              cols:"30",
+                              rows:"6",
+                          });
+                          $('#attribute-info' + row).remove()
+                          $.each(json, function (language_id) {
+                            outputInfo.val($.trim(outputInfo.val() + '\n' + json[language_id].group_name));
+                            outputInfo.val($.trim(outputInfo.val() + '\n' + json[language_id].name))                            
+                            });
+                            baseSelector.append(outputInfo)
+                        }
+                    });
+                }
+
+                // Event Category onchange
+                $('body').on('change', 'input[name=\'product_category[]\'], select[name=\'main_category_id\']', function (e) {  
+                    if ($(this).is(":checked") || (this.tagName == "SELECT" && $(this).val() != 0)) {
+                        newCategory($(this).val())
+                    } else {
+                      removeCategoryAttribute($(this).val())
+                    }
+                });
+                $('#product-category').on('click', '.fa-minus-circle',  function() {
+                  let category_id = $(this).parent().find('[name *= product_category]').val()
+                  removeCategoryAttribute(category_id)
+                });
+
+                // Event apply value or template and set selected in textarea
+                $('#attribute tbody').on('change', 'select', function() {
+                    var select = $(this);
+                    var textarea_val = select.next('textarea').val();
+                    textarea_val = (textarea_val == '') ? textarea_val : textarea_val + splitter;                        
+                    if (localStorage.getItem('display_attribute') == 'template') {
+                        if (this.selectedIndex != 0) {
+                            select.next('textarea').val(select.val());            
+                            if (localStorage.getItem('filter-values') == 'duty') {               
+                                let row = select.next('textarea').attr("name").match(/[0-9]+/)[0];
+                                let attribute_id = select.attr("attribute_id")
+                                addAttributeDuty(attribute_id, row)
+                            }
+                            this.selectedIndex = 0
+                        }            
+                    } else {
+                        if (this.selectedIndex != 0) {
+                            select.next('textarea').val(textarea_val + select.val());
+                            this.selectedIndex = 0
+                        }
+                    }
+                });                              
+
+                // Event change filter mode for attribute values
+                $('#serv-panel').on('change', 'input[type=\'radio\']', function () {
+                    localStorage.setItem('filter-values', $('input[name=filter-values]:checked').val()); 
+                    product_attribute_id = []                    
+                    loadValues()
+                });
+
+                // Event set template mode
+                $('#serv-panel').on('click', '#template-view', function () {
+                    localStorage.setItem('display_attribute', 'template');
+                    $(this).addClass('btn-info');
+                    $('#values-view').removeClass('btn-info');
+                    product_attribute_id = []                    
+                    loadValues()
+                });
+
+                // Event set values mode
+                $('#serv-panel').on('click', '#values-view', function () {
+                    localStorage.setItem('display_attribute', 'values');                    
+                    $(this).addClass('btn-info');
+                    $('#template-view').removeClass('btn-info');  
+                    product_attribute_id = []                                  
+                    loadValues()
+                });                
+                
+                // Event override method 
+                $('#serv-panel').on('change', '#method-view', () => {
+                  method = $('#method-view option:selected').val()                  
+                });
+            ]]></add>
+        </operation>        
+        <operation>
+            <search><![CDATA[html += '  <td class="text-left">';]]></search>
+            <add position="before"><![CDATA[
+                html += '  <td class="text-left" style="width: 5%;"><input type="text" value="" class="form-control" readonly="true"/></td>';
+            ]]></add>
+        </operation>
+         <operation>
+            <search><![CDATA[$('input[name=\'product_attribute[' + attribute_row + '][name]\']').val(item['label']);]]></search>
+            <add position="before"><![CDATA[
+                let old_id = $('input[name=\'product_attribute[' + attribute_row + '][attribute_id]\']').val();                
+            ]]>            </add>
+        </operation>
+        <operation>
+            <search><![CDATA[$('input[name=\'product_attribute[' + attribute_row + '][attribute_id]\']').val(item['value']);]]></search>
+            <add position="after"><![CDATA[
+                let index = product_attribute_id.indexOf(old_id)  
+                if (~index) {
+                    product_attribute_id[index] = item.value;
+                }      
+				makeValuesList(item.value, attribute_row);
+                addAttributeDuty(item.value, attribute_row);
+                $('#group-name' + attribute_row).remove()
+                $('input[name=\'product_attribute[' + attribute_row + '][name]\']').parent().prepend('<label id=group-name' + attribute_row + '>' + item.category + '</label>')
+            ]]></add>
+        </operation>
+        <operation>
+            <search><![CDATA[<td class="text-left">{{ entry_attribute }}</td>]]></search>
+            <add position="after"><![CDATA[<td class="text-left">{{ entry_sort_order }}</td>]]></add>
+        </operation>
+        <operation>
+            <search><![CDATA[<td class="text-left" style="width: 40%;">]]></search>
+            <add position="replace"><![CDATA[<td class="text-left" style="width: 40%;"><label id="group-name{{attribute_row}}">{{ product_attribute['group_name'] }}</label>                        
+            ]]></add>
+        </operation>
+        <operation>
+            <search index='0'><![CDATA[<td class="text-left">{% for language in languages %}]]></search>
+            <add position="before"><![CDATA[<td class="text-left" style="width: 5%;"><input type="text" value="{{ product_attribute['sort_order'] }}" class="form-control" readonly="true"/></td>
+            ]]></add>
+        </operation>
+        <operation>
+            <search><![CDATA[<td class="text-left">{{ entry_text }}</td>]]></search>
+            <add position="replace"><![CDATA[
+                <td class="text-left">
+                    {{ entry_text }}
+                    <div id="serv-panel" class="pull-right form-inline">                        
+                    </div>
+                </td>
+            ]]>            </add>
+        </operation>
+    </file>
+    <file path="admin/view/template/catalog/product_form.twig">
+	<operation error="skip">
+            <search><![CDATA[+ item['label'] + '<input type="hidden" name="product_category[]" value="' + item['value'] + '" /></div>');]]></search>
+            <add position="after"><![CDATA[newCategory(item['value']);]]></add>
+	</operation>
+    </file>    
+    <file path="admin/controller/catalog/product.php">
+        <operation error="skip">
+            <search><![CDATA[$data['footer'] = $this->load->controller('common/footer');]]></search>
+            <add position="after"><![CDATA[
+		        $data['extension'] = version_compare(VERSION, '2.3.0', '>=') ? "extension/" : "";                
+            ]]></add>
+        </operation>
+        <operation error="skip">
+            <search><![CDATA[$this->load->model('catalog/attribute');]]></search>
+            <add position="after"><![CDATA[
+		        $this->load->model('catalog/attributipro');                
+            ]]></add>
+        </operation>      
+        <operation error="skip">
+            <search><![CDATA[$attribute_info = $this->model_catalog_attribute->getAttribute($product_attribute['attribute_id']);]]></search>
+            <add position="replace"><![CDATA[
+		        $attribute_info = $this->model_catalog_attributipro->getAttributeInfo($product_attribute['attribute_id'], [$this->config->get('config_language_id')]);
+            ]]></add>
+        </operation>
+        <operation error="skip">
+            <search><![CDATA['product_attribute_description' => $product_attribute['product_attribute_description']]]></search>
+            <add position="after"><![CDATA[
+		        ,'sort_order' => $attribute_info['sort_order'],
+				'group_name'  => $attribute_info['group_name'],
+            ]]></add>
+        </operation>
+        <operation error="skip">
+            <search><![CDATA[// Options]]></search>
+            <add position="before"><![CDATA[
+		        $sort_order = array();
+                foreach ($data['product_attributes'] as $key => $value) {
+                    $sort_order[$key] = $value['sort_order'];
+                }
+                array_multisort($sort_order, SORT_ASC, $data['product_attributes']);
+            ]]></add>
+        </operation>
+    </file>
+    <file path="admin/model/catalog/attribute.php">
+        <operation>
+            <search index='0'><![CDATA[$this->db->query("DELETE FROM " . DB_PREFIX . "attribute_description WHERE attribute_id = '" . (int)$attribute_id . "'");]]></search>
+            <add position="replace"><![CDATA[]]></add>
+        </operation>
+        <operation>
+            <search index='1'><![CDATA[
+                $this->db->query("INSERT INTO " . DB_PREFIX . "attribute_description SET attribute_id = '" . (int)$attribute_id . "', language_id = '" . (int)$language_id . "', name = '" . $this->db->escape($value['name']) . "'");
+            ]]></search>
+            <add position="replace"><![CDATA[
+                $this->db->query("UPDATE " . DB_PREFIX . "attribute_description SET name = '" . $this->db->escape($value['name']) . "' WHERE attribute_id = '" . (int) $attribute_id . "' AND language_id = '" . (int) $language_id . "'");
+            ]]></add>
+        </operation>
+    </file>
+    <file path="admin/model/localisation/language.php">
+        <operation error="skip">
+            <ignoreif><![CDATA['directory'   => $result['directory']]]></ignoreif>
+            <search><![CDATA['sort_order'  => $result['sort_order'],]]></search>
+            <add position="after"><![CDATA[
+		'image'       => $result['image'],
+		'directory'   => $result['directory'],
+            ]]></add>
+        </operation>
+    </file>
+	
+	<file path="admin/view/template/common/header.twig">
+        <operation error="skip">
+            <search><![CDATA[<link type="text/css" href="view/stylesheet/stylesheet.css" rel="stylesheet" media="screen" />]]></search>
+            <add position="after" ><![CDATA[<link type="text/css" href="view/stylesheet/autocomplete.css" rel="stylesheet" media="screen" />]]></add>
+        </operation>        
+    </file>	
+	<file path="admin/controller/catalog/product.php">
+        <operation error="skip">
+            <search><![CDATA[$limit = 5;]]></search>
+			<add position="replace"><![CDATA[$limit = 10000;]]></add>
+        </operation>        
+    </file>		
+	<file path="admin/controller/catalog/attribute.php">
+        <operation error="skip">
+            <search><![CDATA['limit'       => 5]]></search>
+			<add position="replace"><![CDATA['limit'       => 10000]]></add>
+        </operation>        
+    </file>	
+	<file path="admin/controller/catalog/category.php">
+        <operation error="skip">
+            <search><![CDATA['limit'       => 5]]></search>
+			<add position="replace"><![CDATA['limit'       => 10000]]></add>
+        </operation>        
+    </file>
+</modification>

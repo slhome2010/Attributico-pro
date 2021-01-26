@@ -31,11 +31,11 @@ module.exports = {
     context: __dirname,
     mode: 'development',
     entry: {
-        app: `${PATHS.src}/attributico.js`,
+        app: `${PATHS.src}/attributipro.js`,
     },
     output: {
         path: PATHS.dist,
-        filename: 'attributicopro.js',
+        filename: 'attributipro.js',
         publicPath: './'
     },
     devtool: 'source-map',
@@ -123,7 +123,7 @@ module.exports = {
             errors: true
         },
         port: 0,
-        publicPath: 'http://hozmag/admin/index.php?route=module/attributicopro&token=YStWHt087IqtCIPUF2EbcCSgYaMfQWaZ',
+        publicPath: 'http://hozmag/admin/index.php?route=module/attributipro&token=YStWHt087IqtCIPUF2EbcCSgYaMfQWaZ',
         hot: true
     },
     stats: {

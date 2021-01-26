@@ -3,9 +3,9 @@
 @include_once(DIR_SYSTEM . 'license/sllic.lic');
 require_once(DIR_SYSTEM . 'library/attributico/attributico.php');
 define('MODULE_VERSION', 'v0.0.3');
-define('PUBLIC_MODULE_NAME', 'module/attributicopro/');
+define('PUBLIC_MODULE_NAME', 'module/attributipro/');
 
-class ControllerModuleAttributicopro extends Controller
+class ControllerModuleAttributipro extends Controller
 {
 
     protected $data = array();
@@ -31,7 +31,7 @@ class ControllerModuleAttributicopro extends Controller
         $this->document->addStyle('view/javascript/fancytree/skin-custom/custom.css');
         $this->document->addStyle('view/stylesheet/attributico.css');
 
-        $this->document->addScript('view/javascript/attributicopro.js');
+        $this->document->addScript('view/javascript/attributipro.js');
 
         $extension = version_compare(VERSION, '2.3.0', '>=') ? "extension/" : "";
         $edit = version_compare(VERSION, '2.0.0', '>=') ? "edit" : "update";
@@ -42,10 +42,10 @@ class ControllerModuleAttributicopro extends Controller
         }
 
         if (version_compare(VERSION, '2.2.0', '>=')) {
-            $this->load->language($extension . 'module/attributicopro');
+            $this->load->language($extension . 'module/attributipro');
             $ssl = true;
         } else {
-            $this->language->load('module/attributicopro');
+            $this->language->load('module/attributipro');
             $ssl = 'SSL';
         }
 
@@ -74,7 +74,7 @@ class ControllerModuleAttributicopro extends Controller
                 $children[$i] = $this->request->post['ft_' . $i];
                 $i++;
             }
-            $this->request->post['attributico_children'] = serialize($children);
+            $this->request->post['attributipro_children'] = serialize($children);
 
             $filter_settings = array();
             foreach ($this->request->post as $key => $val) {
@@ -82,16 +82,16 @@ class ControllerModuleAttributicopro extends Controller
                     $filter_settings[] = $key;
                 }
             }
-            $this->request->post['attributico_filter'] = serialize($filter_settings);
+            $this->request->post['attributipro_filter'] = serialize($filter_settings);
 
-            if (($this->config->get('module_attributicopro_status'))) { //TODO status error
-                $this->request->post['module_attributicopro_status'] = $this->config->get('module_attributicopro_status');
+            if (($this->config->get('module_attributipro_status'))) { //TODO status error
+                $this->request->post['module_attributipro_status'] = $this->config->get('module_attributipro_status');
             } else {
-                $this->request->post['module_attributicopro_status'] = 0;
+                $this->request->post['module_attributipro_status'] = 0;
             }
 
-            $this->model_setting_setting->editSetting('attributico', $this->request->post);
-            $this->model_setting_setting->editSetting('module_attributicopro', $this->request->post);
+            $this->model_setting_setting->editSetting('attributipro', $this->request->post);
+            $this->model_setting_setting->editSetting('module_attributipro', $this->request->post);
             $this->session->data['success'] = $this->language->get('text_success');
 
             if (version_compare(VERSION, '2.0.1', '>=')) { // иначе вылетает из админки
@@ -110,7 +110,7 @@ class ControllerModuleAttributicopro extends Controller
         }
 
         $this->data['duty_check'] = $this->duty_check();
-        $this->data['status'] = $this->config->get('module_attributicopro_status');
+        $this->data['status'] = $this->config->get('module_attributipro_status');
         if (!$this->data['status'] || !$this->data['duty_check']) {
             $this->error['warning'] = $this->language->get('error_status');
         }
@@ -258,7 +258,7 @@ class ControllerModuleAttributicopro extends Controller
 
         $this->data['breadcrumbs'][] = array(
             'text' => $this->language->get('heading_title'),
-            'href' => $this->url->link($extension . 'module/attributicopro', $token_name . '=' . $this->token, $ssl),
+            'href' => $this->url->link($extension . 'module/attributipro', $token_name . '=' . $this->token, $ssl),
             'separator' => ' :: '
         );
 
@@ -342,30 +342,30 @@ class ControllerModuleAttributicopro extends Controller
             }
         }
 
-        $this->data['action'] = $this->url->link($extension . 'module/attributicopro', $token_name . '=' . $this->token, $ssl);
+        $this->data['action'] = $this->url->link($extension . 'module/attributipro', $token_name . '=' . $this->token, $ssl);
         $this->data['cancel'] = $this->url->link($link, $token_name . '=' . $this->token . '&type=module', $ssl);
 
-        if ($this->config->get('attributico_filter')) {
-            $this->data['filter_settings'] = unserialize($this->config->get('attributico_filter'));
+        if ($this->config->get('attributipro_filter')) {
+            $this->data['filter_settings'] = unserialize($this->config->get('attributipro_filter'));
         } else {
             $this->data['filter_settings'] = $default_settings;
         }
 
-        $this->assignData('attributico_splitter', '/');
-        $this->assignData('attributico_sortorder', 0);
-        $this->assignData('attributico_smart_scroll', 0);
-        $this->assignData('attributico_multiselect', 0);
-        $this->assignData('attributico_empty', 0);
-        $this->assignData('attributico_autoadd', 0);
-        $this->assignData('attributico_autodel', 0);
-        $this->assignData('attributico_autoadd_subcategory', 0);
-        $this->assignData('attributico_autodel_subcategory', 0);
-        $this->assignData('attributico_product_text', 'unchange');
-        $this->assignData('attributico_about_blank', 0);
-        $this->assignData('attributico_lazyload', 0);
-        $this->assignData('attributico_cache', 0);
-        $this->assignData('attributico_multistore', 0);
-        $this->assignData('attributico_replace_mode', 'substr'); 
+        $this->assignData('attributipro_splitter', '/');
+        $this->assignData('attributipro_sortorder', 0);
+        $this->assignData('attributipro_smart_scroll', 0);
+        $this->assignData('attributipro_multiselect', 0);
+        $this->assignData('attributipro_empty', 0);
+        $this->assignData('attributipro_autoadd', 0);
+        $this->assignData('attributipro_autodel', 0);
+        $this->assignData('attributipro_autoadd_subcategory', 0);
+        $this->assignData('attributipro_autodel_subcategory', 0);
+        $this->assignData('attributipro_product_text', 'unchange');
+        $this->assignData('attributipro_about_blank', 0);
+        $this->assignData('attributipro_lazyload', 0);
+        $this->assignData('attributipro_cache', 0);
+        $this->assignData('attributipro_multistore', 0);
+        $this->assignData('attributipro_replace_mode', 'substr'); 
 
         if (version_compare(VERSION, '2.0.1', '>=')) {
             $this->data['header'] = $this->load->controller('common/header');
@@ -373,9 +373,9 @@ class ControllerModuleAttributicopro extends Controller
             $this->data['footer'] = $this->load->controller('common/footer');
 
             $tpl = version_compare(VERSION, '2.2.0', '>=') ? "" : ".tpl";
-            $this->response->setOutput($this->load->view($extension . 'module/attributico' . $tpl, $this->data));
+            $this->response->setOutput($this->load->view($extension . 'module/attributipro' . $tpl, $this->data));
         } else {
-            $this->template = 'module/attributico_1_5_x.tpl';
+            $this->template = 'module/attributipro_1_5_x.tpl';
             $this->children = array(
                 'common/header',
                 'common/footer'
@@ -387,7 +387,7 @@ class ControllerModuleAttributicopro extends Controller
     protected function validate()
     {
         $extension = version_compare(VERSION, '2.3.0', '>=') ? "extension/" : "";
-        if (!$this->user->hasPermission('modify', $extension . 'module/attributicopro')) {
+        if (!$this->user->hasPermission('modify', $extension . 'module/attributipro')) {
             $this->error['warning'] = $this->language->get('error_permission');
         }
         return !$this->error;
@@ -407,12 +407,12 @@ class ControllerModuleAttributicopro extends Controller
     public function getCategoryAttributes()
     {
         $json = array();
-        $sortOrder = $this->config->get('attributico_sortorder') == '1' ? true : false;
+        $sortOrder = $this->config->get('attributipro_sortorder') == '1' ? true : false;
         $category_id = isset($this->request->get['category_id']) ? (int) $this->request->get['category_id'] : 0;
         $categories = isset($this->request->get['categories']) ? $this->request->get['categories'] : array();
         $categories_attributes = [];
 
-        $this->load->model('catalog/attributico');
+        $this->load->model('catalog/attributipro');
         // Это те, которые удалять нельзя. Если не передано, значит просто вернется список для $category_id
         if ($categories) {
             foreach ($categories as $category) {
@@ -420,7 +420,7 @@ class ControllerModuleAttributicopro extends Controller
                     'category_id' => (int) $category,
                     'sort' => $sortOrder ? 'sort_attribute_group, a.sort_order' : ''
                 );
-                $categories_attributes = array_merge($categories_attributes, $this->model_catalog_attributico->getCategoryAttributes($filter_data));
+                $categories_attributes = array_merge($categories_attributes, $this->model_catalog_attributipro->getCategoryAttributes($filter_data));
             }
         }
 
@@ -429,7 +429,7 @@ class ControllerModuleAttributicopro extends Controller
             'category_id' => (int) $category_id,
             'sort' => $sortOrder ? 'sort_attribute_group, a.sort_order' : ''
         );
-        $category_attributes = $this->model_catalog_attributico->getCategoryAttributes($filter_data);
+        $category_attributes = $this->model_catalog_attributipro->getCategoryAttributes($filter_data);
 
         function compare_func($a, $b)
         {
@@ -466,13 +466,13 @@ class ControllerModuleAttributicopro extends Controller
         $view_mode = isset($this->request->get['view_mode']) ? $this->request->get['view_mode'] : 'template';
         $categories = isset($this->request->get['categories']) ? $this->request->get['categories'] : array();
         $duty = isset($this->request->get['duty']) ? $this->request->get['duty'] : false;
-        $splitter = !($this->config->get('attributico_splitter') == '') ? $this->config->get('attributico_splitter') : '/';
+        $splitter = !($this->config->get('attributipro_splitter') == '') ? $this->config->get('attributipro_splitter') : '/';
         $language_id = isset($this->request->get['language_id']) ? (int) $this->request->get['language_id'] : '';
 
         $languages = $this->getLanguages();
 
-        $this->load->model('catalog/attributico');
-        $values = $duty ? $this->model_catalog_attributico->getDutyValues($attribute_id) : $this->model_catalog_attributico->getAttributeValues($attribute_id, $categories);
+        $this->load->model('catalog/attributipro');
+        $values = $duty ? $this->model_catalog_attributipro->getDutyValues($attribute_id) : $this->model_catalog_attributipro->getAttributeValues($attribute_id, $categories);
 
         if ($values && !$language_id) {
             foreach ($languages as $language) {
@@ -527,17 +527,17 @@ class ControllerModuleAttributicopro extends Controller
     {
         $json = array();
         $attribute_id = isset($this->request->get['attribute_id']) ? (int) $this->request->get['attribute_id'] : 0;
-        $method = isset($this->request->get['method']) ? $this->request->get['method'] : $this->config->get('attributico_product_text');
+        $method = isset($this->request->get['method']) ? $this->request->get['method'] : $this->config->get('attributipro_product_text');
 
-        if ($this->config->get('attributico_autoadd')) {
+        if ($this->config->get('attributipro_autoadd')) {
 
             $languages = $this->getLanguages();
 
-            $this->load->model('catalog/attributico');
+            $this->load->model('catalog/attributipro');
 
             if ($method == 'overwrite' || $method == 'ifempty')
                 foreach ($languages as $language) {
-                    $json[$language['language_id']][] = $this->model_catalog_attributico->whoisOnDuty($attribute_id, $language);
+                    $json[$language['language_id']][] = $this->model_catalog_attributipro->whoisOnDuty($attribute_id, $language);
                 }
             if ($method == 'clean')
                 foreach ($languages as $language) {
@@ -555,9 +555,9 @@ class ControllerModuleAttributicopro extends Controller
         $extension = version_compare(VERSION, '2.3.0', '>=') ? "extension/" : "";
 
         if (version_compare(VERSION, '2.2.0', '>=')) {
-            $this->load->language($extension . 'module/attributicopro');
+            $this->load->language($extension . 'module/attributipro');
         } else {
-            $this->language->load('module/attributicopro');
+            $this->language->load('module/attributipro');
         }
 
         $labels = "<label class='radio-inline'><input type='radio' name='filter-values' id='filter-nofilter' value='all' checked>" . $this->language->get('entry_flter_all') . "</label>";
@@ -572,7 +572,7 @@ class ControllerModuleAttributicopro extends Controller
 
         $select = "<select class='form-control' id='method-view' style='margin-left:3px; font-weight:normal; width:27%'>";
         $option_style = "overflow:hidden; white-space:nowrap; text-overflow:ellipsis;";
-        $method = $this->config->get('attributico_product_text');
+        $method = $this->config->get('attributipro_product_text');
         $options =  "<option " . ($method == 'clean' ? "selected " : "") . "value='clean' style=" . $option_style . ">" . $this->language->get('text_clear') . "</option>";
         $options .= "<option " . ($method == 'unchange' ? "selected " : "") . "value='unchange' style=" . $option_style . ">" . $this->language->get('text_keep') . "</option>";
         $options .= "<option " . ($method == 'overwrite' ? "selected " : "") . "value='overwrite' style=" . $option_style . ">" . $this->language->get('text_duty') . "</option>";
@@ -581,11 +581,11 @@ class ControllerModuleAttributicopro extends Controller
         $select .= $options;
         $select .= "</select>";
 
-        $splitter = !($this->config->get('attributico_splitter') == '') ? $this->config->get('attributico_splitter') : '/';
-        $attributico_autoadd = $this->config->get('attributico_autoadd') ? $this->config->get('attributico_autoadd') : 0;
+        $splitter = !($this->config->get('attributipro_splitter') == '') ? $this->config->get('attributipro_splitter') : '/';
+        $attributipro_autoadd = $this->config->get('attributipro_autoadd') ? $this->config->get('attributipro_autoadd') : 0;
         $remove_category_attribute = $this->language->get('alert_remove_ca_confirm');
 
-        $json = ['serv_panel' => $labels . $buttons . $select, 'splitter' => quotemeta($splitter), 'attributico_autoadd' => $attributico_autoadd, 'extension' => $extension, 'remove_category_attribute' => $remove_category_attribute];
+        $json = ['serv_panel' => $labels . $buttons . $select, 'splitter' => quotemeta($splitter), 'attributipro_autoadd' => $attributipro_autoadd, 'extension' => $extension, 'remove_category_attribute' => $remove_category_attribute];
 
         $this->response->addHeader('Content-Type: application/json');
         $this->response->setOutput(json_encode($json));
@@ -611,8 +611,8 @@ class ControllerModuleAttributicopro extends Controller
             }
         }
 
-        $this->load->model('catalog/attributico');
-        $attribute_info = $this->model_catalog_attributico->getAttributeInfo($attribute_id);
+        $this->load->model('catalog/attributipro');
+        $attribute_info = $this->model_catalog_attributipro->getAttributeInfo($attribute_id);
 
         $this->response->addHeader('Content-Type: application/json');
         $this->response->setOutput(json_encode($attribute_info));
@@ -624,7 +624,7 @@ class ControllerModuleAttributicopro extends Controller
         $sortOrder = isset($this->request->get['sortOrder']) ? filter_var($this->request->get['sortOrder'], FILTER_VALIDATE_BOOLEAN) : true;
         $lazyLoad = isset($this->request->get['lazyLoad']) ? filter_var($this->request->get['lazyLoad'], FILTER_VALIDATE_BOOLEAN) : false;
         $onlyGroup = isset($this->request->get['onlyGroup']) ? filter_var($this->request->get['onlyGroup'], FILTER_VALIDATE_BOOLEAN) : false;
-        $cache = isset($this->request->get['cache']) ? filter_var($this->request->get['cache'], FILTER_VALIDATE_BOOLEAN) : $this->config->get('attributico_cache');
+        $cache = isset($this->request->get['cache']) ? filter_var($this->request->get['cache'], FILTER_VALIDATE_BOOLEAN) : $this->config->get('attributipro_cache');
         $cachename = '';
 
         $tree = isset($this->request->get['tree']) ? $this->request->get['tree'] : '1';
@@ -632,7 +632,7 @@ class ControllerModuleAttributicopro extends Controller
         $children = $this->childrenSettings($tree);
 
         if ($cache) {
-            $cachename = "attributico.tree." . (int) $language_id . (int) $sortOrder . (int) $lazyLoad . (int) $onlyGroup . (int) $children["template"] . (int) $children["value"] . (int) $children["duty"];
+            $cachename = "attributipro.tree." . (int) $language_id . (int) $sortOrder . (int) $lazyLoad . (int) $onlyGroup . (int) $children["template"] . (int) $children["value"] . (int) $children["duty"];
             $cache_tree_data = $this->cache->get($cachename);
         } else {
             $cache_tree_data = false;
@@ -640,13 +640,13 @@ class ControllerModuleAttributicopro extends Controller
 
         if (!$cache_tree_data) {
 
-            $this->load->model('catalog/attributico');
+            $this->load->model('catalog/attributipro');
 
             $filter_data = array(
                 'sort' => $sortOrder ? 'ag.sort_order' : '',
                 'language_id' => $language_id
             );
-            $attribute_groups = $this->model_catalog_attributico->getAttributeGroups($filter_data);
+            $attribute_groups = $this->model_catalog_attributipro->getAttributeGroups($filter_data);
 
             if (isset($this->session->data['a_debug_mode'])) {
                 $this->debug_mode = $this->session->data['a_debug_mode'];
@@ -692,7 +692,7 @@ class ControllerModuleAttributicopro extends Controller
         );
 
         $attributeNode = new Node();
-        $attributes = $this->model_catalog_attributico->getAttributes($filter_data);
+        $attributes = $this->model_catalog_attributipro->getAttributes($filter_data);
         foreach ($attributes as $attribute) {
             $templateNode = new Node(array(
                 "title" => $this->session->data['entry_templates'][$language_id], "unselectable" => true, "key" => "template_" . (string) $attribute['attribute_id'],
@@ -729,12 +729,12 @@ class ControllerModuleAttributicopro extends Controller
         $all_elements = array();
 
         if (!isset($this->avcahe[$attribute_id])) {
-            $this->avcahe[$attribute_id] = $this->model_catalog_attributico->getAttributeValues($attribute_id);
+            $this->avcahe[$attribute_id] = $this->model_catalog_attributipro->getAttributeValues($attribute_id);
         }
         $attribute_values = $this->avcahe[$attribute_id];
 
-        $splitter = !($this->config->get('attributico_splitter') == '') ? $this->config->get('attributico_splitter') : '/';
-        $empty = $this->config->get('attributico_empty');
+        $splitter = !($this->config->get('attributipro_splitter') == '') ? $this->config->get('attributipro_splitter') : '/';
+        $empty = $this->config->get('attributipro_empty');
 
         $nodeValues = new Node();
         if (array_key_exists($language_id, $attribute_values)) {
@@ -776,7 +776,7 @@ class ControllerModuleAttributicopro extends Controller
             $this->debug_mode = $this->session->data['a_debug_mode'];
         }
 
-        $this->load->model('catalog/attributico');
+        $this->load->model('catalog/attributipro');
         if ($key[0] == 'value') {
             $attribute_id = $key[1];
             $json = $this->getAttributeValuesNodes($attribute_id, $language_id, 'values');
@@ -802,7 +802,7 @@ class ControllerModuleAttributicopro extends Controller
 
         $children = $this->childrenSettings($tree);
 
-        $this->load->model('catalog/attributico');
+        $this->load->model('catalog/attributipro');
         if ($key[0] == 'group') {
             $attribute_group_id = $key[1];
 
@@ -818,17 +818,17 @@ class ControllerModuleAttributicopro extends Controller
     {
         $language_id = isset($this->request->get['language_id']) ? $this->request->get['language_id'] : $this->config->get('config_language_id');
         $sortOrder = isset($this->request->get['sortOrder']) ? filter_var($this->request->get['sortOrder'], FILTER_VALIDATE_BOOLEAN) : true;
-        $cache = isset($this->request->get['cache']) ? filter_var($this->request->get['cache'], FILTER_VALIDATE_BOOLEAN) : $this->config->get('attributico_cache');
-        $multistore = isset($this->request->get['multistore']) ? filter_var($this->request->get['multistore'], FILTER_VALIDATE_BOOLEAN) : $this->config->get('attributico_multistore');
+        $cache = isset($this->request->get['cache']) ? filter_var($this->request->get['cache'], FILTER_VALIDATE_BOOLEAN) : $this->config->get('attributipro_cache');
+        $multistore = isset($this->request->get['multistore']) ? filter_var($this->request->get['multistore'], FILTER_VALIDATE_BOOLEAN) : $this->config->get('attributipro_multistore');
 
-        $this->config->set('attributico_multistore', (string) $multistore);
+        $this->config->set('attributipro_multistore', (string) $multistore);
 
         if (isset($this->session->data['a_debug_mode'])) {
             $this->debug_mode = $this->session->data['a_debug_mode'];
         }
 
         if ($cache) {
-            $cachename = "attributico.tree.category" . (int) $language_id . (int) $sortOrder . (int) $this->debug_mode;
+            $cachename = "attributipro.tree.category" . (int) $language_id . (int) $sortOrder . (int) $this->debug_mode;
             $cache_tree_data = $this->cache->get($cachename);
         } else {
             $cache_tree_data = false;
@@ -836,8 +836,8 @@ class ControllerModuleAttributicopro extends Controller
 
         if (!$cache_tree_data) {
 
-            $this->load->model('catalog/attributico');
-            $all_categories = $this->model_catalog_attributico->getAllCategories();
+            $this->load->model('catalog/attributipro');
+            $all_categories = $this->model_catalog_attributipro->getAllCategories();
 
             $mainCategory = new Node();
             foreach ($all_categories[0] as $main_category) {
@@ -911,7 +911,7 @@ class ControllerModuleAttributicopro extends Controller
             $category_id = '0';
         }
 
-        $this->load->model('catalog/attributico');
+        $this->load->model('catalog/attributipro');
 
         $rootData = array("title" => $this->session->data['error_not_category'][$language_id]);
 
@@ -923,8 +923,8 @@ class ControllerModuleAttributicopro extends Controller
 
         $attributeNode = new Node();
         if (is_numeric($category_id) && $category_id !== '0') {
-            $categoryAttributes = $this->model_catalog_attributico->getCategoryAttributes($filter_data);
-            $category_description = $this->model_catalog_attributico->getCategoryDescriptions($category_id);
+            $categoryAttributes = $this->model_catalog_attributipro->getCategoryAttributes($filter_data);
+            $category_description = $this->model_catalog_attributipro->getCategoryDescriptions($category_id);
             foreach ($categoryAttributes as $attribute) {
                 $dutyNode = new Node(array("title" => $attribute['duty'], "key" => "duty_" . (string) $attribute['attribute_id'], "extraClasses" => "custom1",));
                 $templateNode = new Node(array(
@@ -1001,8 +1001,8 @@ class ControllerModuleAttributicopro extends Controller
         $non_hierarchical = true;
         $rootData = array("title" => $this->session->data['error_not_attribute'][$language_id]);
 
-        $this->load->model('catalog/attributico');
-        $all_categories = $this->model_catalog_attributico->getAllCategories($non_hierarchical);
+        $this->load->model('catalog/attributipro');
+        $all_categories = $this->model_catalog_attributipro->getAllCategories($non_hierarchical);
         $sort_order = array();
 
         foreach ($all_categories as $k => $value) {
@@ -1011,14 +1011,14 @@ class ControllerModuleAttributicopro extends Controller
 
         array_multisort($sort_order, SORT_ASC, $all_categories);
 
-        $attribute_descriptions = $this->model_catalog_attributico->getAttributeDescriptions($attribute_id);
+        $attribute_descriptions = $this->model_catalog_attributipro->getAttributeDescriptions($attribute_id);
 
         if (is_numeric($attribute_id) && $attribute_id !== '0') {
             $categoryNode = new Node();
             foreach ($all_categories as $category) {
                 $productNode = new Node();
                 $category_id = $category['category_id'];
-                $products = $this->model_catalog_attributico->getProductsByAttribute($category_id, $attribute_id, $language_id, $invert);
+                $products = $this->model_catalog_attributipro->getProductsByAttribute($category_id, $attribute_id, $language_id, $invert);
                 foreach ($products as $product) {
                     $debug_category = $this->debug_mode ? " (cat=" . $product['category_id'] . ")" : '';
                     //  $childNode = new Node();
@@ -1097,10 +1097,10 @@ class ControllerModuleAttributicopro extends Controller
         $language_id = isset($this->request->get['language_id']) ? $this->request->get['language_id'] : $this->config->get('config_language_id');
         $name = isset($this->request->get['name']) ? htmlspecialchars_decode($this->request->get['name']) : '';
         $key = isset($this->request->get['key']) ? explode("_", $this->request->get['key']) : array('0', '0');
-        $splitter = !($this->config->get('attributico_splitter') == '') ? $this->config->get('attributico_splitter') : '/';
+        $splitter = !($this->config->get('attributipro_splitter') == '') ? $this->config->get('attributipro_splitter') : '/';
         $clone = isset($this->request->get['clone']) ? filter_var($this->request->get['clone'], FILTER_VALIDATE_BOOLEAN) : false;
 
-        $this->load->model('catalog/attributico');
+        $this->load->model('catalog/attributipro');
 
         if ($this->session->data['free']) {
             $acceptedTitle["acceptedTitle"] = $name;
@@ -1112,13 +1112,13 @@ class ControllerModuleAttributicopro extends Controller
         if ($key[0] == 'group') {
             $attribute_group_id = $key[1];
             $data['attribute_group_description'][$language_id]['name'] = $name;
-            $this->model_catalog_attributico->editAttributeGroup($attribute_group_id, $data);
+            $this->model_catalog_attributipro->editAttributeGroup($attribute_group_id, $data);
         }
 
         if ($key[0] == 'attribute') {
             $attribute_id = $key[1];
             $data['attribute_description'][$language_id]['name'] = $name;
-            $this->model_catalog_attributico->editAttribute($attribute_id, $data);
+            $this->model_catalog_attributipro->editAttribute($attribute_id, $data);
         }
 
         if ($key[0] == 'template') {
@@ -1126,7 +1126,7 @@ class ControllerModuleAttributicopro extends Controller
             $data['language_id'] = $language_id;
             $data['oldtext'] = isset($this->request->get['oldname']) ? htmlspecialchars_decode($this->request->get['oldname']) : '';
             $data['newtext'] = trim($name, $splitter);
-            $this->model_catalog_attributico->editAttributeTemplates($attribute_id, $data);
+            $this->model_catalog_attributipro->editAttributeTemplates($attribute_id, $data);
         }
 
         if ($key[0] == 'value') {
@@ -1134,7 +1134,7 @@ class ControllerModuleAttributicopro extends Controller
             $data['language_id'] = $language_id;
             $data['oldtext'] = isset($this->request->get['oldname']) ? htmlspecialchars_decode($this->request->get['oldname']) : '';
             $data['newtext'] = trim($name, $splitter);
-            $this->model_catalog_attributico->editAttributeValues($attribute_id, $data);
+            $this->model_catalog_attributipro->editAttributeValues($attribute_id, $data);
         }
 
         if ($key[0] == 'duty') {
@@ -1147,7 +1147,7 @@ class ControllerModuleAttributicopro extends Controller
             } else {
                 $data['attribute_description'][$language_id]['duty'] = $name;
             }
-            $this->model_catalog_attributico->editDuty($attribute_id, $data);
+            $this->model_catalog_attributipro->editDuty($attribute_id, $data);
         }
 
         $acceptedTitle["acceptedTitle"] = $name;
@@ -1176,8 +1176,8 @@ class ControllerModuleAttributicopro extends Controller
         $current_lng = $this->getLanguage($language_id);
 
         $data['sort_order'] = '';
-        $this->load->model('catalog/attributico');
-        $this->cache->delete('attributico');
+        $this->load->model('catalog/attributipro');
+        $this->cache->delete('attributipro');
 
         if ($attribute_group_id) {
             $data['attribute_group_id'] = $attribute_group_id;
@@ -1188,7 +1188,7 @@ class ControllerModuleAttributicopro extends Controller
                 $data['attribute_description'][$language['language_id']]['name'] = $lng->get('text_New_attribute');
             }
             // Добавляем новую запись в БД
-            $new_attribute_id = $this->model_catalog_attributico->addAttribute($data);
+            $new_attribute_id = $this->model_catalog_attributipro->addAttribute($data);
 
             $children = $this->childrenSettings($tree);
 
@@ -1223,7 +1223,7 @@ class ControllerModuleAttributicopro extends Controller
                 $lng = $this->getLanguage($language['language_id']);
                 $data['attribute_group_description'][$language['language_id']]['name'] = $lng->get('text_New_group');
             }
-            $new_group_id = $this->model_catalog_attributico->addAttributeGroup($data);
+            $new_group_id = $this->model_catalog_attributipro->addAttributeGroup($data);
             $node_data = array(
                 "title" => $current_lng->get('text_New_group') . "_" . (string) $new_group_id,
                 "key" => "group_" . (string) $new_group_id,
@@ -1272,8 +1272,8 @@ class ControllerModuleAttributicopro extends Controller
             }
         }
 
-        $this->load->model('catalog/attributico');
-        $this->cache->delete('attributico');
+        $this->load->model('catalog/attributipro');
+        $this->cache->delete('attributipro');
 
         foreach ($new_titles as $attribute_id => $title) {
             if ($attribute_group_id) {
@@ -1282,7 +1282,7 @@ class ControllerModuleAttributicopro extends Controller
                     $data['attribute_description'][$language['language_id']]['name'] = $title[$language['language_id']];
                     $data['attribute_description'][$language['language_id']]['attribute_id'] = $attribute_id;
                 }
-                $id = $this->model_catalog_attributico->addAttribute($data);
+                $id = $this->model_catalog_attributipro->addAttribute($data);
             }
         }
 
@@ -1319,10 +1319,10 @@ class ControllerModuleAttributicopro extends Controller
             return;
         }
 
-        $this->load->model('catalog/attributico');
-        $this->model_catalog_attributico->deleteAttributeGroups($data);
-        $this->model_catalog_attributico->deleteAttributes($data);
-        $this->model_catalog_attributico->deleteValues($data, $language_id);
+        $this->load->model('catalog/attributipro');
+        $this->model_catalog_attributipro->deleteAttributeGroups($data);
+        $this->model_catalog_attributipro->deleteAttributes($data);
+        $this->model_catalog_attributipro->deleteValues($data, $language_id);
     }
 
     public function replaceAttributeGroup()
@@ -1332,7 +1332,7 @@ class ControllerModuleAttributicopro extends Controller
         $subjects = isset($this->request->post['subjects']) ? $this->request->post['subjects'] : array();
         $group = isset($this->request->post['group']) ? explode("_", $this->request->post['group']) : array('0', '0');
 
-        $this->load->model('catalog/attributico');
+        $this->load->model('catalog/attributipro');
 
         if ($target[0] == 'group') {
             $attribute_group_id = $target[1];
@@ -1341,10 +1341,10 @@ class ControllerModuleAttributicopro extends Controller
         }
 
         if ($attribute_group_id) {
-            $this->cache->delete('attributico');
+            $this->cache->delete('attributipro');
             foreach ($subjects as $subject) {
                 $attribute_id = explode("_", $subject);
-                $this->model_catalog_attributico->replaceAttributeGroup($attribute_id[1], $attribute_group_id);
+                $this->model_catalog_attributipro->replaceAttributeGroup($attribute_id[1], $attribute_group_id);
             }
         }
     }
@@ -1364,9 +1364,9 @@ class ControllerModuleAttributicopro extends Controller
             $data['subject_id'][] = $subject_id[1];
         }
 
-        $this->load->model('catalog/attributico');
+        $this->load->model('catalog/attributipro');
 
-        $this->model_catalog_attributico->sortAttribute($data);
+        $this->model_catalog_attributipro->sortAttribute($data);
     }
 
     public function mergeAttributeGroup()
@@ -1378,32 +1378,32 @@ class ControllerModuleAttributicopro extends Controller
             return;
         }
         if ($target[0] == 'group') {
-            $this->load->model('catalog/attributico');
+            $this->load->model('catalog/attributipro');
             $attribute_group_id = $target[1];
-            $this->cache->delete('attributico');
+            $this->cache->delete('attributipro');
             foreach ($subjects as $subject) {
                 $attribute_id = explode("_", $subject);
                 if ($attribute_id[0] == 'attribute') {
-                    $this->model_catalog_attributico->replaceAttributeGroup($attribute_id[1], $attribute_group_id);
+                    $this->model_catalog_attributipro->replaceAttributeGroup($attribute_id[1], $attribute_group_id);
                 }
                 if ($attribute_id[0] == 'group') {
                     $filter_data = array(
                         'filter_attribute_group_id' => (int) $attribute_id[1],
                     );
-                    $attributes = $this->model_catalog_attributico->getAttributes($filter_data);
+                    $attributes = $this->model_catalog_attributipro->getAttributes($filter_data);
                     foreach ($attributes as $attribute) {
-                        $this->model_catalog_attributico->replaceAttributeGroup($attribute['attribute_id'], $attribute_group_id);
+                        $this->model_catalog_attributipro->replaceAttributeGroup($attribute['attribute_id'], $attribute_group_id);
                     }
-                    $this->model_catalog_attributico->deleteAttributeGroup($attribute_id[1]);
+                    $this->model_catalog_attributipro->deleteAttributeGroup($attribute_id[1]);
                 }
             }
         }
         if ($target[0] == 'attribute') {
-            $this->load->model('catalog/attributico_tools');
-            $this->cache->delete('attributico');
+            $this->load->model('catalog/attributipro_tools');
+            $this->cache->delete('attributipro');
             foreach ($subjects as $subject) {
                 $subject_id = explode("_", $subject);
-                $this->model_catalog_attributico_tools->mergeAttribute($target[1], $subject_id[1]);
+                $this->model_catalog_attributipro_tools->mergeAttribute($target[1], $subject_id[1]);
             }
         }
     }
@@ -1416,10 +1416,10 @@ class ControllerModuleAttributicopro extends Controller
         $category_id = isset($this->request->post['category_id']) ? explode("_", $this->request->post['category_id'])[1] : '0';
         $attributes = isset($this->request->post['attributes']) ? $this->request->post['attributes'] : array();
         $categoryList = isset($this->request->post['categories']) ? $this->request->post['categories'] : array();
-        $subCategory = $this->config->get('attributico_autoadd_subcategory');
-        $multistore = isset($this->request->get['multistore']) ? filter_var($this->request->get['multistore'], FILTER_VALIDATE_BOOLEAN) : $this->config->get('attributico_multistore');
+        $subCategory = $this->config->get('attributipro_autoadd_subcategory');
+        $multistore = isset($this->request->get['multistore']) ? filter_var($this->request->get['multistore'], FILTER_VALIDATE_BOOLEAN) : $this->config->get('attributipro_multistore');
 
-        $this->config->set('attributico_multistore', (string) $multistore);
+        $this->config->set('attributipro_multistore', (string) $multistore);
 
         if ($this->session->data['free']) {
             return 0;
@@ -1433,8 +1433,8 @@ class ControllerModuleAttributicopro extends Controller
             $data['category_attribute'][] = explode("_", $attributes)[1];
         }
 
-        $this->load->model('catalog/attributico');
-        $all_categories = $this->model_catalog_attributico->getAllCategories();
+        $this->load->model('catalog/attributipro');
+        $all_categories = $this->model_catalog_attributipro->getAllCategories();
 
         if (is_numeric($category_id) && $category_id !== '0') {
             $categories = array((int) $category_id);
@@ -1451,15 +1451,15 @@ class ControllerModuleAttributicopro extends Controller
                 }
             }
 
-            $this->cache->delete('attributico');
+            $this->cache->delete('attributipro');
             $languages = $this->getLanguages();
             /* $languages = $this->session->data['languages']; */
             foreach ($categories as $CategoryId) {
-                if ($this->config->get('attributico_autoadd')) {
-                    $category_products = $this->model_catalog_attributico->getProductsByCategoryId($CategoryId);
-                    $this->model_catalog_attributico->addCategoryAttributesToProducts($category_products, $data, $languages);
+                if ($this->config->get('attributipro_autoadd')) {
+                    $category_products = $this->model_catalog_attributipro->getProductsByCategoryId($CategoryId);
+                    $this->model_catalog_attributipro->addCategoryAttributesToProducts($category_products, $data, $languages);
                 }
-                $this->model_catalog_attributico->addCategoryAttributes($CategoryId, $data);
+                $this->model_catalog_attributipro->addCategoryAttributes($CategoryId, $data);
             }
         }
     }
@@ -1470,10 +1470,10 @@ class ControllerModuleAttributicopro extends Controller
         $category_id = isset($this->request->post['category_id']) ? explode("_", $this->request->post['category_id'])[1] : '0';
         $attributes = isset($this->request->post['attributes']) ? $this->request->post['attributes'] : array();
         $categoryList = isset($this->request->post['categories']) ? $this->request->post['categories'] : array();
-        $subCategory = $this->config->get('attributico_autodel_subcategory');
-        $multistore = isset($this->request->get['multistore']) ? filter_var($this->request->get['multistore'], FILTER_VALIDATE_BOOLEAN) : $this->config->get('attributico_multistore');
+        $subCategory = $this->config->get('attributipro_autodel_subcategory');
+        $multistore = isset($this->request->get['multistore']) ? filter_var($this->request->get['multistore'], FILTER_VALIDATE_BOOLEAN) : $this->config->get('attributipro_multistore');
 
-        $this->config->set('attributico_multistore', (string) $multistore);
+        $this->config->set('attributipro_multistore', (string) $multistore);
 
         if ($this->session->data['free']) {
             return 0;
@@ -1486,8 +1486,8 @@ class ControllerModuleAttributicopro extends Controller
             return;
         }
 
-        $this->load->model('catalog/attributico');
-        $all_categories = $this->model_catalog_attributico->getAllCategories();
+        $this->load->model('catalog/attributipro');
+        $all_categories = $this->model_catalog_attributipro->getAllCategories();
 
         if (is_numeric($category_id) && $category_id !== '0') {
             $categories = array((int) $category_id);
@@ -1504,13 +1504,13 @@ class ControllerModuleAttributicopro extends Controller
                 }
             }
 
-            $this->cache->delete('attributico');
+            $this->cache->delete('attributipro');
             foreach ($categories as $CategoryId) {
-                if ($this->config->get('attributico_autodel')) {
-                    $category_products = $this->model_catalog_attributico->getProductsByCategoryId($CategoryId);
-                    $this->model_catalog_attributico->deleteCategoryAttributesFromProducts($category_products, $data);
+                if ($this->config->get('attributipro_autodel')) {
+                    $category_products = $this->model_catalog_attributipro->getProductsByCategoryId($CategoryId);
+                    $this->model_catalog_attributipro->deleteCategoryAttributesFromProducts($category_products, $data);
                 }
-                $this->model_catalog_attributico->deleteAttributesFromCategory($CategoryId, $data);
+                $this->model_catalog_attributipro->deleteAttributesFromCategory($CategoryId, $data);
             }
         }
     }
@@ -1528,8 +1528,8 @@ class ControllerModuleAttributicopro extends Controller
 
     private function childrenSettings($tree)
     {
-        if ($this->config->get('attributico_children')) {
-            $settings = unserialize($this->config->get('attributico_children'));
+        if ($this->config->get('attributipro_children')) {
+            $settings = unserialize($this->config->get('attributipro_children'));
         } else {
             $settings = $this->settings;
         }
@@ -1545,7 +1545,7 @@ class ControllerModuleAttributicopro extends Controller
         $extension = version_compare(VERSION, '2.3.0', '>=') ? "extension/" : "";
         $directory = $this->getLanguageDirectory($language_id);
         $language = new Language($directory);
-        $language->load($extension . 'module/attributicopro');
+        $language->load($extension . 'module/attributipro');
         return $language;
     }
 
@@ -1582,7 +1582,7 @@ class ControllerModuleAttributicopro extends Controller
         $json = array();
 
         if (isset($this->request->get['filter_name'])) {
-            $this->load->model('catalog/attributico');
+            $this->load->model('catalog/attributipro');
 
             $filter_data = array(
                 'filter_name' => $this->request->get['filter_name'],
@@ -1593,7 +1593,7 @@ class ControllerModuleAttributicopro extends Controller
                 $filter_data['language_id'] = $this->request->get['language_id'];
             }
 
-            $results = $this->model_catalog_attributico->getAttributes($filter_data);
+            $results = $this->model_catalog_attributipro->getAttributes($filter_data);
 
             foreach ($results as $result) {
                 $json[] = array(
@@ -1626,24 +1626,24 @@ class ControllerModuleAttributicopro extends Controller
             $this->dutyUpgrade();
         }
 
-        $data['attributico_splitter'] = '/';
-        $data['attributico_cache'] = '1';
-        $data['attributico_lazyload'] = '1';
-        $data['attributico_children'] = 'a:5:{i:1;a:2:{i:0;s:8:"template";i:1;s:5:"value";}i:2;a:1:{i:0;s:4:"duty";}i:3;a:1:{i:0;s:4:"duty";}i:4;a:2:{i:0;s:8:"template";i:1;s:5:"value";}i:5;a:2:{i:0;s:8:"template";i:1;s:5:"value";}}';
-        $data['module_attributico_status'] = '1';
+        $data['attributipro_splitter'] = '/';
+        $data['attributipro_cache'] = '1';
+        $data['attributipro_lazyload'] = '1';
+        $data['attributipro_children'] = 'a:5:{i:1;a:2:{i:0;s:8:"template";i:1;s:5:"value";}i:2;a:1:{i:0;s:4:"duty";}i:3;a:1:{i:0;s:4:"duty";}i:4;a:2:{i:0;s:8:"template";i:1;s:5:"value";}i:5;a:2:{i:0;s:8:"template";i:1;s:5:"value";}}';
+        $data['module_attributipro_status'] = '1';
 
         $this->load->model('setting/setting');
-        $this->model_setting_setting->editSetting('attributico', $data);
-        $this->model_setting_setting->editSetting('module_attributico', $data);
+        $this->model_setting_setting->editSetting('attributipro', $data);
+        $this->model_setting_setting->editSetting('module_attributipro', $data);
     }
 
     public function uninstall()
     {        
-        $data['module_attributico_status'] = 0;
+        $data['module_attributipro_status'] = 0;
 
         $this->load->model('setting/setting');
-        $this->model_setting_setting->editSetting('module_attributico', $data);
-        $this->cache->delete('attributico');
+        $this->model_setting_setting->editSetting('module_attributipro', $data);
+        $this->cache->delete('attributipro');
     }
 
     public function duty_check()
@@ -1700,14 +1700,14 @@ class ControllerModuleAttributicopro extends Controller
                 $children[$i] = $this->request->post['ft_' . $i];
                 $i++;
             }
-            $filter_settings['attributico_filter'] = serialize($this->request->post);
-            $this->model_setting_setting->editSetting('attributico', $filter_settings);
+            $filter_settings['attributipro_filter'] = serialize($this->request->post);
+            $this->model_setting_setting->editSetting('attributipro', $filter_settings);
         }
     }
 
     public function debugSwitch()
     {
-        $this->cache->delete('attributico');
+        $this->cache->delete('attributipro');
         $this->debug_mode = !$this->session->data['a_debug_mode'];
         $this->session->data['a_debug_mode'] = $this->debug_mode;
         $this->response->addHeader('Content-Type: application/json');
@@ -1732,30 +1732,30 @@ class ControllerModuleAttributicopro extends Controller
             return;
         }
 
-        $this->load->model('catalog/attributico_tools');
-        $this->load->model('catalog/attributico');
+        $this->load->model('catalog/attributipro_tools');
+        $this->load->model('catalog/attributipro');
 
         switch ($task) {
             case 'empty':
-                $count_of_empty = $this->model_catalog_attributico_tools->deleteEmptyValues();
+                $count_of_empty = $this->model_catalog_attributipro_tools->deleteEmptyValues();
                 $task_result .= $language->get('message_empty') . "  " . (string) $count_of_empty;
                 break;
             case 'defrag':
                 if (isset($options['tab-defrag-group'])) {
-                    $count_of_defragmentation_group = $this->model_catalog_attributico_tools->defragmentation('attribute_group', 'attribute_group_id');
+                    $count_of_defragmentation_group = $this->model_catalog_attributipro_tools->defragmentation('attribute_group', 'attribute_group_id');
                     $task_result .= $language->get('message_defragmentation_group') . "  " . (string) $count_of_defragmentation_group . " ";
                 }
                 if (isset($options['tab-defrag-attribute'])) {
-                    $count_of_defragmentation = $this->model_catalog_attributico_tools->defragmentation('attribute', 'attribute_id');
+                    $count_of_defragmentation = $this->model_catalog_attributipro_tools->defragmentation('attribute', 'attribute_id');
                     $task_result .= $language->get('message_defragmentation') . "  " . (string) $count_of_defragmentation;
                 }
                 break;
             case 'sorting':
-                $count_of_sorted = $this->model_catalog_attributico_tools->sorting();
+                $count_of_sorted = $this->model_catalog_attributipro_tools->sorting();
                 $task_result .= $language->get('message_sorted') . "  " . (string) $count_of_sorted;
                 break;
             case 'scavengery':
-                $count_of_scavengery = $this->model_catalog_attributico_tools->scavengery();
+                $count_of_scavengery = $this->model_catalog_attributipro_tools->scavengery();
                 $task_result .= $language->get('message_scavengery') . "  " . (string) $count_of_scavengery;
                 break;
             case 'detached':
@@ -1764,7 +1764,7 @@ class ControllerModuleAttributicopro extends Controller
                     foreach ($options['ft_6'] as $group) {
                         $group_id = explode("_", $group);
                         if ($group_id[0] == 'group') {
-                            $count_of_detached = $this->model_catalog_attributico_tools->detached($group_id[1]);
+                            $count_of_detached = $this->model_catalog_attributipro_tools->detached($group_id[1]);
                         }
                     }
                 }
@@ -1776,7 +1776,7 @@ class ControllerModuleAttributicopro extends Controller
                     foreach ($options['ft_7'] as $group) {
                         $group_id = explode("_", $group);
                         if ($group_id[0] == 'group') {
-                            $count_of_duplicates += $this->model_catalog_attributico_tools->deduplicate($group_id[1]);
+                            $count_of_duplicates += $this->model_catalog_attributipro_tools->deduplicate($group_id[1]);
                         }
                     }
                 }
@@ -1792,24 +1792,24 @@ class ControllerModuleAttributicopro extends Controller
                         $categories[] = explode("_", $category)[1];
                     }
                     if (isset($options['tab-create-categories'])) {
-                        $count_of_categories = $this->model_catalog_attributico_tools->createCategoryAttributes($categories);
+                        $count_of_categories = $this->model_catalog_attributipro_tools->createCategoryAttributes($categories);
                         $task_result .= $language->get('message_create_categories') . "  " . (string) $count_of_categories . "  ";
                     }
                     if (isset($options['tab-inject-to-products'])) {
-                        $this->cache->delete('attributico');
+                        $this->cache->delete('attributipro');
 
                         foreach ($categories as $CategoryId) {
-                            $count_of_products += $this->model_catalog_attributico_tools->addCategoryAttributesToProducts($CategoryId);
+                            $count_of_products += $this->model_catalog_attributipro_tools->addCategoryAttributesToProducts($CategoryId);
                         }
                         $task_result .= $language->get('message_inject_to_products') . "  " . (string) $count_of_products;
                         /*  $diff_time = microtime(true) - $start_time;
-                        file_put_contents('attributico.txt', $diff_time, FILE_APPEND);
-                        file_put_contents('attributico.txt', PHP_EOL, FILE_APPEND); */
+                        file_put_contents('attributipro.txt', $diff_time, FILE_APPEND);
+                        file_put_contents('attributipro.txt', PHP_EOL, FILE_APPEND); */
                     }
                 }
                 break;
             case 'cache':
-                $this->cache->delete('attributico');
+                $this->cache->delete('attributipro');
                 break;
             case 'clone':
                 $source_lng = isset($options['clone-language-source']) ? $options['clone-language-source'] : $this->config->get('config_language_id');
@@ -1823,7 +1823,7 @@ class ControllerModuleAttributicopro extends Controller
                 ];
 
                 if ($source_lng !== $target_lng) {
-                    $count_obj = $this->model_catalog_attributico_tools->cloneLanguage($source_lng, $target_lng, $mode, $node);
+                    $count_obj = $this->model_catalog_attributipro_tools->cloneLanguage($source_lng, $target_lng, $mode, $node);
 
                     $task_result .= $language->get('message_clone_group') . "  " . (string) $count_obj->group . " "
                         . $language->get('message_clone_attribute') . "  " . (string) $count_obj->attribute . " "
@@ -1872,10 +1872,10 @@ class ControllerModuleAttributicopro extends Controller
     public function cacheDelete()
     {
 
-        $this->cache->delete('attributico');
+        $this->cache->delete('attributipro');
     }
 }
 
-class ControllerExtensionModuleAttributicopro extends ControllerModuleAttributicopro
+class ControllerExtensionModuleAttributipro extends ControllerModuleAttributipro
 {
 }

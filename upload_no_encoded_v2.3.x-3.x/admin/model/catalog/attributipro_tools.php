@@ -1,20 +1,20 @@
 <?php
 
-require_once(DIR_SYSTEM . 'library/attributico/array_column.php');
+//require_once(DIR_SYSTEM . 'library/attributico/array_column.php');
 
-class ModelCatalogAttributicoTools extends Model
+class ModelCatalogAttributiproTools extends Model
 {
 
     public function deleteEmptyValues()
     {
-        $this->cache->delete('attributico');
+        $this->cache->delete('attributipro');
         $this->db->query("DELETE FROM " . DB_PREFIX . "product_attribute WHERE TRIM(text) LIKE ''");
         return $this->db->countAffected();
     }
 
     public function defragmentation($basetable, $field)
     {
-        $this->cache->delete('attributico');
+        $this->cache->delete('attributipro');
         $schema = array();
         $this->db->query("DROP TABLE IF EXISTS " . DB_PREFIX . $basetable . "_relation");
 
@@ -68,7 +68,7 @@ class ModelCatalogAttributicoTools extends Model
     public function detached($attribute_group_id = 0, $attributes = array())
     {
         set_time_limit(600);
-        $this->cache->delete('attributico');
+        $this->cache->delete('attributipro');
         $sql_group = $attribute_group_id !== 0 ? " WHERE attribute_group_id =" . (int) $attribute_group_id : "";
         $sql_attributes = $attributes ? " AND attribute_id IN (" . implode(",", $attributes) . ")" : "";
         $all_attributes = $this->db->query("SELECT * FROM " . DB_PREFIX . "attribute" . $sql_group . $sql_attributes);
@@ -128,8 +128,8 @@ class ModelCatalogAttributicoTools extends Model
     public function deduplicate($attribute_group_id)
     {
         set_time_limit(600);
-        $this->cache->delete('attributico');
-        $splitter = !($this->config->get('attributico_splitter') == '') ? $this->config->get('attributico_splitter') : '/';
+        $this->cache->delete('attributipro');
+        $splitter = !($this->config->get('attributipro_splitter') == '') ? $this->config->get('attributipro_splitter') : '/';
         $holdkeys = $this->getHoldkeys($attribute_group_id);
         $duplicates = $this->getDuplicates($attribute_group_id);
         $proddups = $this->getProddups(array_unique(array_column($duplicates, 'attribute_id')));
@@ -175,7 +175,7 @@ class ModelCatalogAttributicoTools extends Model
     public function mergeAttribute($target_id, $source_id)
     {
         // in foreach
-        $splitter = !($this->config->get('attributico_splitter') == '') ? $this->config->get('attributico_splitter') : '/';
+        $splitter = !($this->config->get('attributipro_splitter') == '') ? $this->config->get('attributipro_splitter') : '/';
 
         $source_products = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_attribute WHERE attribute_id = '" . (int) $source_id . "'");
         foreach ($source_products->rows as $source_product) {
@@ -214,7 +214,7 @@ class ModelCatalogAttributicoTools extends Model
 
     public function createCategoryAttributes($categories = array())
     {
-        // $this->cache->delete('attributico');
+        // $this->cache->delete('attributipro');
         if ($categories) {
             // pull out category attribute from products
             $this->db->query("INSERT IGNORE INTO " . DB_PREFIX . "category_attribute(category_id, attribute_id) (SELECT DISTINCT hptc.category_id, hpa.attribute_id FROM "
@@ -228,7 +228,7 @@ class ModelCatalogAttributicoTools extends Model
     {
         // in foreach
         set_time_limit(600);
-        $method = $this->config->get('attributico_product_text');
+        $method = $this->config->get('attributipro_product_text');
         $count_affected = 0;
         $sql = '';
         /* Будут добавлены только записи с несовпадающими ключами. Поле Text не будет затронуто */
@@ -301,7 +301,7 @@ class ModelCatalogAttributicoTools extends Model
         $count_affected->value = 0;
         $count_affected->duty = 0;
 
-        $this->cache->delete('attributico');
+        $this->cache->delete('attributipro');
 
         // Attribute Group
         if ($node['group']) {

@@ -52,16 +52,16 @@ export async function moveNode(sourceNode, targetNode, clipboard, ctrlKey, direc
 
     if (merge) {
         // Merge group === replace group for child attributes and remove group (see in backend controller)
-        url = 'index.php?route=' + extension + 'module/attributico/mergeAttributeGroup';
+        url = route + 'mergeAttributeGroup';
         // Reload full group because duty may be changed.   [...new Set(... is arrayunique function  
         affectedNodes = sourceNode.isGroup() ? null : [...new Set([sourceGroup, targetNode.getParentGroup()])]
         dispatchAction = dndMergeNode;
     } else if (replace) {
-        url = 'index.php?route=' + extension + 'module/attributico/replaceAttributeGroup';
+        url = route + 'replaceAttributeGroup';
         affectedNodes = [sourceGroup, targetNode.getParentGroup()]
         dispatchAction = dndReplaceParent;
     } else {
-        url = 'index.php?route=' + extension + 'module/attributico/sortAttribute';
+        url = route + 'sortAttribute';
         if (sourceNode.isGroup()) {
             affectedNodes = null
         } else {

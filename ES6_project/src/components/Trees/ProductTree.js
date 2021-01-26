@@ -23,7 +23,7 @@ export default class ProductTree {
                     'sortOrder': this.sortOrder,
                     'invert': this.diver
                 },
-                url: 'index.php?route=' + extension + 'module/attributico/getProductTree'
+                url: route + 'getProductTree'
             },
             loadError: (e, data) => loadError(e, data),
             dblclick: (event, data) => {

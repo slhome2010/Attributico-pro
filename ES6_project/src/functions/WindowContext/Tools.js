@@ -15,7 +15,7 @@ export default function tools(task) {
             'task': task,
             'options': $("#form-attributico").serialize()
         },        
-        url: `index.php?route=${extension}module/attributico/tools&user_token=${user_token}&token=${token}`,
+        url: `${route}tools&user_token=${user_token}&token=${token}`,
         type: 'POST',
         beforeSend: function () {            
             $("#column-2 .loader-img").show();
