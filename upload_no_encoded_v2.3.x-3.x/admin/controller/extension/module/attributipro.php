@@ -110,6 +110,7 @@ class ControllerModuleAttributipro extends Controller
         }
 
         $this->data['duty_check'] = $this->duty_check();
+        $this->data['info_check'] = $this->info_check();
         $this->data['status'] = $this->config->get('module_attributipro_status');
         if (!$this->data['status'] || !$this->data['duty_check']) {
             $this->error['warning'] = $this->language->get('error_status');
@@ -1629,10 +1630,18 @@ class ControllerModuleAttributipro extends Controller
     {
         $this->db->query("CREATE TABLE IF NOT EXISTS " . DB_PREFIX . "category_attribute
 		(`category_id` INTEGER(11) NOT NULL,`attribute_id` INTEGER(11) NOT NULL, PRIMARY KEY (`category_id`,`attribute_id`) USING BTREE)
-		ENGINE=MyISAM ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci'");
+        ENGINE=MyISAM ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci'");
+        
+        /* $this->db->query("CREATE TABLE IF NOT EXISTS " . DB_PREFIX . "attribute_info
+        ( attribute_id int(11) NOT NULL, language_id int(11) NOT NULL, duty text NOT NULL, image varchar(255) DEFAULT NULL, class varchar(255) NOT NULL, unit_id int(11) NOT NULL, status tinyint(1) NOT NULL DEFAULT 1, PRIMARY KEY (attribute_id, language_id))
+        ENGINE = MYISAM, CHARACTER SET utf8, CHECKSUM = 0, COLLATE utf8_general_ci"); */
         
         if (!$this->duty_check()) {
             $this->dutyUpgrade();
+        }
+
+        if (!$this->info_check()) {
+            $this->infoUpgrade();
         }
 
         $data['attributipro_splitter'] = '/';
@@ -1659,16 +1668,25 @@ class ControllerModuleAttributipro extends Controller
     {
         $query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA='" . DB_DATABASE . "' AND TABLE_NAME='" . DB_PREFIX . "attribute_description' AND COLUMN_NAME='duty'");
 
-        if (!empty($query->row)) {
-            return true;
-        } else {
-            return false;
-        }
+        return (!empty($query->row));
+    }
+
+    public function info_check()
+    {
+        $query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA='" . DB_DATABASE . "' AND TABLE_NAME='" . DB_PREFIX . "attribute' AND COLUMN_NAME='image'");
+
+        return (!empty($query->row));        
     }
 
     public function dutyUpgrade()
     {
         $this->db->query("ALTER TABLE " . DB_PREFIX . "attribute_description ADD COLUMN `duty` TEXT NOT NULL");
+        return true;
+    }
+
+    public function infoUpgrade()
+    {
+        $this->db->query("ALTER TABLE " . DB_PREFIX . "attribute ADD COLUMN (image varchar(255) DEFAULT NULL, class varchar(255) NOT NULL, unit_id int(11) NOT NULL, status tinyint(1) NOT NULL DEFAULT 1)");
         return true;
     }
 
@@ -1848,7 +1866,7 @@ class ControllerModuleAttributipro extends Controller
         $this->response->setOutput(json_encode($task_result));
     }
 
-    public function check_for_updates()
+    public function checkForUpdates()
     {
 
         $ch = curl_init();

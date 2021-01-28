@@ -27,9 +27,9 @@ import Observer from './observers/observer';
 
 window.tools = tools;
 window.apply = apply;
-window.submit =submit;
+window.submit = submit;
 window.checkForUpdates = checkForUpdates;
-window.dutyUpgrade = dutyUpgrade;
+//window.dutyUpgrade = dutyUpgrade;
 
 window.selNodes = null;
 window.selCategories = null;
