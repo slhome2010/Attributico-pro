@@ -112,7 +112,7 @@ class ControllerModuleAttributipro extends Controller
         $this->data['duty_check'] = $this->duty_check();
         $this->data['info_check'] = $this->info_check();
         $this->data['status'] = $this->config->get('module_attributipro_status');
-        if (!$this->data['status'] || !$this->data['duty_check']) {
+        if (!$this->data['status'] || !$this->data['duty_check'] || !$this->data['info_check']) {
             $this->error['warning'] = $this->language->get('error_status');
         }
 
@@ -592,38 +592,19 @@ class ControllerModuleAttributipro extends Controller
         $this->response->setOutput(json_encode($json));
     }
 
-    public function getAttributeInfo()    // На будущее
+    public function getAttributeInfo()   
     {            
         $language_id = isset($this->request->get['language_id']) ? $this->request->get['language_id'] : $this->config->get('config_language_id');
-        $key = isset($this->request->get['key']) ? explode("_", $this->request->get['key']) : array('0', '0');
-        
+        $key = isset($this->request->get['key']) ? explode("_", $this->request->get['key']) : array('0', '0');        
+        $info = [];
 
-        $this->load->model('catalog/attributico');       
-
-        if ($key[0] == 'group') {
-            
-        }
+        $this->load->model('catalog/attributipro');
 
         if ($key[0] == 'attribute') {
             $attribute_id = $key[1];  
             $info = $this->model_catalog_attributipro->getAttributeInfo($attribute_id, $language_id);          
         }
-        
-        /* $this->load->model('localisation/language');
-        $languages = $this->model_localisation_language->getLanguages();        
-        
-        foreach ($languages as $language) {   
-            if ($this->config->get('config_admin_language') == $language['code']) {
-                $language_id = $language['language_id'];
-            }
-
-            if (version_compare(VERSION, '2.2.0', '>=')) {
-                $image_src = 'language/' . $language['code'] . '/' . $language['code'] . '.png';
-            } else {
-                $image_src = 'view/image/flags/' . $language['image'];
-            }
-        }         */
-
+       
         $this->response->addHeader('Content-Type: application/json');
         $this->response->setOutput(json_encode($info));
     }

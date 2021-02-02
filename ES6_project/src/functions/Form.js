@@ -13,7 +13,7 @@ export function saveForm(data, store, values) {
             'language_id': lng_id,
             'oldname': data.orgTitle
         },
-        url: route + 'editAttribute'
+        url: route + 'editAttribute' // TODO editInfo
     }).done(function (result) {
         // Server might return an error or a modified title
         // Maybe also check for non-ajax errors, e.g. 'title invalid', ... in case server modified it         
@@ -60,17 +60,41 @@ export function loadForm(data) {
             }
         }).done(function (json) {
             setConfig({
-                title: 'Job Application Form',
+                title: 'Заполните форму',
                 fields: [
                     {
-                        title: 'Attribute',
+                        title: 'Атрибут',
                         type: 'text',
                         name: 'attribute',
                         value: json.name,
                         validationProps: {
                             required: 'Attribute is mandatory'
                         }
-                    }
+                    },
+                    {
+                        title: 'Изображение',
+                        type: 'text',
+                        name: 'image',
+                        value: json.image,
+                        validationProps: {                            
+                        }
+                    },
+                    {
+                        title: 'Иконка',
+                        type: 'text',
+                        name: 'class',
+                        value: json.class,
+                        validationProps: {                            
+                        }
+                    },
+                    {
+                        title: 'Статус',
+                        type: 'text',
+                        name: 'status',
+                        value: json.status,
+                        validationProps: {                            
+                        }
+                    },
                 ]
             })
 

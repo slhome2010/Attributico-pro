@@ -140,22 +140,25 @@ class ModelCatalogAttributipro extends Model
             $sql_lang = '';
         }
 
-        $query = $this->db->query("SELECT ad.language_id, a.attribute_id, ad.name, a.attribute_group_id, oagd.name AS group_name, a.sort_order, ad. duty  FROM " . DB_PREFIX . "attribute a LEFT JOIN " . DB_PREFIX . "attribute_description ad ON (a.attribute_id = ad.attribute_id) LEFT JOIN " . DB_PREFIX . "attribute_group_description oagd ON (a.attribute_group_id = oagd.attribute_group_id AND oagd.language_id = ad.language_id) WHERE a.attribute_id = '" . (int)$attribute_id . "'" . $sql_lang);
-
-        foreach ($query->rows as $result) {
-            $attribute_info[$result['language_id']] = array(
-                'attribute_id' => $result['attribute_id'],
-                'name' => $result['name'],
-                'attribute_group_id' => $result['attribute_group_id'],
-                'group_name' => $result['group_name'],
-                'sort_order' => $result['sort_order'],
-                'duty' => $result['duty']
-            );
-        }
-
+        $query = $this->db->query("SELECT ad.language_id, a.attribute_id, ad.name, a.attribute_group_id, oagd.name AS group_name, a.sort_order, ad. duty, a.image, a.class, a.unit_id, a.status FROM " . DB_PREFIX . "attribute a LEFT JOIN " . DB_PREFIX . "attribute_description ad ON (a.attribute_id = ad.attribute_id) LEFT JOIN " . DB_PREFIX . "attribute_group_description oagd ON (a.attribute_group_id = oagd.attribute_group_id AND oagd.language_id = ad.language_id) WHERE a.attribute_id = '" . (int)$attribute_id . "'" . $sql_lang);
+        
         if ($language_id) {
             return $query->row;
         } else {
+            foreach ($query->rows as $result) {
+                $attribute_info[$result['language_id']] = array(
+                    'attribute_id' => $result['attribute_id'],
+                    'name' => $result['name'],
+                    'attribute_group_id' => $result['attribute_group_id'],
+                    'group_name' => $result['group_name'],
+                    'sort_order' => $result['sort_order'],
+                    'duty' => $result['duty'],
+                    'image' => $result['image'],
+                    'class' => $result['class'],
+                    'unit_id' => $result['unit_id'],
+                    'status' => $result['status']
+                );
+            }            
            return $attribute_info;
         }
     }
@@ -376,7 +379,7 @@ class ModelCatalogAttributipro extends Model
         $this->db->query("INSERT INTO " . DB_PREFIX . "attribute SET attribute_group_id = '" . (int)$data['attribute_group_id'] . "', sort_order = '" . ((int)$maxorder->row['maxorder'] + 1) . "'");
         // этот id будет добавлен к имени при добавлении: Новый атрибут_234, при копировании не добавляется - флаг data['new']
         $attribute_id = $this->db->getLastId();
-
+//TODO При копировании перенос всей info
         foreach ($data['attribute_description'] as $language_id => $value) {
             $sql = "INSERT INTO " . DB_PREFIX . "attribute_description SET attribute_id = '" . (int)$attribute_id . "', language_id = '" . (int)$language_id . "',
              name = '" . $this->db->escape($value['name']) . ($data['new'] ? '_' . $attribute_id : '') . "'";
@@ -407,6 +410,17 @@ class ModelCatalogAttributipro extends Model
 
         foreach ($data['attribute_description'] as $language_id => $value) {
             $this->db->query("UPDATE " . DB_PREFIX . "attribute_description SET duty = '" . $this->db->escape($value['duty']) . "' WHERE attribute_id = '" . (int)$attribute_id . "' AND language_id = '" . (int)$language_id . "'");
+        }
+    }
+
+    public function editInfo($attribute_id, $data)
+    {
+        $this->cache->delete('attributipro');
+
+        $this->db->query("UPDATE " . DB_PREFIX . "attribute SET (image = '" . $data['image'] . "', class = '" . $data['class'] . "', unit_id = '" . $data['unit_id'] . "', status = '" . $data['status'] . "') WHERE attribute_id = '" . (int)$attribute_id . "'");
+
+        foreach ($data['attribute_description'] as $language_id => $value) {
+            $this->db->query("UPDATE " . DB_PREFIX . "attribute_description SET (name = '" . $this->db->escape($value['name']) . "', duty = '" . $this->db->escape($value['duty']) . "') WHERE attribute_id = '" . (int)$attribute_id . "' AND language_id = '" . (int)$language_id . "'");
         }
     }
 
