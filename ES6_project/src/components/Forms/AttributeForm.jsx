@@ -14,7 +14,7 @@ const customStyles = {
     marginRight: '-50%',
     transform: 'translate(-50%, -50%)',
     padding: '0px',
-    minWidth: '50%',
+    width: '60%',    
     minHeight: '50%'
   },
   overlay: {

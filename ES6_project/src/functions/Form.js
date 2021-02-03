@@ -11,9 +11,10 @@ export function saveForm(data, store, values) {
             'key': data.node.key,
             'name': data.node.title,
             'language_id': lng_id,
-            'oldname': data.orgTitle
+            'oldname': data.orgTitle,
+            'values': values
         },
-        url: route + 'editAttribute' // TODO editInfo
+        url: route + 'editInfo' // TODO editInfo
     }).done(function (result) {
         // Server might return an error or a modified title
         // Maybe also check for non-ajax errors, e.g. 'title invalid', ... in case server modified it         
@@ -72,6 +73,12 @@ export function loadForm(data) {
                         }
                     },
                     {
+                        title: 'Дежурный шаблон',
+                        type: 'text',
+                        name: 'duty',
+                        value: json.duty                        
+                    },
+                    {
                         title: 'Изображение',
                         type: 'text',
                         name: 'image',
@@ -81,11 +88,22 @@ export function loadForm(data) {
                     },
                     {
                         title: 'Иконка',
-                        type: 'text',
+                        type: 'class',
                         name: 'class',
                         value: json.class,
                         validationProps: {                            
                         }
+                    },
+                    {
+                        title: 'Единицы измерения',
+                        type: 'select',
+                        name: 'unit_id',
+                        value: json.unit_id,
+                        options: [
+                            { key: '1', value: '1', title: 'См'},
+                            { key: '2', value: '2', title: 'Литры'},
+                            { key: '3', value: '3', title: 'Мегагерцы'},
+                        ]  
                     },
                     {
                         title: 'Статус',

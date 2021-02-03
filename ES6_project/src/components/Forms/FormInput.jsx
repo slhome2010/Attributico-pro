@@ -37,16 +37,33 @@ function FormInput({ register, field, errors }) {
                     {errors[name] && <span className="red-text">{errors[name]['message']}</span>}
                 </div>
             );
+        case 'class':
+            return (
+                <div key={name}>
+                    <div className={'form-group' + (errors[name] ? 'has-error' : '')}>
+                        <label className="col-sm-2 control-label" htmlFor={name}>{title}</label>
+                        <div className="col-sm-10">
+                            <div className="input-group">
+                                <span class="input-group-addon"><i className={value}></i></span>
+                                <input type="text" className="form-control" name={name} id={name} defaultValue={value} placeholder={name} ref={register(validationProps)} />
+                                {errors[name] && <div className="text-danger">{errors[name]['message']}</div>}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
         case "select":
             return (
-                <div className={'form-group' + (errors[name] ? 'has-error' : '')}>
-                    <label className="col-sm-2 control-label" htmlFor={name}>{title}</label>
-                    <div className="col-sm-10">
-                        <select className="form-control" name={name} defaultValue={value} ref={register(validationProps)}>
-                            {options.map((opt) => {
-                                return <option key={opt.key} value={opt.value}>{opt.title}</option>
-                            })}
-                        </select>
+                <div key={name}>
+                    <div className={'form-group' + (errors[name] ? 'has-error' : '')}>
+                        <label className="col-sm-2 control-label" htmlFor={name}>{title}</label>
+                        <div className="col-sm-10">
+                            <select className="form-control" name={name} defaultValue={value} ref={register(validationProps)}>
+                                {options.map((opt) => {
+                                    return <option key={opt.key} value={opt.value}>{opt.title}</option>
+                                })}
+                            </select>
+                        </div>
                     </div>
                 </div>
             );

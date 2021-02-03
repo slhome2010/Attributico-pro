@@ -417,10 +417,10 @@ class ModelCatalogAttributipro extends Model
     {
         $this->cache->delete('attributipro');
 
-        $this->db->query("UPDATE " . DB_PREFIX . "attribute SET (image = '" . $data['image'] . "', class = '" . $data['class'] . "', unit_id = '" . $data['unit_id'] . "', status = '" . $data['status'] . "') WHERE attribute_id = '" . (int)$attribute_id . "'");
+        $this->db->query("UPDATE " . DB_PREFIX . "attribute SET image = '" . $data['image'] . "', class = '" . $data['class'] . "', unit_id = '" . (int)$data['unit_id'] . "', status = '" . (int)$data['status'] . "' WHERE attribute_id = '" . (int)$attribute_id . "'");
 
         foreach ($data['attribute_description'] as $language_id => $value) {
-            $this->db->query("UPDATE " . DB_PREFIX . "attribute_description SET (name = '" . $this->db->escape($value['name']) . "', duty = '" . $this->db->escape($value['duty']) . "') WHERE attribute_id = '" . (int)$attribute_id . "' AND language_id = '" . (int)$language_id . "'");
+            $this->db->query("UPDATE " . DB_PREFIX . "attribute_description SET name = '" . $this->db->escape($value['name']) . "', duty = '" . $this->db->escape($value['duty']) . "' WHERE attribute_id = '" . (int)$attribute_id . "' AND language_id = '" . (int)$language_id . "'");
         }
     }
 

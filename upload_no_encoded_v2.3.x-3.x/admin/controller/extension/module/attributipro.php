@@ -609,6 +609,39 @@ class ControllerModuleAttributipro extends Controller
         $this->response->setOutput(json_encode($info));
     }
 
+    public function editInfo()
+    {
+        $data = array();
+        $language_id = isset($this->request->get['language_id']) ? $this->request->get['language_id'] : $this->config->get('config_language_id');
+        $name = isset($this->request->get['name']) ? htmlspecialchars_decode($this->request->get['name']) : '';
+        $key = isset($this->request->get['key']) ? explode("_", $this->request->get['key']) : array('0', '0');
+        $form_values = isset($this->request->get['values']) ? $this->request->get['values'] : array('0', '0');
+
+        $this->load->model('catalog/attributipro');
+
+        if ($this->session->data['free']) {
+            $acceptedTitle["acceptedTitle"] = $name;
+            $this->response->addHeader('Content-Type: application/json');
+            $this->response->setOutput(json_encode($acceptedTitle));
+            return;
+        }
+        
+        if ($key[0] == 'attribute') {
+            $attribute_id = $key[1];
+            $data['attribute_description'][$language_id]['name'] = $name;
+            $data['attribute_description'][$language_id]['duty'] = $form_values['duty'];
+            $data['image'] = $form_values['image'];
+            $data['class'] = $form_values['class'];
+            $data['unit_id'] = $form_values['unit_id'];
+            $data['status'] = $form_values['status'];
+            $this->model_catalog_attributipro->editInfo($attribute_id, $data);
+        }        
+
+        $acceptedTitle["acceptedTitle"] = $name;
+        $this->response->addHeader('Content-Type: application/json');
+        $this->response->setOutput(json_encode($acceptedTitle));
+    }
+
     public function getAttributeGroupTree()
     {
         $language_id = isset($this->request->get['language_id']) ? $this->request->get['language_id'] : $this->config->get('config_language_id');
