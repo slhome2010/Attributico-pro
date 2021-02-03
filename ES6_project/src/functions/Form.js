@@ -89,11 +89,13 @@ export function loadForm(data) {
                     },
                     {
                         title: 'Статус',
-                        type: 'text',
+                        type: 'select',
                         name: 'status',
                         value: json.status,
-                        validationProps: {                            
-                        }
+                        options: [
+                            { key: 'on', value: '1', title: 'Включено'},
+                            { key: 'off', value: '0', title: 'Отключено'},
+                        ]  
                     },
                 ]
             })

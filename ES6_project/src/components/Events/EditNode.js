@@ -13,7 +13,7 @@ export function editNode(event, data, store) {
 
     if (data.node.isDuty()) {
         data.input.on('click', dutyHandler);
-    } else if (data.node.isAttribute() || data.node.isGroup()) { //TODO  async await loadForm
+    } else if (data.node.isAttribute()) { //TODO  async await loadForm
         // if (!window.modalAttached) {
         ReactDOM.render(
             <DataProvider data={data} store={store}>
