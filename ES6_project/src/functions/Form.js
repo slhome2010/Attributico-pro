@@ -80,9 +80,10 @@ export function loadForm(data) {
                     },
                     {
                         title: 'Изображение',
-                        type: 'text',
+                        type: 'image',
                         name: 'image',
                         value: json.image,
+                        thumb: json.thumb,
                         validationProps: {                            
                         }
                     },

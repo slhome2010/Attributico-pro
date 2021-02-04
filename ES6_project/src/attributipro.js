@@ -100,4 +100,20 @@ $(function () {
 
     dialogOptionEvents();
 
+    // event handler for resize image
+    $(document).on('change', 'input[id^=\'input-image\']:hidden', function(e) {
+        console.log($(this))
+        $.ajax({
+            data: {
+                'user_token': user_token,
+                'token': token,
+                'image': $(this).parent().find('input').val()
+            },
+            url: route + 'imageResize',
+            success: function (thumb) { 
+                $(this).find('img').attr('src', thumb);
+            }
+        });
+    });
+
 }); // end of document ready

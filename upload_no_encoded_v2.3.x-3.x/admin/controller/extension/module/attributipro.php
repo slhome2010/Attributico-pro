@@ -59,7 +59,7 @@ class ControllerModuleAttributipro extends Controller
         }
 
         $this->data['user_token'] = $this->data['token'] = $this->token;
-        $this->data['extension'] = $extension;        
+        $this->data['extension'] = $extension;
         $this->data['route'] = 'index.php?route=' . $extension . PUBLIC_MODULE_NAME;
         $this->data['edit'] = $edit;
 
@@ -366,7 +366,7 @@ class ControllerModuleAttributipro extends Controller
         $this->assignData('attributipro_lazyload', 0);
         $this->assignData('attributipro_cache', 0);
         $this->assignData('attributipro_multistore', 0);
-        $this->assignData('attributipro_replace_mode', 'substr'); 
+        $this->assignData('attributipro_replace_mode', 'substr');
 
         if (version_compare(VERSION, '2.0.1', '>=')) {
             $this->data['header'] = $this->load->controller('common/header');
@@ -394,7 +394,8 @@ class ControllerModuleAttributipro extends Controller
         return !$this->error;
     }
 
-    protected function assignData( $key, $default_value) {
+    protected function assignData($key, $default_value)
+    {
         if (isset($this->request->post[$key])) {
             $this->data[$key] = $this->request->post[$key];
         } elseif (($this->config->get($key))) {
@@ -592,19 +593,29 @@ class ControllerModuleAttributipro extends Controller
         $this->response->setOutput(json_encode($json));
     }
 
-    public function getAttributeInfo()   
-    {            
+    public function getAttributeInfo()
+    {
         $language_id = isset($this->request->get['language_id']) ? $this->request->get['language_id'] : $this->config->get('config_language_id');
-        $key = isset($this->request->get['key']) ? explode("_", $this->request->get['key']) : array('0', '0');        
+        $key = isset($this->request->get['key']) ? explode("_", $this->request->get['key']) : array('0', '0');
         $info = [];
 
         $this->load->model('catalog/attributipro');
 
         if ($key[0] == 'attribute') {
-            $attribute_id = $key[1];  
-            $info = $this->model_catalog_attributipro->getAttributeInfo($attribute_id, $language_id);          
+            $attribute_id = $key[1];
+            $info = $this->model_catalog_attributipro->getAttributeInfo($attribute_id, $language_id);
+
+            $this->load->model('tool/image');
+
+            if (is_file(DIR_IMAGE . $info['image'])) {
+                $thumb = $this->model_tool_image->resize($info['image'], 50, 50);
+            } else {
+                $thumb = $this->model_tool_image->resize('no_image.png', 50, 50);;
+            }
+
+            $info['thumb'] = $thumb;
         }
-       
+
         $this->response->addHeader('Content-Type: application/json');
         $this->response->setOutput(json_encode($info));
     }
@@ -625,7 +636,7 @@ class ControllerModuleAttributipro extends Controller
             $this->response->setOutput(json_encode($acceptedTitle));
             return;
         }
-        
+
         if ($key[0] == 'attribute') {
             $attribute_id = $key[1];
             $data['attribute_description'][$language_id]['name'] = $name;
@@ -635,7 +646,7 @@ class ControllerModuleAttributipro extends Controller
             $data['unit_id'] = $form_values['unit_id'];
             $data['status'] = $form_values['status'];
             $this->model_catalog_attributipro->editInfo($attribute_id, $data);
-        }        
+        }
 
         $acceptedTitle["acceptedTitle"] = $name;
         $this->response->addHeader('Content-Type: application/json');
@@ -1645,11 +1656,11 @@ class ControllerModuleAttributipro extends Controller
         $this->db->query("CREATE TABLE IF NOT EXISTS " . DB_PREFIX . "category_attribute
 		(`category_id` INTEGER(11) NOT NULL,`attribute_id` INTEGER(11) NOT NULL, PRIMARY KEY (`category_id`,`attribute_id`) USING BTREE)
         ENGINE=MyISAM ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci'");
-        
+
         /* $this->db->query("CREATE TABLE IF NOT EXISTS " . DB_PREFIX . "attribute_info
         ( attribute_id int(11) NOT NULL, language_id int(11) NOT NULL, duty text NOT NULL, image varchar(255) DEFAULT NULL, class varchar(255) NOT NULL, unit_id int(11) NOT NULL, status tinyint(1) NOT NULL DEFAULT 1, PRIMARY KEY (attribute_id, language_id))
         ENGINE = MYISAM, CHARACTER SET utf8, CHECKSUM = 0, COLLATE utf8_general_ci"); */
-        
+
         if (!$this->duty_check()) {
             $this->dutyUpgrade();
         }
@@ -1670,7 +1681,7 @@ class ControllerModuleAttributipro extends Controller
     }
 
     public function uninstall()
-    {        
+    {
         $data['module_attributipro_status'] = 0;
 
         $this->load->model('setting/setting');
@@ -1689,7 +1700,7 @@ class ControllerModuleAttributipro extends Controller
     {
         $query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA='" . DB_DATABASE . "' AND TABLE_NAME='" . DB_PREFIX . "attribute' AND COLUMN_NAME='image'");
 
-        return (!empty($query->row));        
+        return (!empty($query->row));
     }
 
     public function dutyUpgrade()
@@ -1706,7 +1717,7 @@ class ControllerModuleAttributipro extends Controller
 
     // settings
     public function getChildrenSettings()
-    {       
+    {
         $language_id = isset($this->request->get['language_id']) ? $this->request->get['language_id'] : $this->config->get('config_language_id');
         $tree = isset($this->request->get['tree']) ? $this->request->get['tree'] : '';
 
@@ -1753,6 +1764,20 @@ class ControllerModuleAttributipro extends Controller
         $this->session->data['a_debug_mode'] = $this->debug_mode;
         $this->response->addHeader('Content-Type: application/json');
         $this->response->setOutput(json_encode($this->debug_mode));
+    }
+
+    public function imageResize()
+    {
+        $image = isset($this->request->get['image']) ? $this->request->get['image'] : '';
+        $thumb = '';
+
+        if ($image) {  
+            $this->load->model('tool/image');            
+            $thumb = $this->model_tool_image->resize($image, 50, 50);           
+        }
+
+        $this->response->addHeader('Content-Type: application/json');
+        $this->response->setOutput(json_encode($thumb));
     }
 
     //------------------------------------------------------ Tools ------------------------------------------

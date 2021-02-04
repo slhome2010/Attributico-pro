@@ -3,7 +3,7 @@ import React from 'react';
 // Reusable Form Component
 function FormInput({ register, field, errors }) {
 
-    let { title, type, name, value, options, validationProps, dynamic } = field;
+    let { title, type, name, value, options, thumb, validationProps, dynamic } = field;
 
     // let showField = dynamic ? watchValues[dynamic['field']] === dynamic['value'] : true;
 
@@ -35,6 +35,21 @@ function FormInput({ register, field, errors }) {
                     <label htmlFor={name}>{title}</label>
                     <input type="url" name={name} id={name} ref={register(validationProps)} />
                     {errors[name] && <span className="red-text">{errors[name]['message']}</span>}
+                </div>
+            );
+        case 'image':
+            return (
+                <div key={name}>
+                    <div className={'form-group' + (errors[name] ? 'has-error' : '')}>
+                        <label className="col-sm-2 control-label" htmlFor={name}>{title}</label>
+                        <div className="col-sm-10 text-left">
+                            <a href="" id={'thumb-image-' + name} data-toggle="image" className="img-thumbnail">
+                                <img src={thumb} alt="" title="" data-placeholder={name} />
+                            </a>
+                            <input type="hidden" name={name} defaultValue={value} id={'input-image-' + name} ref={register(validationProps)} />
+                            {errors[name] && <div className="text-danger">{errors[name]['message']}</div>}
+                        </div>
+                    </div>
                 </div>
             );
         case 'class':
