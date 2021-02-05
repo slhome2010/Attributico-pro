@@ -40,7 +40,7 @@ window.clipboardTitles = [];
 window.pasteMode = null;
 
 // document ready actions
-$(function () {
+$( () => {
     let t0 = performance.now();
 
     $('.fancyfilter').each(buildFilter);
@@ -100,9 +100,13 @@ $(function () {
 
     dialogOptionEvents();
 
-    // event handler for resize image
-    $(document).on('change', 'input[id^=\'input-image\']:hidden', function(e) {
+    // event handler for resize image 
+    // $('#<?php echo $target; ?>').trigger('change') in filemanager.tpl on line 58
+    console.log('attributico')
+    console.log($(document)) //TODO  no context. other instance of jquery? 
+    $(document).on('change', 'input[id ^=\'attribute-image\']', function(e) { 
         console.log($(this))
+        console.log(e.target)
         $.ajax({
             data: {
                 'user_token': user_token,
@@ -110,8 +114,8 @@ $(function () {
                 'image': $(this).parent().find('input').val()
             },
             url: route + 'imageResize',
-            success: function (thumb) { 
-                $(this).find('img').attr('src', thumb);
+            success:  (thumb) => { 				
+				$(this).prev().find('img').attr('src', thumb);				
             }
         });
     });

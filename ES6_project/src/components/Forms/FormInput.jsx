@@ -46,7 +46,7 @@ function FormInput({ register, field, errors }) {
                             <a href="" id={'thumb-image-' + name} data-toggle="image" className="img-thumbnail">
                                 <img src={thumb} alt="" title="" data-placeholder={name} />
                             </a>
-                            <input type="hidden" name={name} defaultValue={value} id={'input-image-' + name} ref={register(validationProps)} />
+                            <input type="hidden" name={name} defaultValue={value} id={'attribute-image-' + name} ref={register(validationProps)} />
                             {errors[name] && <div className="text-danger">{errors[name]['message']}</div>}
                         </div>
                     </div>
