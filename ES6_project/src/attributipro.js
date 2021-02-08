@@ -1,5 +1,5 @@
 /** http://servenus.com © 2015-2021 All Rights Reserved **/
-/** For Attribut&co v.3.1.5  **/
+/** For Attribut&pro v.0.0.3  **/
 
 import 'jquery.fancytree';
 import 'jquery-ui';
@@ -40,7 +40,7 @@ window.clipboardTitles = [];
 window.pasteMode = null;
 
 // document ready actions
-$( () => {
+$(function() {
     let t0 = performance.now();
 
     $('.fancyfilter').each(buildFilter);
@@ -101,10 +101,9 @@ $( () => {
     dialogOptionEvents();
 
     // event handler for resize image 
-    // $('#<?php echo $target; ?>').trigger('change') in filemanager.tpl on line 58
-    console.log('attributico')
-    console.log($(document)) //TODO  no context. other instance of jquery? 
-    $(document).on('change', 'input[id ^=\'attribute-image\']', function(e) { 
+    // document.getElementById('<?php echo $target; ?>').dispatchEvent(new Event('change', {bubbles: true, composed: true}));
+    // in filemanager.tpl on line 58    
+    $(document).on('change', 'input[id ^=\'attribute-image\']', function (e) { 
         console.log($(this))
         console.log(e.target)
         $.ajax({
@@ -118,6 +117,6 @@ $( () => {
 				$(this).prev().find('img').attr('src', thumb);				
             }
         });
-    });
+    });    
 
 }); // end of document ready

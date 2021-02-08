@@ -5,10 +5,23 @@ function FormInput({ register, field, errors }) {
 
     let { title, type, name, value, options, thumb, validationProps, dynamic } = field;
 
-    // let showField = dynamic ? watchValues[dynamic['field']] === dynamic['value'] : true;
-
-    // if (!showField) return null;
-    console.log('render FormInput', type);
+    const resize = (event) => {
+        let target = event.target
+                   
+            console.log('formInput', target)
+            $.ajax({
+                data: {
+                    'user_token': user_token,
+                    'token': token,
+                    'image': $(target).parent().find('input').val()
+                },
+                url: route + 'imageResize',
+                success:  (resized) => { 				
+                    $(target).prev().find('img').attr('src', resized);				
+                }
+            });      
+       
+    }
 
     switch (type) {
         case 'email':
@@ -46,7 +59,7 @@ function FormInput({ register, field, errors }) {
                             <a href="" id={'thumb-image-' + name} data-toggle="image" className="img-thumbnail">
                                 <img src={thumb} alt="" title="" data-placeholder={name} />
                             </a>
-                            <input type="hidden" name={name} defaultValue={value} id={'attribute-image-' + name} ref={register(validationProps)} />
+                            <input type="hidden" name={name} defaultValue={value} id={'attribute-image-' + name} ref={register(validationProps)} onChange={resize}/>
                             {errors[name] && <div className="text-danger">{errors[name]['message']}</div>}
                         </div>
                     </div>
