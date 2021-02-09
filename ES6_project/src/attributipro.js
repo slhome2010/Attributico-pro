@@ -103,7 +103,7 @@ $(function() {
     // event handler for resize image 
     // document.getElementById('<?php echo $target; ?>').dispatchEvent(new Event('change', {bubbles: true, composed: true}));
     // in filemanager.tpl on line 58    
-    $(document).on('change', 'input[id ^=\'attribute-image\']', function (e) { 
+    /* $(document).on('change', 'input[id ^=\'attribute-image\']', function (e) { 
         console.log($(this))
         console.log(e.target)
         $.ajax({
@@ -113,10 +113,10 @@ $(function() {
                 'image': $(this).parent().find('input').val()
             },
             url: route + 'imageResize',
-            success:  (thumb) => { 				
-				$(this).prev().find('img').attr('src', thumb);				
+            success:  (resizedThumb) => { 				
+				$(this).prev().find('img').attr('src', resizedThumb);				
             }
         });
-    });    
+    });     */
 
 }); // end of document ready

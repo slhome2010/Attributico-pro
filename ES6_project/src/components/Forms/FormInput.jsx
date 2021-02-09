@@ -3,25 +3,7 @@ import React from 'react';
 // Reusable Form Component
 function FormInput({ register, field, errors }) {
 
-    let { title, type, name, value, options, thumb, validationProps, dynamic } = field;
-
-    const resize = (event) => {
-        let target = event.target
-                   
-            console.log('formInput', target)
-            $.ajax({
-                data: {
-                    'user_token': user_token,
-                    'token': token,
-                    'image': $(target).parent().find('input').val()
-                },
-                url: route + 'imageResize',
-                success:  (resized) => { 				
-                    $(target).prev().find('img').attr('src', resized);				
-                }
-            });      
-       
-    }
+    let { title, type, name, value, options, thumb, validationProps, dynamic } = field;    
 
     switch (type) {
         case 'email':
@@ -50,6 +32,18 @@ function FormInput({ register, field, errors }) {
                     {errors[name] && <span className="red-text">{errors[name]['message']}</span>}
                 </div>
             );
+            case 'textarea':       
+            return (
+                <div key={name}>
+                    <div className={'form-group' + (errors[name] ? 'has-error' : '')}>
+                        <label className="col-sm-2 control-label" htmlFor={name}>{title}</label>
+                        <div className="col-sm-10">
+                            <textarea className="form-control summernote" name={name} id={name} defaultValue={value} placeholder={name} ref={register(validationProps)} />
+                            {errors[name] && <div className="text-danger">{errors[name]['message']}</div>}
+                        </div>
+                    </div>
+                </div>
+            );
         case 'image':
             return (
                 <div key={name}>
@@ -59,7 +53,7 @@ function FormInput({ register, field, errors }) {
                             <a href="" id={'thumb-image-' + name} data-toggle="image" className="img-thumbnail">
                                 <img src={thumb} alt="" title="" data-placeholder={name} />
                             </a>
-                            <input type="hidden" name={name} defaultValue={value} id={'attribute-image-' + name} ref={register(validationProps)} onChange={resize}/>
+                            <input type="hidden" name={name} defaultValue={value} id={'attribute-image-' + name} ref={register(validationProps)} />
                             {errors[name] && <div className="text-danger">{errors[name]['message']}</div>}
                         </div>
                     </div>

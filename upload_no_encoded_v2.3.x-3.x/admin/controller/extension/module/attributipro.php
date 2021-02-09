@@ -608,9 +608,9 @@ class ControllerModuleAttributipro extends Controller
             $this->load->model('tool/image');
 
             if (is_file(DIR_IMAGE . $info['image'])) {
-                $thumb = $this->model_tool_image->resize($info['image'], 50, 50);
+                $thumb = $this->model_tool_image->resize($info['image'], 100, 100);
             } else {
-                $thumb = $this->model_tool_image->resize('no_image.png', 50, 50);;
+                $thumb = $this->model_tool_image->resize('no_image.png', 100, 100);;
             }
 
             $info['thumb'] = $thumb;
