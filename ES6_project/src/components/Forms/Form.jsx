@@ -60,7 +60,9 @@ function Form({ template, onSubmit, onCancel, watchFields, validate }) {
             </div>
             <div className="panel-body">
                 <form onSubmit={handleSubmit(onSubmit)} className="form-horizontal">
-                    {renderFields(fields)}
+                    <div style={{overflowY: 'auto'}}>
+                        {renderFields(fields)}
+                    </div>
                     <div className="modal-footer">
                         {renderFooter()}
                     </div>

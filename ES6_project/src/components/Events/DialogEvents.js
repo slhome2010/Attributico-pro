@@ -26,7 +26,7 @@ export default function dialogEvents() {
     //FIXME change is deprecated handler
 
 
-    const changeSettings = e => {
+    function changeSettings(e) {
         let id = $(this).attr("id");
         let lng_id = parseInt(id.replace(/\D+/ig, ''));
         let selector = $(this).attr("class");
