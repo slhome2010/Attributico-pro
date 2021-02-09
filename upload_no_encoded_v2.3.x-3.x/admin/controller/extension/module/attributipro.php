@@ -1694,34 +1694,8 @@ class ControllerModuleAttributipro extends Controller
         $this->load->model('setting/setting');
         $this->model_setting_setting->editSetting('module_attributipro', $data);
         $this->cache->delete('attributipro');
-    }
-
-    public function duty_check()
-    {
-        $query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA='" . DB_DATABASE . "' AND TABLE_NAME='" . DB_PREFIX . "attribute_description' AND COLUMN_NAME='duty'");
-
-        return (!empty($query->row));
-    }
-    
-    public function dutyUpgrade()
-    {
-        $this->db->query("ALTER TABLE " . DB_PREFIX . "attribute_description ADD COLUMN `duty` TEXT NOT NULL");
-        return true;
-    }
-
-    public function info_check()
-    {
-        $query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA='" . DB_DATABASE . "' AND TABLE_NAME='" . DB_PREFIX . "attribute' AND COLUMN_NAME='image'");
-
-        return (!empty($query->row));
-    }
-
-    public function infoUpgrade()
-    {
-        $this->db->query("ALTER TABLE " . DB_PREFIX . "attribute ADD COLUMN (image varchar(255) DEFAULT NULL, class varchar(255) NOT NULL, unit_id int(11) NOT NULL, status tinyint(1) NOT NULL DEFAULT 1)");
-        return true;
-    }
-
+    }    
+ 
     public function columnCheck($table, $column)
     {
         $query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA='" . DB_DATABASE . "' AND TABLE_NAME='" . DB_PREFIX . $table . "' AND COLUMN_NAME='" . $column . "'");
@@ -1732,6 +1706,12 @@ class ControllerModuleAttributipro extends Controller
     public function columnUpgrade($table, $column, $type)
     {
         $this->db->query("ALTER TABLE " . DB_PREFIX . $table . " ADD COLUMN " . $column . " " . $type);
+        return true;
+    }
+
+    public function infoUpgrade()
+    {
+        $this->db->query("ALTER TABLE " . DB_PREFIX . "attribute ADD COLUMN (image varchar(255) DEFAULT NULL, class varchar(255) NOT NULL, unit_id int(11) NOT NULL, status tinyint(1) NOT NULL DEFAULT 1)");
         return true;
     }
 

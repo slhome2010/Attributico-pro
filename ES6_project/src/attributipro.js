@@ -19,8 +19,8 @@ import tools from './functions/WindowContext/Tools'
 import { apply, submit } from './functions/WindowContext/Apply'
 import { checkForUpdates, dutyUpgrade } from './functions/WindowContext/Upgrade'
 import buildDialog from './containers/BuildDialog';
-import dialogOptionEvents from './components/DialogOption';
-import commonSettings from './components/CommonSettings';
+import dialogEvents from './components/Events/DialogEvents';
+import commonSettings from './components/Events/CommonSettings';
 import configureStore from './store';
 import reducer from './reducers';
 import Observer from './observers/observer';
@@ -84,39 +84,7 @@ $(function() {
     /**
      * Context menu dialog events
      *
-     **/
-    // Attach dialog
-    $('.dialog-options').dialog({
-        autoOpen: false,
-        resizable: false,
-        modal: true,
-        closeOnEscape: true,
-        buttons: {
-            Ok: function () {
-                $(this).dialog("close");
-            }
-        }
-    });
-
-    dialogOptionEvents();
-
-    // event handler for resize image 
-    // document.getElementById('<?php echo $target; ?>').dispatchEvent(new Event('change', {bubbles: true, composed: true}));
-    // in filemanager.tpl on line 58    
-    /* $(document).on('change', 'input[id ^=\'attribute-image\']', function (e) { 
-        console.log($(this))
-        console.log(e.target)
-        $.ajax({
-            data: {
-                'user_token': user_token,
-                'token': token,
-                'image': $(this).parent().find('input').val()
-            },
-            url: route + 'imageResize',
-            success:  (resizedThumb) => { 				
-				$(this).prev().find('img').attr('src', resizedThumb);				
-            }
-        });
-    });     */
+     **/   
+    dialogEvents();    
 
 }); // end of document ready

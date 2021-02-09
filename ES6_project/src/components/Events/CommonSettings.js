@@ -1,5 +1,5 @@
-import { CATEGORY_SYNCRO_TREES } from '../constants/global'
-import { checkOptions } from "../actions";
+import { CATEGORY_SYNCRO_TREES } from '../../constants/global'
+import { checkOptions } from "../../actions";
 
 /**
 * Common settings change event hundlers

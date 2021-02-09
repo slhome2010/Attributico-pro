@@ -3,8 +3,21 @@
  * @type {function}
  *
  **/
-export default function dialogOptionEvents() {
-    // attach dialog event hundlers 
+export default function dialogEvents() {
+    // Attach dialog
+    $('.dialog-options').dialog({
+        autoOpen: false,
+        resizable: false,
+        modal: true,
+        closeOnEscape: true,
+        buttons: {
+            Ok: function () {
+                $(this).dialog("close");
+            }
+        }
+    });
+
+    // Attach dialog event hundlers 
     $('input[id ^= "lazyLoad"]:checkbox').on('change', changeSettings);
     $('input[id ^= "sortOrder"]:checkbox').on('change', changeSettings);
     $('input[id ^= "autoCollapse"]:checkbox').on('change', changeSettings);
@@ -13,7 +26,7 @@ export default function dialogOptionEvents() {
     //FIXME change is deprecated handler
 
 
-    function changeSettings(e) {
+    const changeSettings = e => {
         let id = $(this).attr("id");
         let lng_id = parseInt(id.replace(/\D+/ig, ''));
         let selector = $(this).attr("class");
