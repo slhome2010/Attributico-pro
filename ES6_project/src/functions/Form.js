@@ -88,6 +88,12 @@ export function loadForm(data) {
                         }
                     },
                     {
+                        title: 'Подсказка',
+                        type: 'textarea',
+                        name: 'tooltip',
+                        value: json.tooltip                        
+                    },
+                    {
                         title: 'Иконка',
                         type: 'class',
                         name: 'class',

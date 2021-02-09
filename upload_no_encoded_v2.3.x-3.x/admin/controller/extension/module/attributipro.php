@@ -109,10 +109,11 @@ class ControllerModuleAttributipro extends Controller
             $this->data['heading_title'] = $this->language->get('heading_title') . ' View ' . MODULE_VERSION . '(free)';
         }
 
-        $this->data['duty_check'] = $this->duty_check();
-        $this->data['info_check'] = $this->info_check();
+        $this->data['duty_check'] = $this->columnCheck('attribute_description', 'duty');
+        $this->data['tooltip_check'] = $this->columnCheck('attribute_description', 'tooltip');
+        $this->data['info_check'] = $this->columnCheck('attribute', 'image');
         $this->data['status'] = $this->config->get('module_attributipro_status');
-        if (!$this->data['status'] || !$this->data['duty_check'] || !$this->data['info_check']) {
+        if (!$this->data['status'] || !$this->data['duty_check'] || !$this->data['info_check'] || !$this->data['tooltip_check']) {
             $this->error['warning'] = $this->language->get('error_status');
         }
 
@@ -597,6 +598,7 @@ class ControllerModuleAttributipro extends Controller
     {
         $language_id = isset($this->request->get['language_id']) ? $this->request->get['language_id'] : $this->config->get('config_language_id');
         $key = isset($this->request->get['key']) ? explode("_", $this->request->get['key']) : array('0', '0');
+        $size = isset($this->request->get['size']) ? $this->request->get['size'] : 100;
         $info = [];
 
         $this->load->model('catalog/attributipro');
@@ -608,9 +610,9 @@ class ControllerModuleAttributipro extends Controller
             $this->load->model('tool/image');
 
             if (is_file(DIR_IMAGE . $info['image'])) {
-                $thumb = $this->model_tool_image->resize($info['image'], 100, 100);
+                $thumb = $this->model_tool_image->resize($info['image'], $size, $size);
             } else {
-                $thumb = $this->model_tool_image->resize('no_image.png', 100, 100);;
+                $thumb = $this->model_tool_image->resize('no_image.png', $size, $size);;
             }
 
             $info['thumb'] = $thumb;
@@ -641,7 +643,8 @@ class ControllerModuleAttributipro extends Controller
             $attribute_id = $key[1];
             $data['attribute_description'][$language_id]['name'] = $name;
             $data['attribute_description'][$language_id]['duty'] = $form_values['duty'];
-            $data['image'] = $form_values['image'];
+            $data['attribute_description'][$language_id]['tooltip'] = $form_values['tooltip'];
+            $data['image'] = $form_values['image'];            
             $data['class'] = $form_values['class'];
             $data['unit_id'] = $form_values['unit_id'];
             $data['status'] = $form_values['status'];
@@ -1661,11 +1664,15 @@ class ControllerModuleAttributipro extends Controller
         ( attribute_id int(11) NOT NULL, language_id int(11) NOT NULL, duty text NOT NULL, image varchar(255) DEFAULT NULL, class varchar(255) NOT NULL, unit_id int(11) NOT NULL, status tinyint(1) NOT NULL DEFAULT 1, PRIMARY KEY (attribute_id, language_id))
         ENGINE = MYISAM, CHARACTER SET utf8, CHECKSUM = 0, COLLATE utf8_general_ci"); */
 
-        if (!$this->duty_check()) {
-            $this->dutyUpgrade();
+        if (!$this->columnCheck('attribute_description', 'duty')) {
+            $this->columnUpgrade('attribute_description', 'duty', 'TEXT NOT NULL');
         }
 
-        if (!$this->info_check()) {
+        if (!$this->columnCheck('attribute_description', 'tooltip')) {
+            $this->columnUpgrade('attribute_description', 'tooltip', 'TEXT NOT NULL');
+        }
+
+        if (!$this->columnCheck('attribute', 'image')) {
             $this->infoUpgrade();
         }
 
@@ -1695,6 +1702,12 @@ class ControllerModuleAttributipro extends Controller
 
         return (!empty($query->row));
     }
+    
+    public function dutyUpgrade()
+    {
+        $this->db->query("ALTER TABLE " . DB_PREFIX . "attribute_description ADD COLUMN `duty` TEXT NOT NULL");
+        return true;
+    }
 
     public function info_check()
     {
@@ -1703,15 +1716,22 @@ class ControllerModuleAttributipro extends Controller
         return (!empty($query->row));
     }
 
-    public function dutyUpgrade()
-    {
-        $this->db->query("ALTER TABLE " . DB_PREFIX . "attribute_description ADD COLUMN `duty` TEXT NOT NULL");
-        return true;
-    }
-
     public function infoUpgrade()
     {
         $this->db->query("ALTER TABLE " . DB_PREFIX . "attribute ADD COLUMN (image varchar(255) DEFAULT NULL, class varchar(255) NOT NULL, unit_id int(11) NOT NULL, status tinyint(1) NOT NULL DEFAULT 1)");
+        return true;
+    }
+
+    public function columnCheck($table, $column)
+    {
+        $query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA='" . DB_DATABASE . "' AND TABLE_NAME='" . DB_PREFIX . $table . "' AND COLUMN_NAME='" . $column . "'");
+
+        return (!empty($query->row));
+    }
+    
+    public function columnUpgrade($table, $column, $type)
+    {
+        $this->db->query("ALTER TABLE " . DB_PREFIX . $table . " ADD COLUMN " . $column . " " . $type);
         return true;
     }
 

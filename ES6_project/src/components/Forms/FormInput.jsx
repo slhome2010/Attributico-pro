@@ -3,7 +3,7 @@ import React from 'react';
 // Reusable Form Component
 function FormInput({ register, field, errors }) {
 
-    let { title, type, name, value, options, thumb, validationProps, dynamic } = field;    
+    let { title, type, name, value, options, thumb, validationProps, dynamic } = field;
 
     switch (type) {
         case 'email':
@@ -32,7 +32,7 @@ function FormInput({ register, field, errors }) {
                     {errors[name] && <span className="red-text">{errors[name]['message']}</span>}
                 </div>
             );
-            case 'textarea':       
+        case 'textarea':
             return (
                 <div key={name}>
                     <div className={'form-group' + (errors[name] ? 'has-error' : '')}>
