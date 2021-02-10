@@ -2,6 +2,13 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import FormInput from './FormInput';
 
+const Styles = {
+    formBody: {
+        /*  overflowY: 'auto', 
+         maxHeight: '500px' */
+    }
+};
+
 // Reusable Form Component
 function Form({ template, onSubmit, onCancel, watchFields, validate }) {
 
@@ -13,9 +20,23 @@ function Form({ template, onSubmit, onCancel, watchFields, validate }) {
     console.log('render Form', fields);
     const renderFields = (fields) => {
         return fields.map(field => {
-            return (
-                <FormInput register={register} field={field} errors={errors}></FormInput>
-            )
+            if ('cols' in field) {
+                return (
+                    <div key={field.rowname} className="row">
+                        {field.cols.map(col => {
+                            return (
+                                <div key={col.name} className={"col-sm-" + col.width + " col-md-" + col.width + " col-xs-12"}>
+                                    <FormInput register={register} field={col} errors={errors}></FormInput>
+                                </div>
+                            )
+                        })}
+                    </div>
+                )
+            } else {
+                return (
+                    <FormInput register={register} field={field} errors={errors}></FormInput>
+                )
+            }
         })
     }
 
@@ -60,7 +81,7 @@ function Form({ template, onSubmit, onCancel, watchFields, validate }) {
             </div>
             <div className="panel-body">
                 <form onSubmit={handleSubmit(onSubmit)} className="form-horizontal">
-                    <div style={{overflowY: 'auto'}}>
+                    <div style={Styles.formBody}>
                         {renderFields(fields)}
                     </div>
                     <div className="modal-footer">

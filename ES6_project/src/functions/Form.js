@@ -45,7 +45,7 @@ export function loadForm(data) {
     let lng_id = data.node.getLanguageId()
     const [config, setConfig] = useState([]);
     const [isLoading, setLoading] = useState(true);
-    
+
     useEffect(() => {
         console.log('loadForm useEffect')
         $.ajax({
@@ -76,29 +76,37 @@ export function loadForm(data) {
                         title: 'Дежурный шаблон',
                         type: 'text',
                         name: 'duty',
-                        value: json.duty                        
+                        value: json.duty
                     },
                     {
-                        title: 'Изображение',
-                        type: 'image',
-                        name: 'image',
-                        value: json.image,
-                        thumb: json.thumb,
-                        validationProps: {                            
-                        }
-                    },
-                    {
-                        title: 'Подсказка',
-                        type: 'textarea',
-                        name: 'tooltip',
-                        value: json.tooltip                        
-                    },
+                        rowname: 'images',
+                        cols: [
+                            {
+                                width: '6',
+                                title: 'Изображение',
+                                type: 'image',
+                                name: 'image',
+                                value: json.image,
+                                thumb: json.thumb,
+                                validationProps: {
+                                }
+                            },
+                            {
+                                width: '6',
+                                rows:  '5',
+                                title: 'Подсказка',
+                                type: 'textarea',
+                                name: 'tooltip',
+                                value: json.tooltip
+                            }
+                        ]
+                    },                    
                     {
                         title: 'Иконка',
                         type: 'class',
                         name: 'class',
                         value: json.class,
-                        validationProps: {                            
+                        validationProps: {
                         }
                     },
                     {
@@ -107,10 +115,10 @@ export function loadForm(data) {
                         name: 'unit_id',
                         value: json.unit_id,
                         options: [
-                            { key: '1', value: '1', title: 'См'},
-                            { key: '2', value: '2', title: 'Литры'},
-                            { key: '3', value: '3', title: 'Мегагерцы'},
-                        ]  
+                            { key: '1', value: '1', title: 'См' },
+                            { key: '2', value: '2', title: 'Литры' },
+                            { key: '3', value: '3', title: 'Мегагерцы' },
+                        ]
                     },
                     {
                         title: 'Статус',
@@ -118,9 +126,9 @@ export function loadForm(data) {
                         name: 'status',
                         value: json.status,
                         options: [
-                            { key: 'on', value: '1', title: 'Включено'},
-                            { key: 'off', value: '0', title: 'Отключено'},
-                        ]  
+                            { key: 'on', value: '1', title: 'Включено' },
+                            { key: 'off', value: '0', title: 'Отключено' },
+                        ]
                     },
                 ]
             })
