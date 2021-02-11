@@ -1,15 +1,15 @@
 import React from 'react';
 
 // Reusable Form Component
-function FormInput({ register, field, errors }) {
+function FormInput({ register, element, errors }) {
 
-    let { title, type, name, value, options, thumb, rows, validationProps, dynamic } = field;
+    let { label, type, name, value, options, thumb, rows, validationProps, tooltip, placeholder } = element;
 
     switch (type) {
         case 'email':
             return (
                 <div key={name}>
-                    <label htmlFor={name}>{title}</label>
+                    <label htmlFor={name}>{label}</label>
                     <input type="email" name={name} id={name} ref={register(validationProps)} />
                     {errors[name] && <span className="red-text">{errors[name]['message']}</span>}
                 </div>
@@ -19,7 +19,7 @@ function FormInput({ register, field, errors }) {
                 <div key={name}>
                     <label>
                         <input type="checkbox" name={name} id={name} ref={register(validationProps)} />
-                        <span>{title}</span>
+                        <span>{label}</span>
                         {errors[name] && <span className="red-text">{errors[name]['message']}</span>}
                     </label>
                 </div>
@@ -27,7 +27,10 @@ function FormInput({ register, field, errors }) {
         case 'url':
             return (
                 <div key={name}>
-                    <label htmlFor={name}>{title}</label>
+                    <label htmlFor={name}>
+                        {label}
+                        {tooltip ? <span data-toggle="tooltip" title={tooltip}></span> : ''}
+                    </label>
                     <input type="url" name={name} id={name} ref={register(validationProps)} />
                     {errors[name] && <span className="red-text">{errors[name]['message']}</span>}
                 </div>
@@ -35,23 +38,27 @@ function FormInput({ register, field, errors }) {
         case 'textarea':
             return (
                 <div key={name}>
-                    <div className={'form-group' + (errors[name] ? 'has-error' : '')}>
-                        <label className="col-sm-2 control-label" htmlFor={name}>{title}</label>
-                        <div className="col-sm-10">
-                            <textarea className="form-control" rows={rows} name={name} id={name} defaultValue={value} placeholder={name} ref={register(validationProps)} />
-                            {errors[name] && <div className="text-danger">{errors[name]['message']}</div>}
-                        </div>
+                    <div className={'form-group' + (errors[name] ? ' has-error' : '')}>
+                        <label className="control-label" htmlFor={name}>
+                            {label}
+                            {tooltip ? <span data-toggle="tooltip" title={tooltip}></span> : ''}
+                        </label>
+                        <textarea className="form-control" rows={rows} name={name} id={name} defaultValue={value} placeholder={placeholder ? placeholder : label} ref={register(validationProps)} />
+                        {errors[name] && <div className="text-danger">{errors[name]['message']}</div>}
                     </div>
                 </div>
             );
         case 'image':
             return (
                 <div key={name}>
-                    <div className={'form-group' + (errors[name] ? 'has-error' : '')}>
-                        <label className="col-sm-2 control-label" htmlFor={name}>{title}</label>
-                        <div className="col-sm-10 text-left">
+                    <div className={'form-group text-center' + (errors[name] ? ' has-error' : '')}>
+                        <label className="control-label" htmlFor={'attribute-image-' + name}>
+                            {label}
+                            {tooltip ? <span data-toggle="tooltip" title={tooltip}></span> : ''}
+                        </label>
+                        <div>
                             <a href="" id={'thumb-image-' + name} data-toggle="image" className="img-thumbnail">
-                                <img src={thumb} alt="" title="" data-placeholder={name} />
+                                <img src={thumb} alt="" title="" data-placeholder={placeholder ? placeholder : label} />
                             </a>
                             <input type="hidden" name={name} defaultValue={value} id={'attribute-image-' + name} ref={register(validationProps)} />
                             {errors[name] && <div className="text-danger">{errors[name]['message']}</div>}
@@ -62,12 +69,15 @@ function FormInput({ register, field, errors }) {
         case 'class':
             return (
                 <div key={name}>
-                    <div className={'form-group' + (errors[name] ? 'has-error' : '')}>
-                        <label className="col-sm-2 control-label" htmlFor={name}>{title}</label>
+                    <div className={'form-group' + (errors[name] ? ' has-error' : '')}>
+                        <label className="col-sm-2 control-label" htmlFor={name}>
+                            {label}
+                            {tooltip ? <span data-toggle="tooltip" title={tooltip}></span> : ''}
+                        </label>
                         <div className="col-sm-10">
                             <div className="input-group">
                                 <span class="input-group-addon"><i className={value}></i></span>
-                                <input type="text" className="form-control" name={name} id={name} defaultValue={value} placeholder={name} ref={register(validationProps)} />
+                                <input type="text" className="form-control" name={name} id={name} defaultValue={value} placeholder={placeholder ? placeholder : label} ref={register(validationProps)} />
                                 {errors[name] && <div className="text-danger">{errors[name]['message']}</div>}
                             </div>
                         </div>
@@ -77,8 +87,11 @@ function FormInput({ register, field, errors }) {
         case "select":
             return (
                 <div key={name}>
-                    <div className={'form-group' + (errors[name] ? 'has-error' : '')}>
-                        <label className="col-sm-2 control-label" htmlFor={name}>{title}</label>
+                    <div className={'form-group' + (errors[name] ? ' has-error' : '')}>
+                        <label className="col-sm-2 control-label" htmlFor={name}>
+                            {label}
+                            {tooltip ? <span data-toggle="tooltip" title={tooltip}></span> : ''}
+                        </label>
                         <div className="col-sm-10">
                             <select className="form-control" name={name} defaultValue={value} ref={register(validationProps)}>
                                 {options.map((opt) => {
@@ -93,10 +106,13 @@ function FormInput({ register, field, errors }) {
         default:
             return (
                 <div key={name}>
-                    <div className={'form-group' + (errors[name] ? 'has-error' : '')}>
-                        <label className="col-sm-2 control-label" htmlFor={name}>{title}</label>
+                    <div className={'form-group' + (errors[name] ? ' has-error' : '')}>
+                        <label className="col-sm-2 control-label" htmlFor={name}>
+                            {label}
+                            {tooltip ? <span data-toggle="tooltip" title={tooltip}></span> : ''}
+                        </label>
                         <div className="col-sm-10">
-                            <input type="text" className="form-control" name={name} id={name} defaultValue={value} placeholder={name} ref={register(validationProps)} />
+                            <input type="text" className="form-control" name={name} id={name} defaultValue={value} placeholder={placeholder ? placeholder : label} ref={register(validationProps)} />
                             {errors[name] && <div className="text-danger">{errors[name]['message']}</div>}
                         </div>
                     </div>

@@ -1,11 +1,15 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import FormInput from './FormInput';
+import FormInput from './FormElement';
 
 const Styles = {
     formBody: {
         /*  overflowY: 'auto', 
          maxHeight: '500px' */
+    },
+    rowInline: {
+        marginLeft: '15px', 
+        marginRight: '15px'
     }
 };
 
@@ -13,20 +17,20 @@ const Styles = {
 function Form({ template, onSubmit, onCancel, watchFields, validate }) {
 
     let { register, handleSubmit, errors, watch, setError, clearErrors } = useForm();
-    let { title, fields } = template;
+    let { title, elements } = template;
 
     //let watchValues = watch(watchFields);
     //validate(watchValues, { errors, setError, clearErrors });
-    console.log('render Form', fields);
-    const renderFields = (fields) => {
-        return fields.map(field => {
-            if ('cols' in field) {
+    console.log('render Form', elements);
+    const renderElements = (elements) => {
+        return elements.map(element => {
+            if ('cols' in element) {
                 return (
-                    <div key={field.rowname} className="row">
-                        {field.cols.map(col => {
+                    <div key={element.rowname} className="row" style={Styles.rowInline}>
+                        {element.cols.map(col => {
                             return (
                                 <div key={col.name} className={"col-sm-" + col.width + " col-md-" + col.width + " col-xs-12"}>
-                                    <FormInput register={register} field={col} errors={errors}></FormInput>
+                                    <FormInput register={register} element={col} errors={errors}></FormInput>
                                 </div>
                             )
                         })}
@@ -34,7 +38,7 @@ function Form({ template, onSubmit, onCancel, watchFields, validate }) {
                 )
             } else {
                 return (
-                    <FormInput register={register} field={field} errors={errors}></FormInput>
+                    <FormInput register={register} element={element} errors={errors}></FormInput>
                 )
             }
         })
@@ -82,7 +86,7 @@ function Form({ template, onSubmit, onCancel, watchFields, validate }) {
             <div className="panel-body">
                 <form onSubmit={handleSubmit(onSubmit)} className="form-horizontal">
                     <div style={Styles.formBody}>
-                        {renderFields(fields)}
+                        {renderElements(elements)}
                     </div>
                     <div className="modal-footer">
                         {renderFooter()}
