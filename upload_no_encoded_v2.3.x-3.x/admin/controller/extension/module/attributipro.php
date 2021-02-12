@@ -597,14 +597,15 @@ class ControllerModuleAttributipro extends Controller
     public function getAttributeInfo()
     {
         $language_id = isset($this->request->get['language_id']) ? $this->request->get['language_id'] : $this->config->get('config_language_id');
-        $key = isset($this->request->get['key']) ? explode("_", $this->request->get['key']) : array('0', '0');
+        $attribute_id = isset($this->request->get['attribute_id']) ? $this->request->get['attribute_id'] : 0;
         $size = isset($this->request->get['size']) ? $this->request->get['size'] : 100;
+        $form = isset($this->request->get['form']) ? filter_var($this->request->get['form'], FILTER_VALIDATE_BOOLEAN) : false;
         $info = [];
 
         $this->load->model('catalog/attributipro');
 
-        if ($key[0] == 'attribute') {
-            $attribute_id = $key[1];
+        if ($attribute_id) {
+
             $info = $this->model_catalog_attributipro->getAttributeInfo($attribute_id, $language_id);
 
             $this->load->model('tool/image');
@@ -618,8 +619,98 @@ class ControllerModuleAttributipro extends Controller
             $info['thumb'] = $thumb;
         }
 
+        if ($form) {
+            $info = $this->configForm($info, $language_id);
+        }
+
         $this->response->addHeader('Content-Type: application/json');
-        $this->response->setOutput(json_encode($info));
+        $this->response->setOutput(json_encode($info, JSON_UNESCAPED_UNICODE));
+    }
+
+    private function configForm($info, $language_id)
+    {
+        $language = $this->getLanguage($language_id);
+        $config = [
+            'title' => $language->get('form_title'),
+            'elements' => [
+                [
+                    'type' => 'text',
+                    'name' => 'attribute',
+                    'label' => $language->get('entry_attribute'),
+                    'value' => $info['name'],
+                    'validationProps' => [
+                        'required' => $language->get('error_required')
+                    ]
+                ],
+                [
+                    'type' => 'text',
+                    'name' => 'duty',
+                    'label' => $language->get('entry_duty'),
+                    'value' => $info['duty'],
+                    'tooltip' => $language->get('help_duty'),
+                    'placeholder' => $language->get('placeholder_duty')
+                ],
+                [
+                    'rowname' => 'images',
+                    'cols' => [
+                        [
+                            'width' => '5',
+                            'type' => 'image',
+                            'name' => 'image',
+                            'label' => $language->get('label_image'),
+                            'value' => $info['image'],
+                            'thumb' => $info['thumb'],
+                            'validationProps' => []
+                        ],
+                        [
+                            'width' => '7',
+                            'rows' =>  '5',
+                            'type' => 'textarea',
+                            'name' => 'tooltip',
+                            'label' => $language->get('label_tooltip'),
+                            'value' => $info['tooltip'],
+                            'tooltip' => $language->get('help_tooltip'),
+                            'placeholder' => $language->get('placeholder_tooltip')
+                        ]
+                    ]
+                ],
+                [
+                    'type' => 'class',
+                    'name' => 'class',
+                    'label' => $language->get('label_icon'),
+                    'value' => $info['class'],
+                    'tooltip' => $language->get('help_icon'),
+                    'placeholder' => $language->get('placeholder_icon'),
+                    'validationProps' => []
+                ],
+                [
+                    'type' => 'select',
+                    'name' => 'unit_id',
+                    'label' => $language->get('label_unit'),
+                    'value' => $info['unit_id'],
+                    'options' => [
+                        ['key' => '0', 'value' => '0', 'title' => $language->get('not_selected')],
+                        ['key' => '1', 'value' => '1', 'title' => 'См'],
+                        ['key' => '2', 'value' => '2', 'title' => 'Литры'],
+                        ['key' => '3', 'value' => '3', 'title' => 'Мегагерцы'],
+                    ],
+                    'tooltip' =>  $language->get('help_unit')
+                ],
+                [
+                    'type' => 'select',
+                    'name' => 'status',
+                    'label' => $language->get('label_status'),
+                    'value' => $info['status'],
+                    'options' => [
+                        ['key' => 'on', 'value' => '1', 'title' => $language->get('status_on')],
+                        ['key' => 'off', 'value' => '0', 'title' => $language->get('status_off')],
+                    ],
+                    'tooltip' => $language->get('help_status')
+                ]
+            ]
+        ];
+
+        return $config;
     }
 
     public function editInfo()
@@ -644,7 +735,7 @@ class ControllerModuleAttributipro extends Controller
             $data['attribute_description'][$language_id]['name'] = $name;
             $data['attribute_description'][$language_id]['duty'] = $form_values['duty'];
             $data['attribute_description'][$language_id]['tooltip'] = $form_values['tooltip'];
-            $data['image'] = $form_values['image'];            
+            $data['image'] = $form_values['image'];
             $data['class'] = $form_values['class'];
             $data['unit_id'] = $form_values['unit_id'];
             $data['status'] = $form_values['status'];
@@ -1694,15 +1785,15 @@ class ControllerModuleAttributipro extends Controller
         $this->load->model('setting/setting');
         $this->model_setting_setting->editSetting('module_attributipro', $data);
         $this->cache->delete('attributipro');
-    }    
- 
+    }
+
     public function columnCheck($table, $column)
     {
         $query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA='" . DB_DATABASE . "' AND TABLE_NAME='" . DB_PREFIX . $table . "' AND COLUMN_NAME='" . $column . "'");
 
         return (!empty($query->row));
     }
-    
+
     public function columnUpgrade($table, $column, $type)
     {
         $this->db->query("ALTER TABLE " . DB_PREFIX . $table . " ADD COLUMN " . $column . " " . $type);
@@ -1771,9 +1862,9 @@ class ControllerModuleAttributipro extends Controller
         $image = isset($this->request->get['image']) ? $this->request->get['image'] : '';
         $thumb = '';
 
-        if ($image) {  
-            $this->load->model('tool/image');            
-            $thumb = $this->model_tool_image->resize($image, 50, 50);           
+        if ($image) {
+            $this->load->model('tool/image');
+            $thumb = $this->model_tool_image->resize($image, 50, 50);
         }
 
         $this->response->addHeader('Content-Type: application/json');

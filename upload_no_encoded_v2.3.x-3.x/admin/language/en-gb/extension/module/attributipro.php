@@ -326,3 +326,23 @@ $_['message_clone_group'] = 'Cloned groups: ';
 $_['message_clone_value'] = 'Cloned values: ';
 $_['message_clone_error'] = 'Clone is impossible! ';
 $_['message_clone_duty'] = 'Cloned duty: ';
+
+// Form
+$_['form_title'] = 'Fill out the form';
+$_['error_required'] = 'This element cannot be empty';
+$_['help_duty'] = 'A duty template is a default value or set of attribute values';
+$_['placeholder_duty'] = 'Fill out the Duty Template';
+$_['label_image'] = 'Image';
+$_['label_tooltip'] = 'Description';
+$_['help_tooltip'] = 'A tooltip when you hover the cursor over the attribute';
+$_['placeholder_tooltip'] = 'Enter a description of the attribute';
+$_['label_icon'] = 'Icon';
+$_['help_icon'] = 'CSS class for the icon. For example: fa fa-pencil';
+$_['placeholder_icon'] = 'CSS class';
+$_['label_unit'] = 'Units';
+$_['help_unit'] = 'Units of measurement for the values of this attribute';
+$_['not_selected'] = 'Not selected';
+$_['label_status'] = 'Status';
+$_['help_status'] = 'Managing attribute visibility on the product page and in the filter';
+$_['status_on'] = 'Enabled';
+$_['status_off'] = 'Disabled';

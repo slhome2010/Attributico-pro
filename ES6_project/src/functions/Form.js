@@ -52,97 +52,17 @@ export function loadForm(data) {
             data: {
                 'user_token': user_token,
                 'token': token,
-                'key': data.node.key,
-                'language_id': lng_id
+                'attribute_id': data.node.key.split('_')[1],
+                'language_id': lng_id,
+                'form' : true
             },
             url: route + 'getAttributeInfo',
             beforeSend: () => {
                 setLoading(true)
             }
-        }).done(function (json) {
-            setConfig({ //TODO pass to controller
-                title: 'Заполните форму',
-                elements: [
-                    {
-                        type: 'text',
-                        name: 'attribute',
-                        label: 'Атрибут',
-                        value: json.name,
-                        validationProps: {
-                            required: 'Attribute is mandatory'
-                        }
-                    },
-                    {
-                        type: 'text',
-                        name: 'duty',
-                        label: 'Дежурный',
-                        value: json.duty,
-                        tooltip: 'Изменить Дежурный шаблон',
-                        placeholder: 'Заполните Дежурный шаблон'
-                    },
-                    {
-                        rowname: 'images',
-                        cols: [
-                            {
-                                width: '5',
-                                type: 'image',
-                                name: 'image',
-                                label: 'Изображение',
-                                value: json.image,
-                                thumb: json.thumb,
-                                validationProps: {
-                                }
-                            },
-                            {
-                                width: '7',
-                                rows:  '5',
-                                type: 'textarea',
-                                name: 'tooltip',
-                                label: 'Подсказка',
-                                value: json.tooltip,
-                                tooltip: 'Всплывающая подсказка при наведении курсора на атрибут',
-                                placeholder: 'Введите описание атрибута'
-                            }
-                        ]
-                    },                    
-                    {
-                        type: 'class',
-                        name: 'class',
-                        label: 'Иконка',
-                        value: json.class,
-                        tooltip: 'CSS класс для иконки. Например: fa fa-pencil',
-                        placeholder: 'CSS class',
-                        validationProps: {
-                        }
-                    },
-                    {
-                        type: 'select',
-                        name: 'unit_id',
-                        label: 'Единицы',
-                        value: json.unit_id,
-                        options: [
-                            { key: '0', value: '0', title: 'Не выбрано' },
-                            { key: '1', value: '1', title: 'См' },
-                            { key: '2', value: '2', title: 'Литры' },
-                            { key: '3', value: '3', title: 'Мегагерцы' },
-                        ],
-                        tooltip: 'Единицы измерения для значений этого атрибута'
-                    },
-                    {
-                        type: 'select',
-                        name: 'status',
-                        label: 'Статус',
-                        value: json.status,
-                        options: [
-                            { key: 'on', value: '1', title: 'Включено' },
-                            { key: 'off', value: '0', title: 'Отключено' },
-                        ],
-                        tooltip: 'Управление видимостью атрибута на странице товара и в фильтре'
-                    },
-                ]
-            })
-
-            console.log('loadForm done:', json.name)
+        }).done( config => { 
+            setConfig(config)
+           // console.log('loadForm done:', config.name)
         }).fail(function (error) {
             // Ajax error: reset title (and maybe issue a warning)
             setConfig(error) // TODO как обработать если не json a HTML
