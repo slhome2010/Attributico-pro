@@ -372,24 +372,24 @@
                                             <div class="form-group">
                                                 <div class="radio">
                                                     <label class="control-label">
-                                                        <?php if ($attributipro_replace_mode == 'substr') { ?>        
-                                                            <input type="radio" name="attributipro_replace_mode" value="substr" checked="checked"/>
-                                                        <?php } else { ?> 
-                                                            <input type="radio" name="attributipro_replace_mode" value="substr"/>
-                                                        <?php } ?>  
-                                                        <span data-toggle="tooltip" title="<?php echo $help_replace_substr;?>"><?php echo $text_replace_substr; ?>
-                                                        </span>                                                        
-                                                    </label>                                                
-                                                </div>                
+                                                        <?php if ($attributipro_replace_mode == 'substr') { ?>
+                                                            <input type="radio" name="attributipro_replace_mode" value="substr" checked="checked" />
+                                                        <?php } else { ?>
+                                                            <input type="radio" name="attributipro_replace_mode" value="substr" />
+                                                        <?php } ?>
+                                                        <span data-toggle="tooltip" title="<?php echo $help_replace_substr; ?>"><?php echo $text_replace_substr; ?>
+                                                        </span>
+                                                    </label>
+                                                </div>
                                                 <div class="radio">
                                                     <label class="control-label">
-                                                        <?php if ($attributipro_replace_mode == 'match') { ?>        
-                                                            <input type="radio" name="attributipro_replace_mode" value="match" checked="checked"/>
-                                                        <?php } else { ?> 
-                                                            <input type="radio" name="attributipro_replace_mode" value="match"/>
+                                                        <?php if ($attributipro_replace_mode == 'match') { ?>
+                                                            <input type="radio" name="attributipro_replace_mode" value="match" checked="checked" />
+                                                        <?php } else { ?>
+                                                            <input type="radio" name="attributipro_replace_mode" value="match" />
                                                         <?php } ?>
-                                                        <span data-toggle="tooltip" title="<?php echo $help_replace_match;?>"><?php echo $text_replace_match;?>
-                                                        </span>                              
+                                                        <span data-toggle="tooltip" title="<?php echo $help_replace_match; ?>"><?php echo $text_replace_match; ?>
+                                                        </span>
                                                     </label>
                                                 </div>
                                             </div>
@@ -898,32 +898,67 @@
                                                         </tbody>
                                                     </table>
                                                 </div>
-                                                <div class="alert alert-info" role="alert"> <?php echo $alert_info; ?>
+                                                <div class="alert alert-info" role="alert"> <?php echo $alert_info; ?></div>
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered">
+                                                        <colgroup>
+                                                            <col class="col-xs-12 col-md-10">
+                                                            <col class="col-xs-4 col-md-1">
+                                                            <col class="col-xs-4 col-md-1">
+                                                        </colgroup>
+                                                        <thead>
+                                                            <tr>
+                                                                <th><label class="control-label"><span><?php echo $head_settings; ?></span></label>
+                                                                </th>
+                                                                <th><?php echo $head_command; ?></th>
+                                                                <th><?php echo $head_status; ?></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    <div>
+                                                                        <label class="control-label" for="input-unit"><span data-toggle="tooltip" title="<?php echo $help_unit; ?>"><?php echo $label_unit; ?></span></label>
+                                                                        <select name="unit_id" id="input-unit" class="form-control">
+                                                                            <?php foreach ($units as $unit) { ?>
+                                                                                <option value="<?php echo $unit['value']; ?>"><?php echo $unit['title']; ?></option>
+                                                                            <?php } ?>
+                                                                        </select>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <button type="button" onclick=" return tools('clone')" data-toggle="tooltip" title="<?php echo $button_play; ?>" class="btn btn-warning"><i class="fa fa-play"></i></button>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="ajax-loader"><img class="loader-img" src="view/javascript/fancytree/skin-win7/loading.gif" style="display:none;" /></div>
+                                                                    <div class="task-complete"><img class="complete-img" src="view/javascript/fancytree/skin-custom/accept.png" style="display:none;" /></div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="alert alert-warning" role="alert" style="display: none">
+                                                    <?php echo $alert_warning; ?> </div>
+                                                <div class="alert alert-success alert-dismissible" role="alert" style="display: none">
+                                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                    <?php echo $alert_success; ?>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="alert alert-warning" role="alert" style="display: none">
-                                            <?php echo $alert_warning; ?> </div>
-                                        <div class="alert alert-success alert-dismissible" role="alert" style="display: none">
-                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                            <?php echo $alert_success; ?>
+                                    </div>
+                                    <div class="tab-pane" id="tab-support">
+                                        <div class="table-responsive">
+                                            <?php echo $text_help1; ?>
+                                        </div>
+                                        <div class="table-responsive">
+                                            <?php echo $text_help2; ?>
+                                        </div>
+                                        <div class="form-group">
+                                            <?php echo $text_support; ?>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane" id="tab-support">
-                                <div class="table-responsive">
-                                    <?php echo $text_help1; ?>
-                                </div>
-                                <div class="table-responsive">
-                                    <?php echo $text_help2; ?>
-                                </div>
-                                <div class="form-group">
-                                    <?php echo $text_support; ?>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </form>
             </div>
         </div>

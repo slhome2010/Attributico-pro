@@ -237,6 +237,8 @@ class ControllerModuleAttributipro extends Controller
         $this->data['alert_backup'] = $this->language->get('alert_backup');
         $this->data['alert_remove_ca_confirm'] = $this->language->get('alert_remove_ca_confirm');
         $this->data['head_clone'] = $this->language->get('head_clone');
+        $this->data['label_unit'] = $this->language->get('label_unit');
+        $this->data['help_unit'] = $this->language->get('help_unit');
 
         if (isset($this->error['warning'])) {
             $this->data['error_warning'] = $this->error['warning'];
@@ -368,6 +370,8 @@ class ControllerModuleAttributipro extends Controller
         $this->assignData('attributipro_cache', 0);
         $this->assignData('attributipro_multistore', 0);
         $this->assignData('attributipro_replace_mode', 'substr');
+
+        $this->data['units'] = $this->getUnitOptions($this->config->get('config_language_id'));
 
         if (version_compare(VERSION, '2.0.1', '>=')) {
             $this->data['header'] = $this->load->controller('common/header');
@@ -630,13 +634,8 @@ class ControllerModuleAttributipro extends Controller
     private function configForm($info, $language_id)
     {
         $language = $this->getLanguage($language_id);
-        
-        $this->load->model('localisation/unit');
-        $units = $this->model_localisation_unit->getUnits(['language_id' => $language_id]);
-        $options = [ ['key' => '0', 'value' => '0', 'title' => $language->get('not_selected')] ];
-        foreach ($units as $unit) {
-            $options[] =  ['key' => $unit['unit_id'], 'value' => $unit['unit_id'], 'title' => $unit['title'] . ', ' . $unit['unit']] ;
-        }
+
+        $options = $this->getUnitOptions($language_id);
         
         $config = [
             'title' => $language->get('form_title'),
@@ -714,6 +713,19 @@ class ControllerModuleAttributipro extends Controller
         ];
 
         return $config;
+    }
+
+    private function getUnitOptions($language_id) {
+
+        $this->load->model('localisation/unit');
+        $units = $this->model_localisation_unit->getUnits(['language_id' => $language_id]);
+
+        $options = [ ['key' => '0', 'value' => '0', 'title' => $this->language->get('not_selected')] ];       
+        foreach ($units as $unit) {
+            $options[] =  ['key' => $unit['unit_id'], 'value' => $unit['unit_id'], 'title' => $unit['title'] . ', ' . $unit['unit']] ;
+        }
+
+        return $options;
     }
 
     public function editInfo()
