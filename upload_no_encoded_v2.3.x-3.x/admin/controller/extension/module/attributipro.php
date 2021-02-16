@@ -630,6 +630,14 @@ class ControllerModuleAttributipro extends Controller
     private function configForm($info, $language_id)
     {
         $language = $this->getLanguage($language_id);
+        
+        $this->load->model('localisation/unit');
+        $units = $this->model_localisation_unit->getUnits(['language_id' => $language_id]);
+        $options = [ ['key' => '0', 'value' => '0', 'title' => $language->get('not_selected')] ];
+        foreach ($units as $unit) {
+            $options[] =  ['key' => $unit['unit_id'], 'value' => $unit['unit_id'], 'title' => $unit['title'] . ', ' . $unit['unit']] ;
+        }
+        
         $config = [
             'title' => $language->get('form_title'),
             'elements' => [
@@ -688,12 +696,7 @@ class ControllerModuleAttributipro extends Controller
                     'name' => 'unit_id',
                     'label' => $language->get('label_unit'),
                     'value' => $info['unit_id'],
-                    'options' => [
-                        ['key' => '0', 'value' => '0', 'title' => $language->get('not_selected')],
-                        ['key' => '1', 'value' => '1', 'title' => 'См'],
-                        ['key' => '2', 'value' => '2', 'title' => 'Литры'],
-                        ['key' => '3', 'value' => '3', 'title' => 'Мегагерцы'],
-                    ],
+                    'options' => $options,
                     'tooltip' =>  $language->get('help_unit')
                 ],
                 [
