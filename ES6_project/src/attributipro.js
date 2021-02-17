@@ -24,6 +24,7 @@ import commonSettings from './components/Events/CommonSettings';
 import configureStore from './store';
 import reducer from './reducers';
 import Observer from './observers/observer';
+import { unitEvents } from './components/Events/ToolsEvent.js';
 
 window.tools = tools;
 window.apply = apply;
@@ -85,6 +86,12 @@ $(function() {
      * Context menu dialog events
      *
      **/   
-    dialogEvents();    
+    dialogEvents();  
+    
+    /**
+     * Unit form events
+     *
+     **/   
+    unitEvents(); 
 
 }); // end of document ready

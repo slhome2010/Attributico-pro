@@ -238,7 +238,7 @@ class ControllerModuleAttributipro extends Controller
         $this->data['alert_remove_ca_confirm'] = $this->language->get('alert_remove_ca_confirm');
         $this->data['head_clone'] = $this->language->get('head_clone');
         $this->data['label_unit'] = $this->language->get('label_unit');
-        $this->data['help_unit'] = $this->language->get('help_unit');
+        $this->data['help_unit'] = $this->language->get('help_unit');        
 
         if (isset($this->error['warning'])) {
             $this->data['error_warning'] = $this->error['warning'];
