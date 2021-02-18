@@ -97,101 +97,48 @@ class ControllerLocalisationUnit extends Controller
 	}
 
 	protected function getForm()
-	{
-		$data['heading_title'] = $this->language->get('heading_title');
+	{		
+        $unit_id = isset($this->request->get['unit_id']) ? $this->request->get['unit_id'] : 0;        
+        $config = [];
+       
+		$this->load->model('localisation/unit');
+        $units = $this->model_localisation_unit->getUnits(['unit_id' => $unit_id]);
 
-		$data['text_form'] = !isset($this->request->get['unit_id']) ? $this->language->get('text_add') : $this->language->get('text_edit');
+		$this->load->language('localisation/unit');       
+        
+        $config = [
+            'title' => $this->language->get('form_title'),
+            'elements' => [
+                
+                
+                [
+                    'rowname' => 'units',
+                    'cols' => [
+                        [
+							'width' => '7',
+							'type' => 'text',
+							'name' => 'unit',
+							'label' => $this->language->get('entry_unit'),
+							'value' => $unit['unit'],
+							'tooltip' => $this->language->get('help_unit'),
+							'placeholder' => $this->language->get('placeholder_unit')
+						],
+                        [
+							'width' => '5',
+							'type' => 'text',
+							'name' => 'unit',
+							'label' => $this->language->get('entry_unit'),
+							'value' => $unit['signment'],
+							'tooltip' => $this->language->get('help_unit'),
+							'placeholder' => $this->language->get('placeholder_unit')
+						]
+                    ]
+                ]
+            ]
+        ];
 
-		$data['entry_title'] = $this->language->get('entry_title');
-		$data['entry_unit'] = $this->language->get('entry_unit');
-		$data['entry_value'] = $this->language->get('entry_value');
-
-		$data['help_value'] = $this->language->get('help_value');
-
-		$data['button_save'] = $this->language->get('button_save');
-		$data['button_cancel'] = $this->language->get('button_cancel');
-
-		if (isset($this->error['warning'])) {
-			$data['error_warning'] = $this->error['warning'];
-		} else {
-			$data['error_warning'] = '';
-		}
-
-		if (isset($this->error['title'])) {
-			$data['error_title'] = $this->error['title'];
-		} else {
-			$data['error_title'] = array();
-		}
-
-		if (isset($this->error['unit'])) {
-			$data['error_unit'] = $this->error['unit'];
-		} else {
-			$data['error_unit'] = array();
-		}
-
-		$url = '';
-
-		if (isset($this->request->get['sort'])) {
-			$url .= '&sort=' . $this->request->get['sort'];
-		}
-
-		if (isset($this->request->get['order'])) {
-			$url .= '&order=' . $this->request->get['order'];
-		}
-
-		if (isset($this->request->get['page'])) {
-			$url .= '&page=' . $this->request->get['page'];
-		}
-
-		$data['breadcrumbs'] = array();
-
-		$data['breadcrumbs'][] = array(
-			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/dashboard', 'token=' . $this->session->data['token'], true)
-		);
-
-		$data['breadcrumbs'][] = array(
-			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('localisation/unit', 'token=' . $this->session->data['token'] . $url, true)
-		);
-
-		if (!isset($this->request->get['unit_id'])) {
-			$data['action'] = $this->url->link('localisation/unit/add', 'token=' . $this->session->data['token'] . $url, true);
-		} else {
-			$data['action'] = $this->url->link('localisation/unit/edit', 'token=' . $this->session->data['token'] . '&unit_id=' . $this->request->get['unit_id'] . $url, true);
-		}
-
-		$data['cancel'] = $this->url->link('localisation/unit', 'token=' . $this->session->data['token'] . $url, true);
-
-		if (isset($this->request->get['unit_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
-			$unit_info = $this->model_localisation_unit->getUnit($this->request->get['unit_id']);
-		}
-
-		$this->load->model('localisation/language');
-
-		$data['languages'] = $this->model_localisation_language->getLanguages();
-
-		if (isset($this->request->post['unit_description'])) {
-			$data['unit_description'] = $this->request->post['unit_description'];
-		} elseif (isset($this->request->get['unit_id'])) {
-			$data['unit_description'] = $this->model_localisation_unit->getUnitDescriptions($this->request->get['unit_id']);
-		} else {
-			$data['unit_description'] = array();
-		}
-
-		if (isset($this->request->post['value'])) {
-			$data['value'] = $this->request->post['value'];
-		} elseif (!empty($unit_info)) {
-			$data['value'] = $unit_info['value'];
-		} else {
-			$data['value'] = '';
-		}
-
-		$data['header'] = $this->load->controller('common/header');
-		$data['column_left'] = $this->load->controller('common/column_left');
-		$data['footer'] = $this->load->controller('common/footer');
-
-		$this->response->setOutput($this->load->view('localisation/unit_form', $data));
+        $this->response->addHeader('Content-Type: application/json');
+        $this->response->setOutput(json_encode($config, JSON_UNESCAPED_UNICODE));
 	}
 
 	protected function validateForm()
