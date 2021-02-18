@@ -1,8 +1,10 @@
 <?php
-class ControllerLocalisationUnit extends Controller {
+class ControllerLocalisationUnit extends Controller
+{
 	private $error = array();
 
-	public function index() {
+	public function index()
+	{
 		/* $this->load->language('localisation/unit');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -12,7 +14,8 @@ class ControllerLocalisationUnit extends Controller {
 		$this->getList(); */
 	}
 
-	public function add() {
+	public function add()
+	{
 		/* $this->load->language('localisation/unit');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -44,7 +47,8 @@ class ControllerLocalisationUnit extends Controller {
 		$this->getForm(); */
 	}
 
-	public function edit() {
+	public function edit()
+	{
 		/* $this->load->language('localisation/unit');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -76,45 +80,24 @@ class ControllerLocalisationUnit extends Controller {
 		$this->getForm(); */
 	}
 
-	public function delete() {
-		/* $this->load->language('localisation/unit');
-
-		$this->document->setTitle($this->language->get('heading_title'));
-
+	public function delete()
+	{
 		$this->load->model('localisation/unit');
 
-		if (isset($this->request->post['selected']) && $this->validateDelete()) {
-			foreach ($this->request->post['selected'] as $unit_id) {
-				$this->model_localisation_unit->deleteUnit($unit_id);
-			}
-
-			$this->session->data['success'] = $this->language->get('text_success');
-
-			$url = '';
-
-			if (isset($this->request->get['sort'])) {
-				$url .= '&sort=' . $this->request->get['sort'];
-			}
-
-			if (isset($this->request->get['order'])) {
-				$url .= '&order=' . $this->request->get['order'];
-			}
-
-			if (isset($this->request->get['page'])) {
-				$url .= '&page=' . $this->request->get['page'];
-			}
-
-			$this->response->redirect($this->url->link('localisation/unit', 'token=' . $this->session->data['token'] . $url, true));
+		if (isset($this->request->get['unit_id']) && $this->request->get['unit_id']) {
+			$unit_id = $this->request->get['unit_id'];
+			$this->model_localisation_unit->deleteUnit($unit_id);
 		}
 
-		$this->getUnitList(); */
+		return;
 	}
 
-	public function getUnitList($language_id) {
-						
+	public function getUnitList($language_id)
+	{
 	}
 
-	protected function getForm() {
+	protected function getForm()
+	{
 		$data['heading_title'] = $this->language->get('heading_title');
 
 		$data['text_form'] = !isset($this->request->get['unit_id']) ? $this->language->get('text_add') : $this->language->get('text_edit');
@@ -211,7 +194,8 @@ class ControllerLocalisationUnit extends Controller {
 		$this->response->setOutput($this->load->view('localisation/unit_form', $data));
 	}
 
-	protected function validateForm() {
+	protected function validateForm()
+	{
 		if (!$this->user->hasPermission('modify', 'localisation/unit')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
@@ -229,7 +213,8 @@ class ControllerLocalisationUnit extends Controller {
 		return !$this->error;
 	}
 
-	protected function validateDelete() {
+	protected function validateDelete()
+	{
 		if (!$this->user->hasPermission('modify', 'localisation/unit')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}

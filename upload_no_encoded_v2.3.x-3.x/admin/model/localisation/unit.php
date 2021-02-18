@@ -27,6 +27,7 @@ class ModelLocalisationUnit extends Model {
 	public function deleteUnit($unit_id) {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "unit WHERE unit_id = '" . (int)$unit_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "unit_description WHERE unit_id = '" . (int)$unit_id . "'");
+		$this->db->query("UPDATE " . DB_PREFIX . "attribute  SET unit_id = '' WHERE unit_id = '" . (int)$unit_id . "'");
 
 		$this->cache->delete('unit');
 	}

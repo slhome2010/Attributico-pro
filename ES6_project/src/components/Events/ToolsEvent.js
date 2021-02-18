@@ -12,5 +12,16 @@ export function addUnit(event){
     console.log('add',$('select#unit_id').val(), $(this))
 }
 export function deleteUnit(event){
-    console.log('delete',$('select#unit_id').val(), $(this))
+    $.ajax({
+        data: {
+            'user_token': user_token,
+            'token': token,
+            'unit_id': $('select#unit_id').val()            
+        },
+        url: 'index.php?route=localisation/unit/' + 'delete',
+        success: function () {
+            // Надо удалить из select options
+            console.log('delete',$('select#unit_id').val(), $(this))
+        }
+    });    
 }
