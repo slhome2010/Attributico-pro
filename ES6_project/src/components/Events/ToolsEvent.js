@@ -12,16 +12,20 @@ export function addUnit(event){
     console.log('add',$('select#unit_id').val(), $(this))
 }
 export function deleteUnit(event){
-    $.ajax({
-        data: {
-            'user_token': user_token,
-            'token': token,
-            'unit_id': $('select#unit_id').val()            
-        },
-        url: 'index.php?route=localisation/unit/' + 'delete',
-        success: function () {
-            // Надо удалить из select options
-            console.log('delete',$('select#unit_id').val(), $(this))
-        }
-    });    
+    const unit_id = $('select#unit_id').val()
+    if (unit_id !== '0') {
+        $.ajax({
+            data: {
+                'user_token': user_token,
+                'token': token,
+                'unit_id': unit_id            
+            },
+            url: 'index.php?route=localisation/unit/' + 'delete',
+            success: function () {
+                // Надо удалить из select options
+                $('select#unit_id option:selected').remove();  
+                $('select#unit_id option[value=0]').prop('selected', true);          
+            }
+        });    
+    }
 }

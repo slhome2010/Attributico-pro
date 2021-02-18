@@ -371,7 +371,7 @@ class ControllerModuleAttributipro extends Controller
         $this->assignData('attributipro_multistore', 0);
         $this->assignData('attributipro_replace_mode', 'substr');
 
-        $this->data['units'] = $this->getUnitOptions($this->config->get('config_language_id'));
+        $this->data['units'] = $this->getUnitOptions($this->config->get('config_language_id'), $this->language->get('not_selected'));
 
         if (version_compare(VERSION, '2.0.1', '>=')) {
             $this->data['header'] = $this->load->controller('common/header');
@@ -635,7 +635,7 @@ class ControllerModuleAttributipro extends Controller
     {
         $language = $this->getLanguage($language_id);
 
-        $options = $this->getUnitOptions($language_id);
+        $options = $this->getUnitOptions($language_id, $language->get('not_selected'));
         
         $config = [
             'title' => $language->get('form_title'),
@@ -715,12 +715,12 @@ class ControllerModuleAttributipro extends Controller
         return $config;
     }
 
-    private function getUnitOptions($language_id) {
+    private function getUnitOptions($language_id, $title0) {
 
         $this->load->model('localisation/unit');
         $units = $this->model_localisation_unit->getUnits(['language_id' => $language_id]);
 
-        $options = [ ['key' => '0', 'value' => '0', 'title' => $this->language->get('not_selected')] ];       
+        $options = [ ['key' => '0', 'value' => '0', 'title' => $title0 ] ];       
         foreach ($units as $unit) {
             $options[] =  ['key' => $unit['unit_id'], 'value' => $unit['unit_id'], 'title' => $unit['title'] . ', ' . $unit['unit']] ;
         }
