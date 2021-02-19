@@ -80,6 +80,26 @@ class ControllerLocalisationUnit extends Controller
 		$this->getForm(); */
 	}
 
+	public function saveForm() {
+		$unit_id = isset($this->request->get['unit_id']) ? $this->request->get['unit_id'] : 0;
+		$values = isset($this->request->get['values']) ? $this->request->get['values'] : [];
+
+		foreach($values as $key => $value) {
+			$name = explode("_", $key)[0];
+			$language_id = explode("_", $key)[1];
+			$data['unit_description'][$language_id][$name] = $value;
+		}
+
+		$this->load->model('localisation/unit');
+
+		if($unit_id) {
+			$this->model_localisation_unit->editUnit($unit_id, $data);
+		} else {
+			$this->model_localisation_unit->addUnit($data);
+		}
+
+	}
+
 	public function delete()
 	{
 		$this->load->model('localisation/unit');
@@ -92,94 +112,70 @@ class ControllerLocalisationUnit extends Controller
 		return;
 	}
 
-	public function getUnitList($language_id)
+	public function getForm()
 	{
-	}
+		$unit_id = isset($this->request->get['unit_id']) ? $this->request->get['unit_id'] : 0;
+		$config = [];
 
-	protected function getForm()
-	{		
-        $unit_id = isset($this->request->get['unit_id']) ? $this->request->get['unit_id'] : 0;        
-        $config = [];
-       
-		$this->load->model('localisation/unit');
-        $units = $this->model_localisation_unit->getUnits(['unit_id' => $unit_id]);
+		if ($unit_id) {
+			$this->load->model('localisation/unit');
+			$units = $this->model_localisation_unit->getUnits(['unit_id' => $unit_id]);
+		} else {
+			$this->load->model('localisation/language');
+			$languages = $this->model_localisation_language->getLanguages();
+			foreach ($languages as $language) {
+				$units[] = ['language_id' => $language['language_id'], 'flag' => 'language/' . $language['code'] . '/' . $language['code'] . '.png','title' => '', 'unit' => ''];
+			}
+		}
 
-		$this->load->language('localisation/unit');       
-        
-        $config = [
-            'title' => $this->language->get('form_title'),
-            'elements' => [
-                
-                
-                [
-                    'rowname' => 'units',
-                    'cols' => [
-                        [
-							'width' => '7',
-							'type' => 'text',
-							'name' => 'unit',
-							'label' => $this->language->get('entry_unit'),
-							'value' => $unit['unit'],
-							'tooltip' => $this->language->get('help_unit'),
-							'placeholder' => $this->language->get('placeholder_unit')
-						],
-                        [
-							'width' => '5',
-							'type' => 'text',
-							'name' => 'unit',
-							'label' => $this->language->get('entry_unit'),
-							'value' => $unit['signment'],
-							'tooltip' => $this->language->get('help_unit'),
-							'placeholder' => $this->language->get('placeholder_unit')
+		$this->load->language('localisation/unit');
+
+		$config = [
+			'title' => $this->language->get('form_title'),
+			'elements' => array_map(
+				function ($unit) {
+					$row = [
+						'rowname' => 'units_' . $unit['language_id'],
+						'cols' => [							
+							[
+								'width' => '7',
+								'type' => 'input-group',
+								'name' => 'title_' . $unit['language_id'],
+								'label' => $this->language->get('entry_unit'),
+								'value' => $unit['title'],
+								'src' => $unit['flag'],
+								'tooltip' => $this->language->get('help_unit'),
+								'placeholder' => $this->language->get('placeholder_unit'),
+								'validationProps' => [
+									'required' => $this->language->get('error_required')
+								]
+							],
+							[
+								'width' => '1',
+								'type' => 'space'
+								
+							],
+							[
+								'width' => '4',
+								'type' => 'input-group',
+								'name' => 'unit_' . $unit['language_id'],
+								'label' => $this->language->get('entry_unit'),
+								'value' => $unit['unit'],
+								'src' => $unit['flag'],
+								'tooltip' => $this->language->get('help_unit'),
+								'placeholder' => $this->language->get('placeholder_unit')
+							]
 						]
-                    ]
-                ]
-            ]
-        ];
+					];
+					return $row;
+				},
+				$units
+			)
+		];
 
-        $this->response->addHeader('Content-Type: application/json');
-        $this->response->setOutput(json_encode($config, JSON_UNESCAPED_UNICODE));
+		$this->response->addHeader('Content-Type: application/json');
+		$this->response->setOutput(json_encode($config, JSON_UNESCAPED_UNICODE));
 	}
 
-	protected function validateForm()
-	{
-		if (!$this->user->hasPermission('modify', 'localisation/unit')) {
-			$this->error['warning'] = $this->language->get('error_permission');
-		}
-
-		foreach ($this->request->post['unit_description'] as $language_id => $value) {
-			if ((utf8_strlen($value['title']) < 3) || (utf8_strlen($value['title']) > 32)) {
-				$this->error['title'][$language_id] = $this->language->get('error_title');
-			}
-
-			if (!$value['unit'] || (utf8_strlen($value['unit']) > 4)) {
-				$this->error['unit'][$language_id] = $this->language->get('error_unit');
-			}
-		}
-
-		return !$this->error;
-	}
-
-	protected function validateDelete()
-	{
-		if (!$this->user->hasPermission('modify', 'localisation/unit')) {
-			$this->error['warning'] = $this->language->get('error_permission');
-		}
-
-		$this->load->model('catalog/product');
-
-		foreach ($this->request->post['selected'] as $unit_id) {
-			if ($this->config->get('config_unit_id') == $unit_id) {
-				$this->error['warning'] = $this->language->get('error_default');
-			}
-
-			$product_total = $this->model_catalog_product->getTotalProductsByUnitId($unit_id);
-
-			if ($product_total) {
-				$this->error['warning'] = sprintf($this->language->get('error_product'), $product_total);
-			}
-		}
-
-		return !$this->error;
-	}
+	
 }

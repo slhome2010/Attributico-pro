@@ -1,3 +1,5 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
 import { DataProvider } from '../Forms/DataContext';
 import UnitForm from  '../Forms/UnitForm'
 
@@ -9,10 +11,18 @@ export function unitEvents() {
 }
 
 export function editUnit(event){
-    console.log('edit', $('select#unit_id').val(), $(this))
+    const unit_id = $('select#unit_id').val()
+    console.log(unit_id)
+    ReactDOM.render(
+        <DataProvider data={unit_id} >
+            <UnitForm/>
+        </DataProvider>, document.querySelector('#root'));   
+    window.toggleModal();
 }
+
 export function addUnit(event){
-    unit_id = $('select#unit_id').val()
+    const unit_id = $('select#unit_id').val()
+    console.log(unit_id)
     ReactDOM.render(
         <DataProvider data={unit_id} >
             <UnitForm/>

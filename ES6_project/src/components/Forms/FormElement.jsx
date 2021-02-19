@@ -3,7 +3,7 @@ import React from 'react';
 // Reusable Form Component
 function FormInput({ register, element, errors }) {
 
-    let { label, type, name, value, options, thumb, rows, validationProps, tooltip, placeholder } = element;
+    let { label, type, name, value, options, src, thumb, rows, validationProps, tooltip, placeholder } = element;
 
     switch (type) {
         case 'email':
@@ -33,6 +33,37 @@ function FormInput({ register, element, errors }) {
                     </label>
                     <input type="url" name={name} id={name} ref={register(validationProps)} />
                     {errors[name] && <span className="red-text">{errors[name]['message']}</span>}
+                </div>
+            );
+        case 'space':
+            return (
+                <div > </div>
+            );
+        case 'input-group':
+            return (
+                <div key={name}>
+                    <div className={'form-group' + (errors[name] ? ' has-error' : '')}>
+                        <label className="control-label" htmlFor={name}>
+                            {label}
+                            {tooltip ? <span data-toggle="tooltip" title={tooltip}></span> : ''}
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <img src={src} title={tooltip}></img>
+                            </span>
+                            <input type="text" className="form-control" name={name} id={name} defaultValue={value} placeholder={placeholder ? placeholder : label} ref={register(validationProps)} />
+                        </div>
+                        {errors[name] && <div className="text-danger">{errors[name]['message']}</div>}
+                    </div>
+                </div>
+            );
+        case 'flag':
+            return (
+                <div key={name}>
+                    <div>
+                        <img src={src} alt="" title={tooltip} data-placeholder={placeholder ? placeholder : label} />
+                        <input type="hidden" name={name} defaultValue={value} id={'flag-' + name} ref={register(validationProps)} />
+                    </div>
                 </div>
             );
         case 'textarea':

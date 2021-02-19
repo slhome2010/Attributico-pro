@@ -55,7 +55,7 @@ function UnitForm(props) {
   }
 
   useLayoutEffect(() => {
-    console.log('useLayoutEffect node', data.node.title);
+   // console.log('useLayoutEffect node', data.node.title);
     //setModalAttached(true)
     window.modalAttached = modalAttached;
     window.toggleModal = toggle;
@@ -64,9 +64,9 @@ function UnitForm(props) {
   function onSubmit(values) {
     console.log('submit', values);
     toggle();
-    //saveForm(data, store, values)
+    saveForm(data, values)
   }
-  console.log('render Attribute Form', modalAttached, modalIsOpen, isLoading, data.node.title, config);
+  //console.log('render Attribute Form', modalAttached, modalIsOpen, isLoading, data.node.title, config);
   return (
     <div className="container-fluid">
       <Modal

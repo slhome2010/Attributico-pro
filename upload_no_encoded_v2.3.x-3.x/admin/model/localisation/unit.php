@@ -33,7 +33,7 @@ class ModelLocalisationUnit extends Model {
 	}
 
 	public function getUnit($unit_id, $language_id) {
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "unit wc LEFT JOIN " . DB_PREFIX . "unit_description wcd ON (wc.unit_id = wcd.unit_id) WHERE wc.unit_id = '" . (int)$unit_id . "' AND wcd.language_id = '" . (int)$language_id . "'");
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "unit u LEFT JOIN " . DB_PREFIX . "unit_description ud ON (u.unit_id = ud.unit_id) WHERE u.unit_id = '" . (int)$unit_id . "' AND ud.language_id = '" . (int)$language_id . "'");
 
 		return $query->row;
 	}
