@@ -41,14 +41,14 @@ class ModelLocalisationUnit extends Model {
 	public function getUnits($data) {
 
 		if (isset($data['unit_id'])) {
-			$sql = " WHERE u.unit_id = '" . (int)$data['unit_id'] . "' ";
+			$sql = " WHERE u.unit_id = '" . (int)$data['unit_id'] . "' ORDER BY ud.language_id ASC";
 		}
 
 		if (isset($data['language_id'])) {
-			$sql = " WHERE ud.language_id = '" . (int)$data['language_id'] . "' ";
+			$sql = " WHERE ud.language_id = '" . (int)$data['language_id'] . "' ORDER BY ud.title ASC";
 		}
 		
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "unit u LEFT JOIN " . DB_PREFIX . "unit_description ud ON (u.unit_id = ud.unit_id)" . $sql . " ORDER BY ud.title ASC");
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "unit u LEFT JOIN " . DB_PREFIX . "unit_description ud ON (u.unit_id = ud.unit_id)" . $sql);
 	
 		return $query->rows;
 	}

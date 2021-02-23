@@ -81,7 +81,7 @@ class ControllerLocalisationUnit extends Controller
 	}
 
 	public function saveForm() {
-		$unit_id = isset($this->request->get['unit_id']) ? $this->request->get['unit_id'] : 0;
+		$unit_id = isset($this->request->get['unit_id']) ? (int)$this->request->get['unit_id'] : 0;
 		$values = isset($this->request->get['values']) ? $this->request->get['values'] : [];
 
 		foreach($values as $key => $value) {
@@ -117,11 +117,16 @@ class ControllerLocalisationUnit extends Controller
 		$unit_id = isset($this->request->get['unit_id']) ? $this->request->get['unit_id'] : 0;
 		$config = [];
 
+		$this->load->model('localisation/language');
+
 		if ($unit_id) {
 			$this->load->model('localisation/unit');
 			$units = $this->model_localisation_unit->getUnits(['unit_id' => $unit_id]);
-		} else {
-			$this->load->model('localisation/language');
+			foreach($units as $key => $unit) {
+				$language = $this->model_localisation_language->getLanguage($unit['language_id']);
+				$units[$key]['flag'] = 'language/' . $language['code'] . '/' . $language['code'] . '.png';
+			}
+		} else {			
 			$languages = $this->model_localisation_language->getLanguages();
 			foreach ($languages as $language) {
 				$units[] = ['language_id' => $language['language_id'], 'flag' => 'language/' . $language['code'] . '/' . $language['code'] . '.png','title' => '', 'unit' => ''];
