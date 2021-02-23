@@ -1,7 +1,7 @@
 <?php
 class ModelLocalisationUnit extends Model {
 	public function addUnit($data) {
-		$this->db->query("INSERT INTO " . DB_PREFIX . "unit");
+		$this->db->query("INSERT INTO " . DB_PREFIX . "unit SET unit_group_id = '0'");
 
 		$unit_id = $this->db->getLastId();
 

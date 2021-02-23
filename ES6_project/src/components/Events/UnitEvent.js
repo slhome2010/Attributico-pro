@@ -21,7 +21,7 @@ export function editUnit(event){
 }
 
 export function addUnit(event){
-    const unit_id = $('select#unit_id').val()
+    const unit_id = '0'
     console.log(unit_id)
     ReactDOM.render(
         <DataProvider data={unit_id} >
