@@ -112,8 +112,9 @@ class ControllerModuleAttributipro extends Controller
         $this->data['duty_check'] = $this->columnCheck('attribute_description', 'duty');
         $this->data['tooltip_check'] = $this->columnCheck('attribute_description', 'tooltip');
         $this->data['info_check'] = $this->columnCheck('attribute', 'image');
+        $this->data['unit_check'] = $this->columnCheck('unit', 'unit_id') && $this->columnCheck('unit_description', 'unit_id');
         $this->data['status'] = $this->config->get('module_attributipro_status');
-        if (!$this->data['status'] || !$this->data['duty_check'] || !$this->data['info_check'] || !$this->data['tooltip_check']) {
+        if (!$this->data['status'] || !$this->data['duty_check'] || !$this->data['info_check'] || !$this->data['tooltip_check'] || !$this->data['unit_check']) {
             $this->error['warning'] = $this->language->get('error_status');
         }
 
@@ -238,7 +239,7 @@ class ControllerModuleAttributipro extends Controller
         $this->data['alert_remove_ca_confirm'] = $this->language->get('alert_remove_ca_confirm');
         $this->data['head_clone'] = $this->language->get('head_clone');
         $this->data['label_unit'] = $this->language->get('label_unit');
-        $this->data['help_unit'] = $this->language->get('help_unit');        
+        $this->data['help_unit'] = $this->language->get('help_unit');
 
         if (isset($this->error['warning'])) {
             $this->data['error_warning'] = $this->error['warning'];
@@ -636,7 +637,7 @@ class ControllerModuleAttributipro extends Controller
         $language = $this->getLanguage($language_id);
 
         $options = $this->getUnitOptions($language_id, $language->get('not_selected'));
-        
+
         $config = [
             'title' => $language->get('form_title'),
             'elements' => [
@@ -715,14 +716,15 @@ class ControllerModuleAttributipro extends Controller
         return $config;
     }
 
-    private function getUnitOptions($language_id, $title0) {
+    private function getUnitOptions($language_id, $title0)
+    {
 
         $this->load->model('localisation/unit');
         $units = $this->model_localisation_unit->getUnits(['language_id' => $language_id]);
 
-        $options = [ ['key' => '0', 'value' => '0', 'title' => $title0 ] ];       
+        $options = [['key' => '0', 'value' => '0', 'title' => $title0]];
         foreach ($units as $unit) {
-            $options[] =  ['key' => $unit['unit_id'], 'value' => $unit['unit_id'], 'title' => $unit['title'] . ', ' . $unit['unit']] ;
+            $options[] =  ['key' => $unit['unit_id'], 'value' => $unit['unit_id'], 'title' => $unit['title'] . ', ' . $unit['unit']];
         }
 
         return $options;
@@ -1765,6 +1767,13 @@ class ControllerModuleAttributipro extends Controller
         $this->db->query("CREATE TABLE IF NOT EXISTS " . DB_PREFIX . "category_attribute
 		(`category_id` INTEGER(11) NOT NULL,`attribute_id` INTEGER(11) NOT NULL, PRIMARY KEY (`category_id`,`attribute_id`) USING BTREE)
         ENGINE=MyISAM ROW_FORMAT=FIXED CHARACTER SET 'utf8' COLLATE 'utf8_general_ci'");
+
+        $this->db->query("CREATE TABLE IF NOT EXISTS " . DB_PREFIX . "unit
+		(unit_id int(11) NOT NULL AUTO_INCREMENT, unit_group_id int(11) NOT NULL DEFAULT 0, sort_order int(3) NOT NULL DEFAULT 0, PRIMARY KEY (unit_id)) ENGINE = MYISAM, CHARACTER SET utf8, COLLATE utf8_general_ci");
+
+        $this->db->query("CREATE TABLE IF NOT EXISTS " . DB_PREFIX . "unit_description 
+		(unit_id int(11) NOT NULL, language_id int(11) NOT NULL, title varchar(255) NOT NULL DEFAULT '', unit varchar(32) NOT NULL DEFAULT '',
+        PRIMARY KEY (unit_id, language_id)) ENGINE = MYISAM, CHARACTER SET utf8, COLLATE utf8_general_ci");
 
         /* $this->db->query("CREATE TABLE IF NOT EXISTS " . DB_PREFIX . "attribute_info
         ( attribute_id int(11) NOT NULL, language_id int(11) NOT NULL, duty text NOT NULL, image varchar(255) DEFAULT NULL, class varchar(255) NOT NULL, unit_id int(11) NOT NULL, status tinyint(1) NOT NULL DEFAULT 1, PRIMARY KEY (attribute_id, language_id))

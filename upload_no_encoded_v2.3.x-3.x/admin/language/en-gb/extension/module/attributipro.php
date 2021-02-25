@@ -271,7 +271,7 @@ $_['error_not_category'] = 'Category not selected!';
 $_['error_not_attribute'] = 'Attribute not selected!';
 $_['error_not_info'] = 'Information is not available.';
 $_['error_free'] = 'Operation have not complete, because you have used free version.';
-$_['error_status'] = 'Module not activated! Activate the module in the Extensions-> Modules section.';
+$_['error_status'] = 'The module is not activated or the Database structure is broken! Activate the module (again) in the Extensions->Modules section.';
 
 // Tab
 $_['tab_general']           = 'Settings';
