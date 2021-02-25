@@ -72,11 +72,11 @@ class ControllerLocalisationUnit extends Controller
 								'width' => '7',
 								'type' => 'input-group',
 								'name' => 'title_' . $unit['language_id'],
-								'label' => $this->language->get('entry_unit'),
+								'label' => $this->language->get('entry_unit_title'),
 								'value' => $unit['title'],
 								'src' => $unit['flag'],
-								'tooltip' => $this->language->get('help_unit'),
-								'placeholder' => $this->language->get('placeholder_unit'),
+								'tooltip' => $this->language->get('help_unit_title'),
+								'placeholder' => $this->language->get('placeholder_unit_title'),
 								'validationProps' => [
 									'required' => $this->language->get('error_required')
 								]

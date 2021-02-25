@@ -1,9 +1,12 @@
 <?php
 
-$_['placeholder_unit'] = 'Clone';
-$_['placeholder_unit'] = 'Clone';
-$_['placeholder_unit'] = 'Clone';
-$_['placeholder_unit'] = 'Clone';
-$_['placeholder_unit'] = 'Clone';
+$_['form_title'] = 'Заполните форму';
 
-$_['placeholder_unit'] = 'Clone';
+$_['entry_unit_title'] = 'Название';
+$_['help_unit_title'] = 'Введите полное название единиц измерения';
+$_['placeholder_unit_title'] = 'Введите полное название единиц измерения';
+
+$_['entry_unit'] = 'Обозначение';
+$_['help_unit'] = 'Введите сокращенное обозначение единиц измерения';
+$_['placeholder_unit'] = 'Введите сокращение';
+$_['error_required'] = 'Это поле не должно быть пустым';
