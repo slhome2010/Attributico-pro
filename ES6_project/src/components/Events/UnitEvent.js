@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { DataProvider } from '../Forms/DataContext';
-import UnitForm from  '../Forms/UnitForm'
+import UnitForm from '../Forms/UnitForm'
 
 export function unitEvents() {
 
@@ -10,41 +10,42 @@ export function unitEvents() {
     $('button#unit-delete').on('click', deleteUnit);
 }
 
-export function editUnit(event){
+export function editUnit(event) {
     const unit_id = $('select#unit_id').val()
-    console.log(unit_id)
-    ReactDOM.render(
-        <DataProvider data={unit_id} >
-            <UnitForm/>
-        </DataProvider>, document.querySelector('#root'));   
-    window.toggleModal();
+    if (unit_id !== '0') {
+        ReactDOM.render(
+            <DataProvider data={unit_id} >
+                <UnitForm />
+            </DataProvider>, document.querySelector('#root'));
+        window.toggleModal();
+    }
 }
 
-export function addUnit(event){
+export function addUnit(event) {
     const unit_id = '0'
-    console.log(unit_id)
+    //console.log(unit_id)
     ReactDOM.render(
         <DataProvider data={unit_id} >
-            <UnitForm/>
-        </DataProvider>, document.querySelector('#root'));   
+            <UnitForm />
+        </DataProvider>, document.querySelector('#root'));
     window.toggleModal();
 }
 
-export function deleteUnit(event){
+export function deleteUnit(event) {
     const unit_id = $('select#unit_id').val()
     if (unit_id !== '0') {
         $.ajax({
             data: {
                 'user_token': user_token,
                 'token': token,
-                'unit_id': unit_id            
+                'unit_id': unit_id
             },
             url: 'index.php?route=localisation/unit/' + 'delete',
             success: function () {
                 // Надо удалить из select options
-                $('select#unit_id option:selected').remove();  
-                $('select#unit_id option[value=0]').prop('selected', true);          
+                $('select#unit_id option:selected').remove();
+                $('select#unit_id option[value=0]').prop('selected', true);
             }
-        });    
+        });
     }
 }

@@ -13,8 +13,12 @@ export function saveForm(data, values) {
         },
         url: 'index.php?route=localisation/unit/' + 'saveForm',
     }).done(function (result) {
-        
-
+        if (unit_id != '0') {
+            $('select#unit_id option:selected').html(result);
+        } else {
+            $('select#unit_id').append('<option value=' + unit_id + '>' + result + '</option>');
+            $('select#unit_id option[value=' + unit_id + ']').prop('selected', true);
+        }
     }).fail(function (result) {
         // Ajax error: reset title (and maybe issue a warning)
         

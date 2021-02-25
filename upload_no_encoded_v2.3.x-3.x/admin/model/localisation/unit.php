@@ -18,7 +18,7 @@ class ModelLocalisationUnit extends Model {
 		//$this->db->query("UPDATE " . DB_PREFIX . " WHERE unit_id = '" . (int)$unit_id . "'");		
 
 		foreach ($data['unit_description'] as $language_id => $value) {
-			$this->db->query("UPDATE " . DB_PREFIX . "unit_description SET unit_id = '" . (int)$unit_id . "', language_id = '" . (int)$language_id . "', title = '" . $this->db->escape($value['title']) . "', unit = '" . $this->db->escape($value['unit']) . "'");
+			$this->db->query("UPDATE " . DB_PREFIX . "unit_description SET title = '" . $this->db->escape($value['title']) . "', unit = '" . $this->db->escape($value['unit']) . "' WHERE unit_id = '" . (int)$unit_id . "' AND language_id = '" . (int)$language_id . "'");
 		}
 
 		$this->cache->delete('unit');

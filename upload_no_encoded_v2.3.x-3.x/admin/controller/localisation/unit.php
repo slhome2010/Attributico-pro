@@ -83,6 +83,7 @@ class ControllerLocalisationUnit extends Controller
 	public function saveForm() {
 		$unit_id = isset($this->request->get['unit_id']) ? (int)$this->request->get['unit_id'] : 0;
 		$values = isset($this->request->get['values']) ? $this->request->get['values'] : [];
+		$config_language_id = $this->config->get('config_language_id');
 
 		foreach($values as $key => $value) {
 			$name = explode("_", $key)[0];
@@ -98,6 +99,9 @@ class ControllerLocalisationUnit extends Controller
 			$this->model_localisation_unit->addUnit($data);
 		}
 
+		$html = $data['unit_description'][$config_language_id]['title'] . ", " . $data['unit_description'][$config_language_id]['unit'];
+		$this->response->addHeader('Content-Type: application/json');
+		$this->response->setOutput(json_encode($html, JSON_UNESCAPED_UNICODE));
 	}
 
 	public function delete()
