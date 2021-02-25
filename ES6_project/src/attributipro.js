@@ -24,7 +24,7 @@ import commonSettings from './components/Events/CommonSettings';
 import configureStore from './store';
 import reducer from './reducers';
 import Observer from './observers/observer';
-import { unitEvents } from './components/Events/UnitEvent.js';
+import { unitEvents } from './components/Events/UnitFormEvent.js';
 
 window.tools = tools;
 window.apply = apply;

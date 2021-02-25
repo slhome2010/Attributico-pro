@@ -22,8 +22,7 @@ export function editUnit(event) {
 }
 
 export function addUnit(event) {
-    const unit_id = '0'
-    //console.log(unit_id)
+    const unit_id = '0'    
     ReactDOM.render(
         <DataProvider data={unit_id} >
             <UnitForm />

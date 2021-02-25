@@ -733,10 +733,10 @@ class ControllerModuleAttributipro extends Controller
     public function editInfo()
     {
         $data = array();
-        $language_id = isset($this->request->get['language_id']) ? $this->request->get['language_id'] : $this->config->get('config_language_id');
-        $name = isset($this->request->get['name']) ? htmlspecialchars_decode($this->request->get['name']) : '';
-        $key = isset($this->request->get['key']) ? explode("_", $this->request->get['key']) : array('0', '0');
-        $form_values = isset($this->request->get['values']) ? $this->request->get['values'] : array('0', '0');
+        $language_id = isset($this->request->post['language_id']) ? $this->request->post['language_id'] : $this->config->get('config_language_id');
+        $name = isset($this->request->post['name']) ? htmlspecialchars_decode($this->request->post['name']) : '';
+        $key = isset($this->request->post['key']) ? explode("_", $this->request->post['key']) : array('0', '0');
+        $form_values = isset($this->request->post['values']) ? $this->request->post['values'] : array('0', '0');
 
         $this->load->model('catalog/attributipro');
 

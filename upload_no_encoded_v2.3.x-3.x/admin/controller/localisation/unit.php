@@ -3,9 +3,9 @@ class ControllerLocalisationUnit extends Controller
 {
 	
 	public function saveForm() {
-		$unit_id = isset($this->request->get['unit_id']) ? (int)$this->request->get['unit_id'] : 0;
-		$values = isset($this->request->get['values']) ? $this->request->get['values'] : [];
-		$config_language_id = $this->config->get('config_language_id');
+		$unit_id = isset($this->request->post['unit_id']) ? (int)$this->request->post['unit_id'] : 0;
+		$values = isset($this->request->post['values']) ? $this->request->post['values'] : [];
+		$config_language_id = $this->config->get('config_language_id');		
 
 		foreach($values as $key => $value) {
 			$name = explode("_", $key)[0];

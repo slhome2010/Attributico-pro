@@ -5,16 +5,15 @@ export function saveForm(data, store, values) {
     let lng_id = data.node.getLanguageId()
     data.node.setTitle(values.attribute); // TODO убрать в saveForm
     $.ajax({
-        data: {
-            'user_token': user_token,
-            'token': token,
+        data: {            
             'key': data.node.key,
             'name': data.node.title,
             'language_id': lng_id,
             'oldname': data.orgTitle,
             'values': values
         },
-        url: route + 'editInfo' // TODO editInfo
+        url: `${route}editInfo&user_token=${user_token}&token=${token}`,
+        type: 'POST',       
     }).done(function (result) {
         // Server might return an error or a modified title
         // Maybe also check for non-ajax errors, e.g. 'title invalid', ... in case server modified it         

@@ -5,13 +5,12 @@ export function saveForm(data, values) {
     const unit_id = data
     //TODO POST in saveform
     $.ajax({
-        data: {
-            'user_token': user_token,
-            'token': token, 
+        data: {            
             'unit_id': unit_id,            
             'values': values
         },
-        url: 'index.php?route=localisation/unit/' + 'saveForm',
+        url: `index.php?route=localisation/unit/saveForm&user_token=${user_token}&token=${token}`,
+        type: 'POST',        
     }).done(function (result) {
         if (unit_id != '0') {
             $('select#unit_id option:selected').html(result);
@@ -47,8 +46,7 @@ export function loadForm(data) {
                 setLoading(true)
             }
         }).done( config => { 
-            setConfig(config)
-           // console.log('loadForm done:', config.name)
+            setConfig(config)           
         }).fail(function (error) {
             // Ajax error: reset title (and maybe issue a warning)
             setConfig(error) // TODO как обработать если не json a HTML
@@ -56,7 +54,7 @@ export function loadForm(data) {
         }).always(function () {
             setLoading(false)
         })
-    }, [data]); // TODO зависимость от полей формы а не узда дерева или и то и то
-    console.log('loadForm return:', config)
+    }, [data]);
+   
     return [config, isLoading];
 } 

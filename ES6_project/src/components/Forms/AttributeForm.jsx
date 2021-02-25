@@ -1,6 +1,6 @@
 import React, { useState, useLayoutEffect } from 'react';
 import Modal from 'react-modal';
-import { loadForm, saveForm } from '../../functions/Form';
+import { loadForm, saveForm } from '../../functions/AttributeForm';
 import { useData } from './DataContext';
 import Form from './Form';
 import Loader from './Loader';
@@ -55,7 +55,7 @@ function AttributeForm(props) {
   }
 
   useLayoutEffect(() => {
-    console.log('useLayoutEffect node', data.node.title);
+    //console.log('useLayoutEffect node', data.node.title);
     //setModalAttached(true)
     window.modalAttached = modalAttached;
     window.toggleModal = toggle;
@@ -66,7 +66,7 @@ function AttributeForm(props) {
     toggle();
     saveForm(data, store, values)
   }
-  console.log('render Attribute Form', modalAttached, modalIsOpen, isLoading, data.node.title, config);
+  //console.log('render Attribute Form', modalAttached, modalIsOpen, isLoading, data.node.title, config);
   return (
     <div className="container-fluid">
       <Modal

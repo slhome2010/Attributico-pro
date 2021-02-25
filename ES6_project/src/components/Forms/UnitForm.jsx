@@ -14,8 +14,8 @@ const customStyles = {
     marginRight: '-50%',
     transform: 'translate(-50%, -50%)',
     padding: '0px',
-    width: '70%',    
-    height: '80%'
+    width: '60%',    
+    height: '50%'
   },
   overlay: {
     top: 0,
@@ -27,11 +27,8 @@ const customStyles = {
 };
 
 Modal.setAppElement(document.querySelector('#root'))
-//Modal.defaultStyles.overlay.backgroundColor = 'rgba(0, 0, 0, 0.3)'
-//Modal.defaultStyles.content.padding = '15px'
 
-function UnitForm(props) {
-  var subtitle;
+function UnitForm(props) {  
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalAttached, setModalAttached] = useState(true)
   const { data, store } = useData()
@@ -42,31 +39,28 @@ function UnitForm(props) {
   }
 
   function afterOpenModal() {
-    // references are now sync'd and can be accessed.
-    //subtitle.style.color = '#f00';
+    // references are now sync'd and can be accessed.    
   }
 
-  function closeModal() {
-    setIsOpen(false);
-  }
+  //function closeModal() {
+  //  setIsOpen(false);
+  //}
 
   function toggle() {
     setIsOpen(!modalIsOpen);
   }
 
-  useLayoutEffect(() => {
-   // console.log('useLayoutEffect node', data.node.title);
+  useLayoutEffect(() => {   
     //setModalAttached(true)
     window.modalAttached = modalAttached;
     window.toggleModal = toggle;
   }, [modalAttached]);
 
-  function onSubmit(values) {
-    console.log('submit', values);
+  function onSubmit(values) {   
     toggle();
     saveForm(data, values)
   }
-  //console.log('render Attribute Form', modalAttached, modalIsOpen, isLoading, data.node.title, config);
+  
   return (
     <div className="container-fluid">
       <Modal
@@ -94,11 +88,7 @@ function UnitForm(props) {
       </Modal>
     </div>
   );
-
-
 }
-
-
 
 function validate(watchValues, errorMethods) {
   let { errors, setError, clearErrors } = errorMethods;
@@ -117,7 +107,5 @@ function validate(watchValues, errorMethods) {
     }
   }
 }
-
-
 
 export default UnitForm;
