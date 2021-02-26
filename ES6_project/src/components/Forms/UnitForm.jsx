@@ -15,7 +15,7 @@ const customStyles = {
     transform: 'translate(-50%, -50%)',
     padding: '0px',
     width: '60%',    
-    height: '50%'
+    height: '60%'
   },
   overlay: {
     top: 0,
@@ -29,46 +29,35 @@ const customStyles = {
 Modal.setAppElement(document.querySelector('#root'))
 
 function UnitForm(props) {  
-  const [modalIsOpen, setIsOpen] = useState(false);
-  const [modalAttached, setModalAttached] = useState(true)
-  const { data, store } = useData()
-  const [config, isLoading] = loadForm(data)
+  const [modalIsOpen, setIsOpen] = useState(false); 
+  const [values, setValues] = useState({})
+  const { data } = useData()
+  const [config, isLoading] = loadForm(data, values)
 
   function openModal() {
     setIsOpen(true);
   }
-
-  function afterOpenModal() {
-    // references are now sync'd and can be accessed.    
-  }
-
-  //function closeModal() {
-  //  setIsOpen(false);
-  //}
-
+  
   function toggle() {
     setIsOpen(!modalIsOpen);
   }
 
-  useLayoutEffect(() => {   
-    //setModalAttached(true)
-    window.modalAttached = modalAttached;
+  useLayoutEffect(() => {
     window.toggleModal = toggle;
-  }, [modalAttached]);
+  }, []);
 
   function onSubmit(values) {   
     toggle();
     saveForm(data, values)
+    setValues(values)
   }
   
   return (
     <div className="container-fluid">
       <Modal
-        isOpen={modalIsOpen}
-        onAfterOpen={afterOpenModal}
+        isOpen={modalIsOpen}        
         onRequestClose={toggle}
-        style={customStyles}
-        contentLabel="Example Modal"
+        style={customStyles}        
         shouldCloseOnOverlayClick={false}
       >
         {modalIsOpen && (
@@ -92,20 +81,7 @@ function UnitForm(props) {
 
 function validate(watchValues, errorMethods) {
   let { errors, setError, clearErrors } = errorMethods;
-
-  // Firstname validation
-  if (watchValues['firstname'] === 'Admin') {
-    if (!errors['firstname']) {
-      setError('firstname', {
-        type: 'manual',
-        message: 'You cannot use this first name'
-      })
-    }
-  } else {
-    if (errors['firstname'] && errors['firstname']['type'] === 'manual') {
-      clearErrors('firstname');
-    }
-  }
+  
 }
 
 export default UnitForm;

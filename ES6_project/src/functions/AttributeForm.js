@@ -70,6 +70,6 @@ export function loadForm(data) {
             setLoading(false)
         })
     }, [data]); // TODO зависимость от полей формы а не узда дерева или и то и то
-    console.log('loadForm return:', config)
+    //console.log('loadForm return:', config)
     return [config, isLoading];
 } 

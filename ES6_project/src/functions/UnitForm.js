@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { updateNode } from '../actions';
 
 export function saveForm(data, values) {
     const unit_id = data
@@ -28,13 +27,12 @@ export function saveForm(data, values) {
     return true;
 }
 
-export function loadForm(data) {
-    let unit_id = data
+export function loadForm(unit_id, values) {    
     const [config, setConfig] = useState([]);
     const [isLoading, setLoading] = useState(true);
 
     useEffect(() => {
-        console.log('unit loadForm useEffect')
+        console.log('unit loadForm useEffect', unit_id, values)
         $.ajax({
             data: {
                 'user_token': user_token,
@@ -54,7 +52,7 @@ export function loadForm(data) {
         }).always(function () {
             setLoading(false)
         })
-    }, [data]);
+    }, [unit_id, values]);
    
     return [config, isLoading];
 } 

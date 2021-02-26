@@ -21,7 +21,7 @@ function Form({ template, onSubmit, onCancel, watchFields, validate }) {
 
     //let watchValues = watch(watchFields);
     //validate(watchValues, { errors, setError, clearErrors });
-    console.log('render Form', elements);
+    //console.log('render Form', elements);
     const renderElements = (elements) => {
         return elements.map(element => {
             if ('cols' in element) {
