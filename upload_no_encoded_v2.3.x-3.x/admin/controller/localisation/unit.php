@@ -18,12 +18,14 @@ class ControllerLocalisationUnit extends Controller
 		if($unit_id) {
 			$this->model_localisation_unit->editUnit($unit_id, $data);
 		} else {
-			$this->model_localisation_unit->addUnit($data);
+			$unit_id = $this->model_localisation_unit->addUnit($data);
 		}
 
 		$html = $data['unit_description'][$config_language_id]['title'] . ", " . $data['unit_description'][$config_language_id]['unit'];
+		$json = ['unit_id'=>$unit_id, 'html'=>$html];
+		
 		$this->response->addHeader('Content-Type: application/json');
-		$this->response->setOutput(json_encode($html, JSON_UNESCAPED_UNICODE));
+		$this->response->setOutput(json_encode($json, JSON_UNESCAPED_UNICODE));
 	}
 
 	public function delete()

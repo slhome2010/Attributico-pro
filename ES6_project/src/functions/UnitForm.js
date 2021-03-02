@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 
 export function saveForm(data, values) {
-    const unit_id = data
-    //TODO POST in saveform
+    const unit_id = data.unit_id
+    
     $.ajax({
         data: {            
             'unit_id': unit_id,            
@@ -12,11 +12,11 @@ export function saveForm(data, values) {
         type: 'POST',        
     }).done(function (result) {
         if (unit_id != '0') {
-            $('select#unit_id option:selected').html(result);
+            $('select#unit_id option:selected').html(result.html);
         } else {
-            $('select#unit_id').append('<option value=' + unit_id + '>' + result + '</option>');
-            $('select#unit_id option[value=' + unit_id + ']').prop('selected', true);
-        }
+            $('select#unit_id').append('<option value=' + result.unit_id + '>' + result.html + '</option>');
+            $('select#unit_id option[value=' + result.unit_id + ']').prop('selected', true);                     
+        }        
     }).fail(function (result) {
         // Ajax error: reset title (and maybe issue a warning)
         
@@ -27,24 +27,24 @@ export function saveForm(data, values) {
     return true;
 }
 
-export function loadForm(unit_id, values) {    
+export function loadForm(data) {    
     const [config, setConfig] = useState([]);
     const [isLoading, setLoading] = useState(true);
 
     useEffect(() => {
-        console.log('unit loadForm useEffect', unit_id, values)
+        console.log('unit loadForm useEffect', data)
         $.ajax({
             data: {
                 'user_token': user_token,
                 'token': token,
-                'unit_id': unit_id                
+                'unit_id': data.unit_id                
             },
             url: 'index.php?route=localisation/unit/' + 'getForm',
             beforeSend: () => {
                 setLoading(true)
             }
         }).done( config => { 
-            setConfig(config)           
+            setConfig(config) 
         }).fail(function (error) {
             // Ajax error: reset title (and maybe issue a warning)
             setConfig(error) // TODO как обработать если не json a HTML
@@ -52,7 +52,7 @@ export function loadForm(unit_id, values) {
         }).always(function () {
             setLoading(false)
         })
-    }, [unit_id, values]);
+    }, [data]);
    
     return [config, isLoading];
 } 

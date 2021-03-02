@@ -11,10 +11,11 @@ export function unitEvents() {
 }
 
 export function editUnit(event) {
+    // Надо делать объектом, тогда будет каждый раз срабатывать useEffect (data={{'unit_id': unit_id}})
     const unit_id = $('select#unit_id').val()
     if (unit_id !== '0') {
         ReactDOM.render(
-            <DataProvider data={unit_id} >
+            <DataProvider data={{'unit_id': unit_id}} >
                 <UnitForm />
             </DataProvider>, document.querySelector('#root'));
         window.toggleModal();
@@ -24,7 +25,7 @@ export function editUnit(event) {
 export function addUnit(event) {
     const unit_id = '0'    
     ReactDOM.render(
-        <DataProvider data={unit_id} >
+        <DataProvider data={{'unit_id': unit_id}} >
             <UnitForm />
         </DataProvider>, document.querySelector('#root'));
     window.toggleModal();
@@ -32,6 +33,7 @@ export function addUnit(event) {
 
 export function deleteUnit(event) {
     const unit_id = $('select#unit_id').val()
+    
     if (unit_id !== '0') {
         $.ajax({
             data: {

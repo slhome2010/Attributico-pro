@@ -29,10 +29,9 @@ const customStyles = {
 Modal.setAppElement(document.querySelector('#root'))
 
 function UnitForm(props) {  
-  const [modalIsOpen, setIsOpen] = useState(false); 
-  const [values, setValues] = useState({})
+  const [modalIsOpen, setIsOpen] = useState(false);  
   const { data } = useData()
-  const [config, isLoading] = loadForm(data, values)
+  const [config, isLoading] = loadForm(data)
 
   function openModal() {
     setIsOpen(true);
@@ -46,10 +45,9 @@ function UnitForm(props) {
     window.toggleModal = toggle;
   }, []);
 
-  function onSubmit(values) {   
+  function onSubmit(values) { 
     toggle();
-    saveForm(data, values)
-    setValues(values)
+    saveForm(data, values)   
   }
   
   return (
@@ -65,8 +63,7 @@ function UnitForm(props) {
             <Loader/>
           ) : (
               <Form
-                template={config}
-                //watchFields={['firstname', 'include_portfolio']}
+                template={config}                
                 validate={validate}
                 onSubmit={onSubmit}
                 onCancel={toggle}

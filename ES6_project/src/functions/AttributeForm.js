@@ -46,7 +46,7 @@ export function loadForm(data) {
     const [isLoading, setLoading] = useState(true);
 
     useEffect(() => {
-        console.log('loadForm useEffect')
+        console.log('loadForm useEffect', data)
         $.ajax({
             data: {
                 'user_token': user_token,
