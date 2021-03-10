@@ -18,15 +18,20 @@ export function saveForm(data, store, values) {
         // Server might return an error or a modified title
         // Maybe also check for non-ajax errors, e.g. 'title invalid', ... in case server modified it         
         data.node.setTitle(result.acceptedTitle);
-
-        let affectedNodes
-        if (data.node.isTemplate() || data.node.isValue()) {
-            affectedNodes = [data.node.getParentAttribute()]
-        } else if (data.node.isAttribute() || data.node.isDuty()) {
-            affectedNodes = [data.node.getParentGroup()]
-        } else {
-            affectedNodes = null
+       
+        let duty = data.node.getFirstChild()
+        if (duty.isDuty()) {
+            duty.setTitle(values.duty);
         }
+        
+        let affectedNodes
+       // if (data.node.isTemplate() || data.node.isValue()) {
+       //     affectedNodes = [data.node.getParentAttribute()]
+        //} else if (data.node.isAttribute() || data.node.isDuty()) {
+            affectedNodes = [data.node.getParentGroup()]
+        //} else {
+       //     affectedNodes = null
+       // }
 
         store.dispatch(updateNode(data.node, affectedNodes));
 
