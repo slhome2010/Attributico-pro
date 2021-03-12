@@ -56,16 +56,24 @@ function AttributeForm(props) {
 
   useLayoutEffect(() => {
     //console.log('useLayoutEffect node', data.node.title);
-    //setModalAttached(true)
-    window.modalAttached = modalAttached;
+    //setModalAttached(true)    
+   // window.modalAttached = modalAttached;
     window.toggleModal = toggle;
-  }, [modalAttached]);
+  }, []);
 
   function onSubmit(values) {
     console.log('submit', values);
     toggle();
     saveForm(data, store, values)
   }
+
+  function dutyHandler(e) {    
+    if (e.altKey && e.shiftKey) {
+        console.log(e.target)
+        console.log($(e.target))
+        $(e.target).parent().addClass("fancytree-loading");
+    }
+}
   //console.log('render Attribute Form', modalAttached, modalIsOpen, isLoading, data.node.title, config);
   return (
     <div className="container-fluid">
@@ -87,6 +95,7 @@ function AttributeForm(props) {
                 validate={validate}
                 onSubmit={onSubmit}
                 onCancel={toggle}
+                onClick={dutyHandler}
               />
             )
         )

@@ -1,7 +1,7 @@
 import React from 'react';
 
 // Reusable Form Component
-function FormInput({ register, element, errors }) {
+function FormInput({ register, element, errors, onClick }) {
 
     let { label, type, name, value, options, src, thumb, rows, validationProps, tooltip, placeholder } = element;
 
@@ -143,7 +143,11 @@ function FormInput({ register, element, errors }) {
                             {tooltip ? <span data-toggle="tooltip" title={tooltip}></span> : ''}
                         </label>
                         <div className="col-sm-10">
-                            <input type="text" className="form-control" name={name} id={name} defaultValue={value} placeholder={placeholder ? placeholder : label} ref={register(validationProps)} />
+                            <span>
+
+                            <input type="text" className="form-control" name={name} id={name} defaultValue={value} placeholder={placeholder ? placeholder : label} ref={register(validationProps)} onClick={onClick} />
+                            </span>
+
                             {errors[name] && <div className="text-danger">{errors[name]['message']}</div>}
                         </div>
                     </div>
