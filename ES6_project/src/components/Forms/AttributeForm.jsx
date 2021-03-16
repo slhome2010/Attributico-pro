@@ -33,9 +33,10 @@ Modal.setAppElement(document.querySelector('#root'))
 function AttributeForm(props) {
   var subtitle;
   const [modalIsOpen, setIsOpen] = useState(false);
-  const [modalAttached, setModalAttached] = useState(true)
+ // const [modalAttached, setModalAttached] = useState(true)
   const { data, store } = useData()
   const [config, isLoading] = loadForm(data)
+  const [loadDuty, setLoadDuty] = useState(false);
 
   function openModal() {
     setIsOpen(true);
@@ -71,10 +72,12 @@ function AttributeForm(props) {
     if (e.altKey && e.shiftKey) {
         console.log(e.target)
         console.log($(e.target))
-        $(e.target).parent().addClass("fancytree-loading");
+       // $(e.target).parent().addClass("fancytree-loading");
+       e.currentTarget.classList.add("loading");
+        setLoadDuty(true)
     }
 }
-  //console.log('render Attribute Form', modalAttached, modalIsOpen, isLoading, data.node.title, config);
+  console.log('render Attribute Form');
   return (
     <div className="container-fluid">
       <Modal

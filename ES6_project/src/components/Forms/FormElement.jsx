@@ -4,7 +4,7 @@ import React from 'react';
 function FormInput({ register, element, errors, onClick }) {
 
     let { label, type, name, value, options, src, thumb, rows, validationProps, tooltip, placeholder } = element;
-
+    console.log('render Element', element);
     switch (type) {
         case 'email':
             return (
@@ -143,11 +143,7 @@ function FormInput({ register, element, errors, onClick }) {
                             {tooltip ? <span data-toggle="tooltip" title={tooltip}></span> : ''}
                         </label>
                         <div className="col-sm-10">
-                            <span>
-
-                            <input type="text" className="form-control" name={name} id={name} defaultValue={value} placeholder={placeholder ? placeholder : label} ref={register(validationProps)} onClick={onClick} />
-                            </span>
-
+                            <input type="text" className="form-control" name={name} id={name} defaultValue={value} placeholder={placeholder ? placeholder : label} ref={register(validationProps)} onClick={onClick} />                           
                             {errors[name] && <div className="text-danger">{errors[name]['message']}</div>}
                         </div>
                     </div>
