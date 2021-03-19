@@ -51,18 +51,29 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /.scss$/,
+                test: /\.(scss|css)$/,
                 use: [
-                    MiniCssExtractPlugin.loader,
+                    /* MiniCssExtractPlugin.loader, */
                     {
                         loader: 'css-loader',
                         options: {
-                            modules: true,
-                            camelCase: 'dashes'
+                            modules: true,                           
                         }
                     },
                     {
-                        loader: 'postcss-loader'
+                        loader: 'postcss-loader',
+                        options: {
+                            postcssOptions: {
+                                plugins: [
+                                    [
+                                        'postcss-preset-env',
+                                        {
+                                            // Options
+                                        },
+                                    ],
+                                ],
+                            },
+                        },
                     },
                     {
                         loader: 'resolve-url-loader'

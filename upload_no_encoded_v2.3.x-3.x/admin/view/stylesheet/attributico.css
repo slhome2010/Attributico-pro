@@ -176,5 +176,5 @@ table.form > tbody > tr > td {	/* for 1.5.x */
 
 .loading {
     background: url(../javascript/fancytree/skin-win7/loading.gif) no-repeat right center;
-    /* background-size: 16px 16px; */
+    margin: 10px, 0px;
 }

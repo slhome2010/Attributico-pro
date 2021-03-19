@@ -31,7 +31,7 @@ Modal.setAppElement(document.querySelector('#root'))
 //Modal.defaultStyles.content.padding = '15px'
 
 function AttributeForm(props) {
-  var subtitle;
+  //var subtitle;
   const [modalIsOpen, setIsOpen] = useState(false);
  // const [modalAttached, setModalAttached] = useState(true)
   const { data, store } = useData()
@@ -69,12 +69,41 @@ function AttributeForm(props) {
   }
 
   function dutyHandler(e) {    
+    
     if (e.altKey && e.shiftKey) {
-        console.log(e.target)
+        console.log(e.target, e.currentTarget)
         console.log($(e.target))
-       // $(e.target).parent().addClass("fancytree-loading");
-       e.currentTarget.classList.add("loading");
-        setLoadDuty(true)
+       let input = $(e.target)
+       e.target.classList.add("loading");
+       input.dropmenu({
+        'source': function (request, response) {
+            $.ajax({
+                data: {
+                    'user_token': user_token,
+                    'token': token,
+                    'language_id': parseInt(data.tree.$div[0].id.replace(/\D+/ig, '')),
+                    'attribute_id': parseInt(data.node.key.replace(/\D+/ig, ''))
+                },
+                url: route + 'getValuesList',
+                dataType: 'json',
+                success: function (json) {
+                    response($.map(json, function (item) {
+                        return {
+                            label: item.text,
+                            value: item.text
+                        };
+                    }));
+                }
+            });
+        },
+        'select':  item => {
+          input.val(item.value);
+          e.target.classList.remove("loading");
+         // setLoadDuty(true)
+            // data.node.key = 'duty_' + item.value;
+        }
+    });
+        
     }
 }
   console.log('render Attribute Form');

@@ -1,5 +1,6 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpack = require('webpack');
 const path = require('path');
 
@@ -51,18 +52,29 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /.scss$/,
+                test: /\.(scss|css)$/,
                 use: [
-                    {
-                        loader: 'style-loader'
-                    },
+                    /* MiniCssExtractPlugin.loader, */
                     {
                         loader: 'css-loader',
                         options: {
-                            modules: true,
-                            camelCase: 'dashes',
-                            localIdentName: '[path][name]__[local]'
+                            modules: true,                           
                         }
+                    },
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            postcssOptions: {
+                                plugins: [
+                                    [
+                                        'postcss-preset-env',
+                                        {
+                                            // Options
+                                        },
+                                    ],
+                                ],
+                            },
+                        },
                     },
                     {
                         loader: 'resolve-url-loader'

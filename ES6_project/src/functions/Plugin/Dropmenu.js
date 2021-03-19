@@ -137,7 +137,7 @@
 
             $(this).after($div);
             $menu.appendTo($div);
-            $(this).siblings('div').children($menu).delegate('a', 'mousedown', $.proxy(this.click, this));
+            $(this).siblings('div').children($menu).on('mousedown', 'a', $.proxy(this.click, this));
 
         });
     }

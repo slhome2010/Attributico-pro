@@ -1,4 +1,5 @@
 import React from 'react';
+import Autocomplete from './Elements/Autocomplete';
 
 // Reusable Form Component
 function FormInput({ register, element, errors, onClick }) {
@@ -35,6 +36,10 @@ function FormInput({ register, element, errors, onClick }) {
                     {errors[name] && <span className="red-text">{errors[name]['message']}</span>}
                 </div>
             );
+            case 'load':                
+                    return (
+                        <Autocomplete />
+                    );    
         case 'space':
             return (
                 <div > </div>
@@ -143,7 +148,7 @@ function FormInput({ register, element, errors, onClick }) {
                             {tooltip ? <span data-toggle="tooltip" title={tooltip}></span> : ''}
                         </label>
                         <div className="col-sm-10">
-                            <input type="text" className="form-control" name={name} id={name} defaultValue={value} placeholder={placeholder ? placeholder : label} ref={register(validationProps)} onClick={onClick} />                           
+                            <input type="text" className="form-control" name={name} id={name} defaultValue={value} placeholder={placeholder ? placeholder : label} ref={register(validationProps)} />                           
                             {errors[name] && <div className="text-danger">{errors[name]['message']}</div>}
                         </div>
                     </div>
