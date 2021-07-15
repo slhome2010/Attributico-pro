@@ -40,6 +40,21 @@ function FormInput({ register, element, errors, onClick }) {
             return (
                 <Autocomplete />
             );
+        case 'dropdown':
+            return (
+                <div>
+                    <div className={'form-group' + (errors[name] ? ' has-error' : '')}>
+                        <label className="col-sm-2 control-label" htmlFor={name}>
+                            {label}
+                            {tooltip ? <span data-toggle="tooltip" title={tooltip}></span> : ''}
+                        </label>
+                        <div className="col-sm-10">
+                            <input type="text" className="form-control" name={name} id={name} defaultValue={value} placeholder={placeholder ? placeholder : label} ref={register(validationProps)} onClick={onClick} />
+                            {errors[name] && <div className="text-danger">{errors[name]['message']}</div>}
+                        </div>
+                    </div>
+                </div>
+            );
         case 'space':
             return (
                 <div> </div>

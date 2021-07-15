@@ -651,7 +651,7 @@ class ControllerModuleAttributipro extends Controller
                     ]
                 ],
                 [
-                    'type' => 'text',
+                    'type' => 'dropdown',
                     'name' => 'duty',
                     'label' => $language->get('entry_duty'),
                     'value' => $info['duty'],

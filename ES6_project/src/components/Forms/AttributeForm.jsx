@@ -69,11 +69,10 @@ function AttributeForm(props) {
   }
 
   function dutyHandler(e) {    
-    console.log($(e.target))
     if (e.altKey && e.shiftKey) {
         console.log(e.target, e.currentTarget)
         console.log($(e.target))
-       let input = $(e.target)
+       let input = $(e.currentTarget)
        e.target.classList.add("loading");
        input.dropmenu({
         'source': function (request, response) {
