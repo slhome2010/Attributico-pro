@@ -1,5 +1,6 @@
 export const COPY_NODE = 'COPY_NODE';
 export const UPDATE_NODE = 'UPDATE_NODE';
+export const RENAME_NODE = 'RENAME_NODE';
 export const DELETE_NODE = 'DELETE_NODE';
 export const CUT_NODE = 'CUT_NODE';
 export const PASTE_NODE = 'PASTE_NODE';

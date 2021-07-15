@@ -30,7 +30,7 @@ function Form({ template, onSubmit, onCancel, watchFields, validate, onClick }) 
                         {element.cols.map(col => {
                             return (
                                 <div key={col.name} className={"col-sm-" + col.width + " col-md-" + col.width + " col-xs-12"}>
-                                    <FormInput register={register} element={col} errors={errors} onClick={onClick} ></FormInput>
+                                    <FormInput key={element.name} register={register} element={col} errors={errors} onClick={onClick} ></FormInput>
                                 </div>
                             )
                         })}
@@ -38,7 +38,7 @@ function Form({ template, onSubmit, onCancel, watchFields, validate, onClick }) 
                 )
             } else {
                 return (
-                    <FormInput register={register} element={element} errors={errors} onClick={onClick} ></FormInput>
+                    <FormInput key={element.name} register={register} element={element} errors={errors} onClick={onClick} ></FormInput>
                 )
             }
         })

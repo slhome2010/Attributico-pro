@@ -26,7 +26,7 @@ const customStyles = {
   }
 };
 
-Modal.setAppElement(document.querySelector('#root'))
+//Modal.setAppElement(document.getElementById('root'))
 //Modal.defaultStyles.overlay.backgroundColor = 'rgba(0, 0, 0, 0.3)'
 //Modal.defaultStyles.content.padding = '15px'
 
@@ -69,7 +69,7 @@ function AttributeForm(props) {
   }
 
   function dutyHandler(e) {    
-    
+    console.log($(e.target))
     if (e.altKey && e.shiftKey) {
         console.log(e.target, e.currentTarget)
         console.log($(e.target))
@@ -116,6 +116,7 @@ function AttributeForm(props) {
         style={customStyles}
         contentLabel="Example Modal"
         shouldCloseOnOverlayClick={false}
+        appElement={document.getElementById('root')}
       >
         {modalIsOpen && (
           isLoading ? (

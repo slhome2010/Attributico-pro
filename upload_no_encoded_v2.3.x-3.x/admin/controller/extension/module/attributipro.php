@@ -651,7 +651,7 @@ class ControllerModuleAttributipro extends Controller
                     ]
                 ],
                 [
-                    'type' => 'load',
+                    'type' => 'text',
                     'name' => 'duty',
                     'label' => $language->get('entry_duty'),
                     'value' => $info['duty'],
@@ -683,8 +683,8 @@ class ControllerModuleAttributipro extends Controller
                     ]
                 ],
                 [
-                    'type' => 'class',
-                    'name' => 'class',
+                    'type' => 'css-class',
+                    'name' => 'css',
                     'label' => $language->get('label_icon'),
                     'value' => $info['class'],
                     'tooltip' => $language->get('help_icon'),

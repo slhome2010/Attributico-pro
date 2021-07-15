@@ -26,7 +26,7 @@ const customStyles = {
   }
 };
 
-Modal.setAppElement(document.querySelector('#root'))
+//Modal.setAppElement(document.querySelector('#root'))
 
 function UnitForm(props) {  
   const [modalIsOpen, setIsOpen] = useState(false);  
@@ -57,6 +57,7 @@ function UnitForm(props) {
         onRequestClose={toggle}
         style={customStyles}        
         shouldCloseOnOverlayClick={false}
+        appElement={document.getElementById('root')}
       >
         {modalIsOpen && (
           isLoading ? (
