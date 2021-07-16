@@ -128,6 +128,7 @@ function AttributeForm(props) {
                 onSubmit={onSubmit}
                 onCancel={toggle}
                 onClick={dutyHandler}
+                idForm="_attributeForm"
               />
             )
         )

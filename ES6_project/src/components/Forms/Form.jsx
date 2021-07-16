@@ -14,7 +14,7 @@ const Styles = {
 };
 
 // Reusable Form Component
-function Form({ template, onSubmit, onCancel, watchFields, validate, onClick }) {
+function Form({ template, onSubmit, onCancel, watchFields, validate, onClick, idForm }) {
 
     let { register, handleSubmit, errors, watch, setError, clearErrors } = useForm();
     let { title, elements } = template;
@@ -84,7 +84,7 @@ function Form({ template, onSubmit, onCancel, watchFields, validate, onClick }) 
                 {renderTitle()}
             </div>
             <div className="panel-body">
-                <form onSubmit={handleSubmit(onSubmit)} className="form-horizontal">
+                <form onSubmit={handleSubmit(onSubmit)} className="form-horizontal" id={idForm}>
                     <div style={Styles.formBody}>
                         {renderElements(elements)}
                     </div>

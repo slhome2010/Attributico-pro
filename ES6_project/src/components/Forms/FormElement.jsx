@@ -1,8 +1,9 @@
 import React from 'react';
-import Autocomplete from './Elements/Autocomplete';
+import Autocomplete from './Examples/Autocomplete';
+import AsyncCreateSelect from './Examples/AsyncCreateSelect';
 
 // Reusable Form Component
-function FormInput({ register, element, errors, onClick }) {
+function FormInput({ register, element, errors, onClick, idForm }) {
 
     let { label, type, name, value, options, src, thumb, rows, validationProps, tooltip, placeholder } = element;
     console.log('render Element', element);
@@ -41,7 +42,7 @@ function FormInput({ register, element, errors, onClick }) {
                 <Autocomplete />
             );
         case 'dropdown':
-            return (
+            /* return (
                 <div>
                     <div className={'form-group' + (errors[name] ? ' has-error' : '')}>
                         <label className="col-sm-2 control-label" htmlFor={name}>
@@ -54,6 +55,23 @@ function FormInput({ register, element, errors, onClick }) {
                         </div>
                     </div>
                 </div>
+            ); */
+            return (
+                <div>
+                    <div className={'form-group' + (errors[name] ? ' has-error' : '')}>
+                        <label className="col-sm-2 control-label" htmlFor={name}>
+                            {label}
+                            {tooltip ? <span data-toggle="tooltip" title={tooltip}></span> : ''}
+                        </label>
+                        <div className="col-sm-10">
+                            <AsyncCreateSelect
+                                name={name} form={idForm} defaultValue={value} placeholder={placeholder ? placeholder : label}
+                            />
+                             {errors[name] && <div className="text-danger">{errors[name]['message']}</div>}
+                        </div>
+                    </div>
+                </div>
+
             );
         case 'space':
             return (
